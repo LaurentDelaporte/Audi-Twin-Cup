@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Audi Twin Cup - Heritage & Innovation</title>
+    <style>
+        :root { --audi-red: #f1052d; --bg-black: #050505; --paper: #e5e5e5; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-black); color: var(--paper); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        #quiz-container { width: 95%; max-width: 850px; background: #111; padding: 40px; border: 1px solid #333; box-shadow: 0 0 30px rgba(241, 5, 45, 0.2); }
+        .header { border-bottom: 2px solid var(--audi-red); margin-bottom: 30px; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .options { display: grid; gap: 12px; margin-top: 25px; }
+        button { padding: 18px; cursor: pointer; background: #222; color: white; border: 1px solid #444; font-weight: bold; text-align: left; transition: 0.3s; }
+        button:hover { border-color: var(--audi-red); background: #2a2a2a; }
+        .correct { background: #28a745 !important; border-color: #28a745 !important; }
+        .wrong { background: #dc3545 !important; border-color: #dc3545 !important; }
+        #insight-box { margin-top: 25px; padding: 20px; background: #1a1a1a; display: none; border-left: 5px solid var(--audi-red); }
+        .timer { color: var(--audi-red); font-weight: bold; font-family: monospace; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <div class="header">
+        <div>
+            <div style="font-size: 0.8rem; color: #888;">AUDI TWIN CUP - PREPARATION FINALE</div>
+            <h2 style="margin:0;">HERITAGE, TECH & F1</h2>
+        </div>
+        <div id="chrono" class="timer">00s</div>
+    </div>
+    
+    <div id="game-view">
+        <div id="question-text" style="font-size: 1.25rem; line-height: 1.5; margin-bottom: 25px;"></div>
+        <div id="options-container" class="options"></div>
+        <div id="insight-box">
+            <h4 style="margin-top:0; color: var(--audi-red);">LE SAVIEZ-VOUS ?</h4>
+            <p id="insight-text"></p>
+            <button onclick="nextQuestion()" style="margin-top:10px; background: var(--audi-red); color: white; border: none; padding: 10px 20px; cursor: pointer;">Continuer →</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const quizHistoryTech = [
+    // --- HISTOIRE & RACINES ---
+    { q: "Que symbolisent les quatre anneaux du logo Audi ?", o: ["Les 4 victoires au Mans", "La fusion de 4 constructeurs en 1932 (Auto Union)", "Les 4 roues motrices", "Les 4 cylindres du premier moteur"], a: 1, i: "Audi, DKW, Horch et Wanderer ont fusionné pour former Auto Union." },
+    { q: "Qui est le fondateur de la marque Audi ?", o: ["Ferdinand Porsche", "August Horch", "Gottlieb Daimler", "Enzo Audi"], a: 1, i: "Après avoir quitté 'Horch', il fonda 'Audi', qui est la traduction latine de 'Horch' (Écoute !)." },
+    { q: "En quelle année la technologie Quattro a-t-elle été présentée pour la première fois au Salon de Genève ?", o: ["1975", "1980", "1985", "1990"], a: 1, i: "L'Audi Quattro originelle a révolutionné le monde du rallye et de la route dès 1980." },
+    { q: "Quel modèle Audi a été le premier à utiliser l'aluminium (Audi Space Frame) en série ?", o: ["Audi 80", "Audi A8 (D2)", "Audi R8", "Audi TT"], a: 1, i: "Lancée en 1994, l'A8 a marqué une rupture technologique majeure avec son châssis alu." },
+    { q: "Quel constructeur a été racheté par Audi en 1998 pour renforcer son image sportive ?", o: ["Porsche", "Lamborghini", "Bugatti", "Bentley"], a: 1, i: "Audi gère Lamborghini au sein du groupe, partageant de nombreuses technologies (moteurs V10)." },
+
+    // --- ACTUALITÉ & FORMULE 1 ---
+    { q: "En quelle année Audi fera-t-elle officiellement son entrée en Formule 1 ?", o: ["2024", "2025", "2026", "2027"], a: 2, i: "Audi entrera en F1 en 2026, année du nouveau règlement moteur (carburants 100% durables)." },
+    { q: "Quelle écurie historique Audi a-t-elle rachetée pour son projet F1 ?", o: ["Williams", "Sauber", "McLaren", "Aston Martin"], a: 1, i: "Le site de Hinwil (Suisse) servira de base pour le châssis, tandis qu'Ingolstadt développe le moteur." },
+    { q: "Quel pilote a été annoncé comme premier titulaire officiel du projet Audi F1 ?", o: ["Lewis Hamilton", "Nico Hülkenberg", "Carlos Sainz", "Sebastian Vettel"], a: 1, i: "Le pilote allemand a été confirmé pour apporter son expérience au développement." },
+    { q: "Quelle est la particularité du moteur F1 Audi de 2026 ?", o: ["Il sera 100% électrique", "Il aura une puissance électrique quasi égale au moteur thermique (50/50)", "C'est un V10", "Il fonctionne à l'hydrogène"], a: 1, i: "Le moteur 2026 mise sur une hybridation massive avec environ 350 kW de puissance électrique." },
+
+    // --- TECHNOLOGIES EMBARQUÉES & FUTUR ---
+    { q: "Quelle plateforme électrique équipe le nouveau SUV Q6 e-tron ?", o: ["MEB", "PPE (Premium Platform Electric)", "MLB Evo", "J1"], a: 1, i: "La PPE permet une architecture 800V et une efficience de pointe." },
+    { q: "Comment s'appelle le nouveau concept de 'cockpit digital' panoramique sur les nouveaux modèles ?", o: ["Virtual Cockpit", "Audi Digital Stage", "MMI Wide", "Glass Cockpit"], a: 1, i: "Il comprend un écran panoramique incurvé pour le conducteur et un écran dédié au passager." },
+    { q: "Quel est l'objectif d'Audi concernant la fin de production des moteurs thermiques ?", o: ["2028", "2030", "2033", "2040"], a: 2, i: "Audi prévoit de devenir une marque 100% électrique en dehors de la Chine d'ici 2033." },
+    { q: "Comment Audi nomme-t-elle son système de feux capables de projeter des symboles au sol ?", o: ["Matrix LED", "Digital Matrix LED avec technologie DMD", "Laser Pro", "Beam Project"], a: 1, i: "Le Digital Matrix utilise des millions de micro-miroirs pour projeter des avertissements au sol." },
+    { q: "Dans le projet Dakar, l'Audi RS Q e-tron utilise un moteur thermique comme...", o: ["Propulseur principal", "Convertisseur d'énergie (générateur)", "Poids mort", "Démarreur"], a: 1, i: "Le moteur TFSI sert uniquement à recharger la batterie en roulant, les roues sont mues par l'électrique." },
+
+    // --- SERVICE & TWIN CUP SPIRIT ---
+    { q: "Quel est l'outil de diagnostic officiel utilisé dans les ateliers Audi ?", o: ["VCDS", "ODIS (Offboard Diagnostic Information System)", "OBDeleven", "Autel"], a: 1, i: "ODIS est l'unique système relié directement aux serveurs d'Ingolstadt pour les mises à jour." },
+    { q: "Que signifie la nomenclature '55 TFSI' sur une Audi A6 ?", o: ["Moteur 5.5 litres", "Une tranche de puissance (entre 245 et 275 kW)", "550 chevaux", "Vitesse max 255 km/h"], a: 1, i: "Audi utilise des chiffres pour désigner la puissance globale, pas la cylindrée." },
+    { q: "Sur une e-tron, quel liquide doit être testé pour vérifier l'étanchéité du circuit haute tension ?", o: ["L'huile", "Le liquide de refroidissement (basse conductivité)", "Le liquide de frein", "L'électrolyte"], a: 1, i: "Le liquide de refroidissement batterie est spécifique pour éviter tout court-circuit interne." },
+    { q: "Quelle est la couleur officielle des câbles haute tension sur tous les modèles Audi ?", o: ["Bleu", "Rouge", "Orange", "Jaune"], a: 2, i: "L'orange est la norme internationale pour signaler un danger haute tension (> 60V DC)." },
+    { q: "En Twin Cup, quel est le facteur le plus important lors du diagnostic client ?", o: ["La rapidité pure", "La corrélation entre les dires du client et les données de la valise", "Le prix des pièces", "La propreté de l'atelier"], a: 1, i: "L'écoute active est la clé pour réduire le temps de recherche de panne." },
+
+    // ... (Pour arriver à 50, voici une sélection rapide des thèmes Twin Cup)
+    { q: "Quel modèle a sauvé Audi de la faillite dans les années 70 ?", o: ["L'Audi 50", "L'Audi 100", "L'Audi Quattro", "L'Audi A2"], a: 1, i: "L'Audi 100 a repositionné la marque vers le haut de gamme." },
+    { q: "L'Audi R8 partage son moteur V10 avec quel autre modèle ?", o: ["Lamborghini Huracán", "Porsche 911", "Bentley Continental", "Audi RS3"], a: 0, i: "C'est le même bloc atmosphérique de 5.2 litres." },
+    { q: "Quelle technologie réduit le lag du turbo sur le moteur SQ7 TDI ?", o: ["Un gros turbo", "Un compresseur électrique (EAV)", "Une injection d'eau", "Deux turbos en série"], a: 1, i: "L'EAV monte en régime en 250ms grâce au réseau 48V." },
+    { q: "Où est situé le siège social historique d'Audi ?", o: ["Berlin", "Munich", "Ingolstadt", "Stuttgart"], a: 2, i: "Ingolstadt abrite le siège, l'usine principale et le musée Audi Mobile." },
+    { q: "Quel record Audi a-t-elle établi au Mans en 2006 ?", o: ["Vitesse max", "Première victoire avec un moteur Diesel (TDI)", "Première victoire électrique", "Plus longue distance"], a: 1, i: "L'Audi R10 TDI a prouvé que le diesel pouvait être ultra-performant." },
+    { q: "Qu'est-ce que le système 'Audi Ultra' ?", o: ["Un moteur puissant", "Un label pour les modèles les plus efficients", "Un mode de conduite", "Un type de peinture"], a: 1, i: "Il regroupe les technologies de réduction de poids et de consommation." },
+    { q: "Quelle est la tension d'un système MHEV 'léger' sur une A3 ?", o: ["12V", "48V", "400V", "24V"], a: 0, i: "Sur les petits moteurs, Audi utilise du 12V pour le MHEV, contre 48V sur les gros." },
+    { q: "Quelle boîte de vitesse est utilisée sur les moteurs longitudinaux les plus puissants (ex: RS6) ?", o: ["S-tronic", "Tiptronic (ZF 8 rapports)", "Multitronic", "Manuelle"], a: 1, i: "La Tiptronic à convertisseur de couple encaisse mieux les gros couples (800 Nm+)." },
+    { q: "Le système 'Side Assist' utilise quels capteurs ?", o: ["Caméras", "Radars arrière", "Ultrasons", "LiDAR"], a: 1, i: "Des radars cachés dans le pare-chocs arrière surveillent les angles morts." },
+    { q: "Que signifie TDI ?", o: ["Turbo Diesel Injection", "Turbocharged Direct Injection", "Total Diesel Intake", "Turbo Diesel Intelligent"], a: 1, i: "C'est l'appellation brevetée par le groupe pour ses diesels à injection directe." },
+    { q: "Quel est le nom du département personnalisation d'Audi ?", o: ["Audi Sport", "Audi Exclusive", "Audi Design", "Audi Individual"], a: 1, i: "Audi Exclusive permet de choisir des couleurs et cuirs uniques." },
+    { q: "En F1, quelle partie du moteur sera développée à Neubourg (Allemagne) ?", o: ["Le châssis", "L'unité de puissance (PU)", "Les pneus", "L'aileron"], a: 1, i: "C'est la première fois depuis longtemps qu'un moteur de F1 sera conçu en Allemagne." },
+    { q: "Quelle technologie remplace les ressorts hélicoïdaux sur certaines A6 ?", o: ["Ressorts en bois", "Suspension pneumatique adaptative", "Barres de torsion", "Ressorts carbone"], a: 1, i: "Elle permet de faire varier la hauteur et la fermeté." },
+    { q: "Qu'est-ce que le 'Brake Wipe' sur une Audi ?", o: ["Un mode sport", "Le léchage automatique des disques sous la pluie", "Un frein à main", "Un nettoyage"], a: 1, i: "Le système rapproche les plaquettes pour sécher les disques quand les essuie-glaces sont actifs." },
+    { q: "Quel est l'avantage de la technologie 'Twin-Dosing' en TDI ?", o: ["Plus de puissance", "Double injection d'AdBlue pour réduire les NOx", "Double turbo", "Deux réservoirs"], a: 1, i: "Utilisé sur les derniers moteurs pour respecter les normes d'émissions les plus strictes." },
+    { q: "Quelle est la fonction du bouton '⭐' sur le volant ?", o: ["Appel d'urgence", "Touche programmable par l'utilisateur", "Mode boost", "Éjection"], a: 1, i: "Le client peut y affecter la radio, le guidage ou les modes de conduite." },
+    { q: "Le système Quattro avec différentiel Sport peut envoyer combien de couple sur une seule roue ?", o: ["50%", "100% du couple de l'essieu arrière", "25%", "80%"], a: 1, i: "Cela permet de supprimer le sous-virage en 'poussant' la voiture vers l'intérieur." },
+    { q: "Quel matériau est utilisé pour les pistons du moteur RS3 ?", o: ["Acier", "Aluminium forgé", "Fonte", "Magnésium"], a: 1, i: "Pour supporter les pressions énormes tout en restant légers." },
+    { q: "Qu'est-ce que l'Audi 'Phone Box' ?", o: ["Un téléphone Audi", "Un compartiment avec recharge induction et amplification d'antenne", "Une application", "Un haut-parleur"], a: 1, i: "Utilise l'antenne extérieure de la voiture pour capter mieux à l'intérieur." },
+    { q: "Que signifie 'e-tron Sportback' ?", o: ["Version plus rapide", "Silhouette SUV coupé avec toit fuyant", "Moteur plus petit", "Version 2 places"], a: 1, i: "Design plus dynamique mais coffre légèrement réduit en hauteur." },
+    { q: "Combien de victoires Audi a-t-elle remporté aux 24H du Mans ?", o: ["5", "10", "13", "19"], a: 2, i: "Avec 13 victoires, Audi est le deuxième constructeur le plus titré après Porsche." },
+    { q: "Quelle technologie aide à manœuvrer une remorque ?", o: ["Park Assist", "Trailer Assist", "Caméra 360", "Side Assist"], a: 1, i: "On dirige la remorque via le bouton de réglage des rétroviseurs." },
+    { q: "Le moteur V6 3.0 TFSI moderne utilise quel type de suralimentation ?", o: ["Compresseur volumétrique", "Turbo Twin-Scroll", "Triple Turbo", "Pas de turbo"], a: 1, i: "Audi a délaissé le compresseur de l'ancienne génération pour le turbo plus efficient." },
+    { q: "Quelle est la fonction du 'Park Assist Plus' ?", o: ["Aide sonore", "Gare la voiture totalement seul (direction + gaz/frein)", "Caméra de recul", "Lumière"], a: 1, i: "Le conducteur doit juste surveiller ou rester appuyé sur un bouton." },
+    { q: "Comment s'appelle le système de récupération d'énergie au freinage ?", o: ["Recup", "E-Brake", "ERS", "KERS"], a: 0, i: "L'e-tron peut récupérer jusqu'à 265 kW d'énergie au freinage." },
+    { q: "Quel est le rôle du capteur d'oxyde d'azote (NOx) ?", o: ["Mesurer la pollution pour ajuster l'AdBlue", "Mesurer l'huile", "Mesurer l'essence", "Refroidir"], a: 0, i: "Crucial pour le bon fonctionnement du catalyseur SCR." },
+    { q: "L'Audi A2 était révolutionnaire pour quoi ?", o: ["Sa vitesse", "Sa carrosserie tout aluminium et son aérodynamisme", "Son prix", "Son moteur V6"], a: 1, i: "Très en avance sur son temps (1999), elle consommait très peu." },
+    { q: "Qu'est-ce que le 'Predictive Control' de la suspension ?", o: ["Un réglage manuel", "La caméra scanne la route et prépare la suspension aux bosses", "Un mode sport", "Un bouton"], a: 1, i: "Anticipe les irrégularités pour un confort souverain." },
+    { q: "Quel est le but de la technologie 'FSI' ?", o: ["Plus de bruit", "Injection directe d'essence pour plus de couple et moins de conso", "Plus de vitesse", "Moins de pollution uniquement"], a: 1, i: "Fuel Stratified Injection." },
+    { q: "Dans une hybride Audi, à quoi sert le 'Point de pression' sur la pédale d'accélérateur ?", o: ["C'est un défaut", "Indique la limite avant de démarrer le moteur thermique", "Freinage d'urgence", "Mode boost"], a: 1, i: "Aide le conducteur à rester en mode 100% électrique." },
+    { q: "Quelle marque du groupe Auto Union utilisait des moteurs 2-temps ?", o: ["Audi", "Horch", "DKW", "Wanderer"], a: 2, i: "DKW était célèbre pour ses moteurs 3-cylindres 2-temps très simples." },
+	{ q: "Quel ingénieur a imposé la transmission Quattro et le moteur 5 cylindres ?", o: ["August Horch", "Ferdinand Piëch", "Walter Röhrl", "Herbert Diess"], a: 1, r: "Ferdinand Piëch a transformé Audi en leader technologique avec le Quattro.", v: "Photo : Ferdinand Piëch" },
+    { q: "En 1932, Auto Union est née de la fusion de Audi, Horch, Wanderer et...", o: ["BMW", "DKW", "NSU", "Porsche"], a: 1, r: "DKW était le spécialiste des moteurs 2-temps.", v: "Logo : Les 4 anneaux historiques" },
+    { q: "En quelle année Audi entrera-t-elle officiellement en F1 ?", o: ["2024", "2025", "2026", "2027"], a: 2, r: "2026 marque le nouveau règlement moteur hybride/carburant durable.", v: "Image : Audi F1 Concept" },
+    { q: "Que signifie la 'tortue orange' sur une e-tron ?", o: ["Mode Eco", "Puissance limitée", "Panne majeure", "Vitesse limitée"], a: 1, r: "Indique une limitation de puissance pour protéger la batterie (température/charge).", v: "Icône : Tortue orange" },
+    { q: "Que signifie ASF ?", o: ["Audi Super Fast", "Audi Space Frame", "Advanced Safety", "All Street Front"], a: 1, r: "Structure en aluminium légère introduite sur l'A8 en 1994.", v: "Schéma : Châssis aluminium" },
+    { q: "Comment s'appelle l'outil de diagnostic usine ?", o: ["VCDS", "ODIS", "OBDeleven", "VAS 5000"], a: 1, r: "ODIS est l'outil officiel connecté aux serveurs d'Ingolstadt.", v: "Interface : ODIS Service" },
+    { q: "Quel pilote a 9 victoires au Mans (dont 7 avec Audi) ?", o: ["Jacky Ickx", "Tom Kristensen", "Allan McNish", "Benoît Tréluyer"], a: 1, r: "Tom Kristensen est surnommé 'Monsieur Le Mans'.", v: "Photo : Tom Kristensen" },
+    { q: "Où sera produit le moteur F1 Audi ?", o: ["Hinwil (Suisse)", "Neubourg (Allemagne)", "Ingolstadt", "Neckarsulm"], a: 1, r: "Neubourg-sur-le-Danube abrite Audi Formula Racing GmbH.", v: "Photo : Centre Audi Sport Neuburg" },
+    { q: "Que signifie le badge '55' sur une A6 ?", o: ["5.5 litres", "245-275 kW", "550 Nm", "55ème série"], a: 1, r: "C'est une tranche de puissance selon la nouvelle nomenclature Audi.", v: "Photo : Badge 55 TFSI" },
+    { q: "Quel système masque les autres usagers en pleins phares ?", o: ["Xenon Plus", "Matrix LED", "Laser Light", "Halogène"], a: 1, r: "Matrix LED éteint des segments individuels pour ne pas éblouir.", v: "Schéma : Faisceau Matrix LED" },
+    { q: "Quelle innovation Audi a gagné au Mans en 2006 ?", o: ["Hybride", "Diesel (TDI)", "Essence Turbo", "Électrique"], a: 1, r: "L'Audi R10 TDI fut le premier diesel vainqueur au Mans.", v: "Photo : Audi R10 TDI" },
+    { q: "Quelle tension pour la recharge ultra-rapide du Q6 e-tron ?", o: ["12V", "400V", "800V", "1200V"], a: 2, r: "Le système 800V permet des vitesses de charge allant jusqu'à 270 kW.", v: "Schéma : Architecture PPE 800V" },
+    { q: "À quoi sert le 'point de pression' sur la pédale d'accélérateur des hybrides ?", o: ["Kick-down", "Limite mode électrique", "Freinage d'urgence", "Alerte vitesse"], a: 1, r: "Il aide le conducteur à ne pas démarrer le moteur thermique inutilement.", v: "Image : Pédalier e-tron" },
+    { q: "Quel modèle célébrait les '40 ans de Quattro' en série limitée ?", o: ["A1 Quattro", "TT RS", "RS6", "R8"], a: 1, r: "La TT RS '40 years of quattro' était limitée à 40 exemplaires.", v: "Photo : TT RS Edition" },
+    { q: "Comment mesure-t-on l'usure d'un disque céramique ?", o: ["Épaisseur", "Poids (pesée)", "Couleur", "Température"], a: 1, r: "La perte de masse est le seul indicateur d'usure de la céramique.", v: "Photo : Disque Ceramic Audi Sport" },
+    { q: "Quelle était le Cx de l'Audi 100 de 1982 ?", o: ["0.35", "0.30", "0.25", "0.20"], a: 1, r: "Un record mondial d'aérodynamisme pour l'époque.", v: "Photo : Audi 100 C3" },
+    { q: "Où se trouve le centre R&D mondial ?", o: ["Munich", "Ingolstadt", "Berlin", "Neckarsulm"], a: 1, r: "Ingolstadt est le cœur technique de la marque.", v: "Photo : Siège Audi AG" },
+    { q: "Quelle technologie utilise des radars 24GHz à l'arrière ?", o: ["Park Assist", "Side Assist", "Pre Sense City", "Lane Assist"], a: 1, r: "Le Side Assist surveille les angles morts via ces radars.", v: "Schéma : Portée des radars arrière" },
+    { q: "Quel système Audi scanne la route pour la suspension ?", o: ["Drive Select", "Suspension prédictive", "Quattro Ultra", "Air Suspension"], a: 1, r: "Utilise la caméra frontale pour préparer les amortisseurs aux chocs.", v: "Vidéo : Suspension A8 active" },
+    { q: "Quel pilote a gagné le Dakar 2024 pour Audi ?", o: ["Peterhansel", "Carlos Sainz", "Loeb", "Ekström"], a: 1, r: "Carlos Sainz a remporté le Dakar avec le RS Q e-tron hybride.", v: "Photo : RS Q e-tron au Dakar" },
+    { q: "Quelle marque Auto Union faisait du prestige 8/12 cyl. ?", o: ["DKW", "Horch", "Audi", "Wanderer"], a: 1, r: "Horch était le summum du luxe avant-guerre.", v: "Logo : Horch ailé" },
+    { q: "Que signifie MHEV ?", o: ["Multi Hybrid", "Mild Hybrid", "Max Hybrid", "Manual Hybrid"], a: 1, r: "Hybridation légère (alterno-démarreur 12V ou 48V).", v: "Schéma : Alterno-démarreur 48V" },
+    { q: "Quelle technologie remplace les miroirs extérieurs ?", o: ["Mirror-Cam", "Virtual Exterior Mirrors", "Digital Glass", "e-View"], a: 1, r: "Utilisés sur l'e-tron pour l'aéro et la vision de nuit.", v: "Photo : Caméra de rétroviseur" },
+    { q: "Quel moteur équipe la RS3 ?", o: ["V6 2.9", "2.5 TFSI (5 cyl)", "2.0 TFSI", "V8 4.0"], a: 1, r: "Le mythique 5 cylindres à l'ordre d'allumage 1-2-4-5-3.", v: "Photo : Moteur 2.5 TFSI" },
+    { q: "Quel record a battu l'Auto Union en 1938 ?", o: ["24h Mans", "432 km/h sur autoroute", "Conso record", "Pikes Peak"], a: 1, r: "Rosemeyer a atteint 432 km/h sur autoroute Francfort-Darmstadt.", v: "Photo : Type C Streamline" },
+    { q: "Comment s'appelle l'interface tactile Audi ?", o: ["iDrive", "MMI Touch Response", "Command", "Touch-Link"], a: 1, r: "Système à double écran avec retour haptique.", v: "Photo : Console centrale double écran" },
+    { q: "Quelle plateforme électrique est partagée avec Porsche ?", o: ["MEB", "PPE", "MLB", "MQB"], a: 1, r: "La PPE (Premium Platform Electric) équipe le Q6 et l'e-tron GT.", v: "Schéma : Batterie entre les essieux PPE" },
+    { q: "Quel fluide teste-t-on au réfractomètre ?", o: ["Huile", "Refroidissement", "Frein", "Lave-glace"], a: 1, r: "Vérifie la protection antigel du liquide de refroidissement.", v: "Photo : Usage du réfractomètre" },
+    { q: "Quelle couleur pour les câbles Haute Tension ?", o: ["Rouge", "Orange", "Bleu", "Jaune"], a: 1, r: "L'orange est la norme mondiale pour le danger électrique > 60V.", v: "Photo : Compartiment moteur e-tron" },
+    { q: "Slogan Audi apparu en 1971 ?", o: ["Das Auto", "Vorsprung durch Technik", "Sheer Driving", "The Best"], a: 1, r: "L'avance par la technologie.", v: "Texte : Slogan historique" },
+    { q: "Quel système désactive les cylindres ?", o: ["Start-Stop", "COD (Cylinder on Demand)", "Eco-Mode", "E-Boost"], a: 1, r: "Coupe 2 ou 4 cylindres à faible charge pour l'économie.", v: "Schéma : Soupapes fermées COD" },
+    { q: "Qu'est-ce que l'Econyl ?", o: ["Un carburant", "Nylon recyclé (filets)", "Un métal", "Une huile"], a: 1, r: "Utilisé pour les tapis de l'e-tron GT (écologie).", v: "Photo : Intérieur durable" },
+    { q: "Quelle voiture a lancé le Virtual Cockpit en 2014 ?", o: ["A8", "TT Mk3", "Q7", "A4"], a: 1, r: "Le TT a été le premier à tout intégrer dans le combiné.", v: "Photo : Virtual Cockpit TT" },
+    { q: "Quel système braque les roues arrière ?", o: ["Quattro Sport", "Direction intégrale dynamique", "Side Assist", "ESC"], a: 1, r: "Réduit le rayon de braquage et stabilise à haute vitesse.", v: "Schéma : Braquage des roues arrière" },
+    { q: "Quel était le record de Walter Röhrl en 1987 ?", o: ["Le Mans", "Pikes Peak < 11 min", "Monaco", "Dakar"], a: 1, r: "Victoire légendaire à Pikes Peak avec l'Audi S1 E2.", v: "Photo : Audi S1 Pikes Peak" },
+    { q: "Que signifie TFSI ?", o: ["Total Fuel", "Turbo Fuel Stratified Injection", "Twin Force", "Top Fuel"], a: 1, r: "Injection directe essence avec turbocompression.", v: "Schéma : Injecteur FSI" },
+    { q: "Où se situe l'usine 'Neutre en Carbone' ?", o: ["Bruxelles", "Ingolstadt", "Gyor", "San José"], a: 0, r: "Audi Brussels est pionnière en production neutre en CO2.", v: "Photo : Usine Audi Bruxelles" },
+    { q: "Quel système gère la sécurité avant impact ?", o: ["Audi Drive", "Audi Pre Sense", "Park Assist", "MMI"], a: 1, r: "Prépare les freins, ferme les vitres et tend les ceintures.", v: "Schéma : Protection Pre Sense" },
+    { q: "Quelle technologie projette des logos au sol ?", o: ["Matrix", "Audi Beam", "Laser", "Puddle Light"], a: 1, r: "Option qui projette les anneaux ou 'Quattro' à l'ouverture.", v: "Photo : Projection au sol" },
+    { q: "Quel composant est au cœur du Quattro permanent ?", o: ["Embrayage", "Différentiel central", "Arbre carbone", "Boîte auto"], a: 1, r: "Le différentiel Torsen ou à couronne gère la répartition.", v: "Schéma : Coupe différentiel central" },
+    { q: "Quelle particularité pour la boîte arrière de l'e-tron GT ?", o: ["1 rapport", "2 rapports", "8 rapports", "Variateur"], a: 1, r: "Un rapport court pour le départ, un long pour l'efficience.", v: "Schéma : Moteur électrique arrière" },
+    { q: "Comment appelle-t-on la personnalisation Audi ?", o: ["Bespoke", "Audi Exclusive", "Audi Individual", "Elite"], a: 1, r: "Permet des couleurs et cuirs sur mesure.", v: "Photo : Nuancier Exclusive" },
+    { q: "Quel gaz pour la clim des voitures récentes ?", o: ["R134a", "R1234yf", "CO2 (R744)", "R12"], a: 1, r: "Le R1234yf est la norme européenne actuelle (plus écologique).", v: "Image : Étiquette gaz climatisation" },
+    { q: "À quelle vitesse se déploie l'aileron arrière du TT ?", o: ["80 km/h", "120 km/h", "150 km/h", "Jamais"], a: 1, r: "Il se déploie à 120 km/h pour stabiliser l'appui arrière.", v: "Photo : Aileron TT déployé" },
+    { q: "Quel matériau pour la structure de l'A8 ?", o: ["Acier", "Aluminium (ASF)", "Magnésium", "Plastique"], a: 1, r: "Entièrement en aluminium depuis 1994.", v: "Photo : Structure argentée A8" },
+    { q: "Quelle est la particularité du moteur 'Hot V' ?", o: ["Turbos à l'intérieur du V", "Refroidissement air", "Moteur incliné", "Injection eau"], a: 0, r: "Optimise la compacité et la réponse du turbo.", v: "Schéma : V8 TFSI avec turbos centraux" },
+    { q: "Quel capteur permet le Lane Assist ?", o: ["Radar", "Caméra frontale", "Ultrasons", "GPS"], a: 1, r: "La caméra située derrière le rétroviseur lit les lignes au sol.", v: "Photo : Caméra pare-brise" },
+    { q: "Quelle marque Auto Union utilisait des vélos ?", o: ["DKW", "Wanderer", "Horch", "Audi"], a: 1, r: "Wanderer a commencé par les vélos et machines-outils.", v: "Logo : Wanderer historique" },
+    { q: "Quel système simule un différentiel autobloquant ?", o: ["Quattro", "Blocage électronique (EDS)", "ASR", "ABS"], a: 1, r: "L'EDS freine la roue qui patine pour renvoyer le couple.", v: "Schéma : Action du frein sur roue libre" },
+    { q: "Quel est l'ordre d'allumage du 5 cylindres ?", o: ["1-2-3-4-5", "1-2-4-5-3", "1-5-4-3-2", "1-3-5-2-4"], a: 1, r: "C'est cet ordre (1-2-4-5-3) qui donne son chant unique.", v: "Texte : 1-2-4-5-3" },
+	{ q: "Identifiez ce visage : l'homme qui a imposé le Quattro et l'aluminium (ASF).", o: ["August Horch", "Ferdinand Piëch", "Walter Röhrl", "Markus Duesmann"], a: 1, e: "Ferdinand Piëch est le père de l'ascension premium d'Audi.", v: "[ VISAGE : Homme âgé, regard perçant, lunettes fines ]" },
+    { q: "Quel composant est représenté ici sur ce schéma de boîte S-tronic ?", o: ["Double embrayage", "Volant moteur", "Mécatronique", "Différentiel"], a: 2, e: "La mécatronique est le cerveau hydraulique et électronique de la boîte.", v: "[ SCHÉMA : Bloc hydraulique avec électrovannes et capteurs ]" },
+    { q: "Sur ce volant de F1 2026, quel sélecteur gère la récupération d'énergie (350kW) ?", o: ["DRS", "MGU-K / ERS", "Strat Mode", "Brake Bias"], a: 1, e: "En 2026, l'électrique fournira 50% de la puissance totale.", v: "[ VISUEL : Volant carbone avec 30 boutons et écrans LCD ]" },
+    { q: "Identifiez cette icône spécifique apparaissant sur les modèles e-tron.", o: ["Surchauffe batterie", "Tortue (Power Limit)", "Mode remorquage", "Préchauffage"], a: 1, e: "La tortue indique une réduction de puissance due au froid ou au SOC bas.", v: "[ ICÔNE : Silhouette de tortue orange ]" },
+    { q: "Quelle marque du groupe Auto Union utilisait ce logo à deux ailes ?", o: ["Audi", "DKW", "Horch", "Wanderer"], a: 2, e: "Horch représentait le segment très grand luxe du groupe.", v: "[ LOGO : Couronne avec la lettre H et des ailes ]" },
+    { q: "Quelle pièce est testée ici avec un réfractomètre ?", o: ["Huile moteur", "Liquide de refroidissement", "Liquide de frein", "Carburant"], a: 1, e: "On mesure la densité pour vérifier la protection antigel.", v: "[ IMAGE : Outil optique où l'on regarde une goutte de liquide ]" },
+    { q: "Quel pilote détient le record de 9 victoires au Mans (Mr Le Mans) ?", o: ["Jacky Ickx", "Tom Kristensen", "Allan McNish", "Loïc Duval"], a: 1, e: "Tom Kristensen a marqué l'histoire d'Audi Sport au Mans.", v: "[ VISAGE : Pilote blond, combinaison Audi Sport, trophée ]" },
+    { q: "Quelle technologie est illustrée par ce faisceau découpant l'ombre ?", o: ["Xenon", "Matrix LED", "Laser Light", "Halogène"], a: 1, e: "Le Matrix LED éteint des segments pour ne pas éblouir.", v: "[ IMAGE : Nuit, phares dessinant un tunnel d'ombre autour d'une voiture ]" },
+    { q: "Où se situe ce centre technique Audi dédié à la F1 ?", o: ["Ingolstadt", "Neubourg", "Neckarsulm", "Hinwil"], a: 1, e: "Audi Formula Racing GmbH est basé à Neuburg an der Donau.", v: "[ IMAGE : Bâtiment ultra-moderne avec piste d'essai privée ]" },
+    { q: "Que signifie le badge '55' sur ce hayon d'A6 ?", o: ["5.5 litres", "Puissance 245-275 kW", "550 Nm", "Vitesse max"], a: 1, e: "C'est la nouvelle nomenclature de puissance relative d'Audi.", v: "[ PHOTO : Sigle argenté 55 TFSI ]" },
+    { q: "Reconnaissez ce modèle : premier record de Cx (0.30) en 1982.", o: ["Audi 80", "Audi 100 (C3)", "Audi A4", "Audi V8"], a: 1, e: "L'Audi 100 C3 a révolutionné l'aéro de série.", v: "[ PHOTO : Berline grise très fluide, vitres affleurantes ]" },
+    { q: "Sur ce moteur hybride, de quelle couleur est ce câble de forte section ?", o: ["Bleu", "Jaune", "Orange", "Rouge"], a: 2, e: "L'orange indique impérativement la Haute Tension (>60V).", v: "[ IMAGE : Câbles épais sous le capot d'un Q5 TFSI e ]" },
+    { q: "Quelle technologie est représentée par ce châssis nu en aluminium ?", o: ["Quattro", "ASF (Audi Space Frame)", "Multilink", "Cradle"], a: 1, e: "L'ASF réduit le poids tout en augmentant la rigidité.", v: "[ IMAGE : Squelette métallique brillant d'une Audi A8 ]" },
+    { q: "Qui est cette femme, première gagnante en mondial Rallye avec Audi ?", o: ["Pat Moss", "Michèle Mouton", "Jutta Kleinschmidt", "Mouton-Röhrl"], a: 1, e: "Michèle Mouton a gagné 4 rallyes avec la Quattro Groupe B.", v: "[ VISAGE : Femme brune, années 80, devant une Audi Quattro ]" },
+    { q: "Sur une e-tron GT, à quoi sert cette trappe sur l'aile avant gauche ?", o: ["Essence", "Prise Type 2 / CCS", "AdBlue", "Huile"], a: 1, e: "C'est le port de charge principal AC/DC.", v: "[ PHOTO : Trappe motorisée avec voyant LED multicolore ]" },
+    { q: "Que signifie le sigle MHEV illustré par cet alterno-démarreur ?", o: ["Manual Hybrid", "Mild Hybrid", "Max Hybrid", "Motor Hybrid"], a: 1, r: "Hybridation légère pour réduire la consommation.", v: "[ SCHÉMA : Petit moteur électrique relié par courroie ]" },
+    { q: "Identifiez cet outil de diagnostic indispensable en atelier.", o: ["VCDS", "ODIS", "ELSA", "VAS 6154"], a: 1, e: "ODIS est l'interface officielle connectée aux serveurs usine.", v: "[ IMAGE : Tablette tactile avec interface bleue et blanche Audi ]" },
+    { q: "Quel est ce bouton spécifique sur le volant des modèles RS ?", o: ["RS Mode", "Launch", "Boost", "Sport Plus"], a: 0, e: "Il permet d'accéder instantanément à deux profils personnalisés.", v: "[ PHOTO : Bouton rond sur le volant avec inscription RS MODE ]" },
+    { q: "Quelle innovation est représentée par ces caméras remplaçant les miroirs ?", o: ["Side Assist", "Virtual Mirrors", "Top View", "Lane Cam"], a: 1, e: "Ils réduisent le Cx et améliorent la vision nocturne.", v: "[ PHOTO : Bras fin avec caméra sur la portière d'une e-tron ]" },
+    { q: "Que vérifie ce technicien avec cette pige de mesure sur un Q7 ?", o: ["Niveau d'huile", "Usure de chaîne", "Calage distribution", "Jeu aux soupapes"], a: 1, e: "Le contrôle de l'allongement des chaînes est crucial sur les V6 TDI.", v: "[ IMAGE : Pige métallique insérée dans le carter moteur ]" },
+    { q: "Comment s'appelle cette plateforme électrique (Q6 e-tron) ?", o: ["MEB", "PPE", "MLB", "J1"], a: 1, e: "PPE signifie Premium Platform Electric (800V).", v: "[ SCHÉMA : Batterie plate entre deux essieux moteurs ]" },
+    { q: "Quel moteur possède cet ordre d'allumage : 1-2-4-5-3 ?", o: ["4 cylindres", "5 cylindres", "V6", "V8"], a: 1, e: "C'est l'ordre mythique du 2.5 TFSI Audi Sport.", v: "[ TEXTE : 1 - 2 - 4 - 5 - 3 ]" },
+    { q: "Identifiez ce système de sécurité qui pré-tend les ceintures.", o: ["ABS", "Pre Sense", "Side Assist", "Park Pilot"], a: 1, e: "Pre Sense anticipe les collisions pour protéger les occupants.", v: "[ IMAGE : Ceinture de sécurité se serrant d'un coup ]" },
+    { q: "Quelle est cette pièce située dans le V des moteurs 4.0 TFSI ?", o: ["Alternateur", "Turbocompresseurs", "Pompe à eau", "Batterie"], a: 1, e: "L'architecture 'Hot V' place les turbos au centre pour la réponse.", v: "[ SCHÉMA : Moteur V8 avec deux escargots au centre ]" },
+    { q: "Que signifie le 'A' dans l'histoire d'Audi (Horch) ?", o: ["Auto", "Audi (écouter en latin)", "Avant", "Allemagne"], a: 1, e: "August Horch a traduit son nom (écouter) en latin.", v: "[ IMAGE : Portrait de August Horch ]" },
+    { q: "Identifiez cette suspension capable de lever la voiture de 8cm.", o: ["Magnétic Ride", "Suspension Active Prédictive", "S-Line", "Air Ride"], a: 1, e: "Elle utilise des moteurs électriques 48V sur chaque roue.", v: "[ VIDÉO : Audi A8 se levant toute seule à l'approche d'un choc ]" },
+    { q: "Quel est ce logo rouge en forme de losange ?", o: ["Audi Racing", "Audi Sport", "S-Line", "Quattro Gmbh"], a: 1, e: "C'est l'identité visuelle de la performance chez Audi.", v: "[ LOGO : Parallélogramme rouge incliné ]" },
+    { q: "Sur cette interface MMI, quel menu gère le comportement moteur ?", o: ["Navigation", "Drive Select", "Réglages", "Media"], a: 1, e: "Drive Select permet de choisir entre Comfort, Auto, Dynamic...", v: "[ PHOTO : Écran tactile affichant 'Individual / Dynamic' ]" },
+    { q: "Quelle technologie est représentée par ce réservoir d'AdBlue ?", o: ["FAP", "SCR", "EGR", "TDI"], a: 1, e: "Le SCR réduit les NOx en injectant de l'urée.", v: "[ IMAGE : Bouchon bleu à côté du réservoir de diesel ]" },
+    { q: "Identifiez ce modèle vainqueur du Dakar 2024.", o: ["Q7 V12", "RS Q e-tron", "E-tron Dakar", "Quattro S1"], a: 1, e: "Propulsion électrique avec prolongateur thermique (TFSI).", v: "[ PHOTO : Buggy futuriste gris et rouge dans les dunes ]" },
+    { q: "Quel gaz est contenu dans ce circuit de clim (norme actuelle) ?", o: ["R134a", "R1234yf", "CO2", "R12"], a: 1, e: "Le R1234yf est obligatoire pour le faible impact écologique.", v: "[ IMAGE : Étiquette jaune avec mention 1234yf ]" },
+    { q: "Sur ce volant, que signifie le bouton 'VIEW' ?", o: ["Caméra recul", "Changer affichage Virtual Cockpit", "Nuit", "Aide conduite"], a: 1, e: "Il bascule entre les compteurs larges ou la carte plein écran.", v: "[ PHOTO : Bouton VIEW sur la branche gauche du volant ]" },
+    { q: "Quelle est cette technologie de transmission débrayable ?", o: ["Quattro permanent", "Quattro Ultra", "Haldex", "Torsen"], a: 1, e: "Elle déconnecte l'arrière pour consommer moins sur autoroute.", v: "[ SCHÉMA : Arbre de transmission avec deux embrayages ]" },
+    { q: "Identifiez cette pièce : l'élément central du différentiel Quattro.", o: ["Visco-coupleur", "Différentiel à couronne", "Pignons droits", "Chaîne"], a: 1, e: "Le différentiel à couronne est compact et ultra-réactif.", v: "[ IMAGE : Pièce ronde avec dents internes en forme de vague ]" },
+    { q: "Quel est le but de ce système 'Twin Dosing' sur TDI ?", o: ["Plus de couple", "Double injection AdBlue", "Moins de bruit", "Économie essence"], a: 1, e: "Deux catalyseurs SCR pour traiter les NOx à froid et à chaud.", v: "[ SCHÉMA : Ligne d'échappement avec deux injecteurs d'urée ]" },
+    { q: "Que signifie cette icône de volant rouge au tableau de bord ?", o: ["Mode Sport", "Défaut direction assistée", "Chauffage volant", "Lane Assist"], a: 1, e: "Panne grave de l'assistance de direction électrique.", v: "[ ICÔNE : Volant rouge avec point d'exclamation ]" },
+    { q: "Reconnaissez ce site de production historique d'Audi.", o: ["Gyor", "Zwickau", "Ingolstadt", "Neckarsulm"], a: 2, e: "Ingolstadt est le quartier général mondial.", v: "[ PHOTO : Usine immense avec le logo des 4 anneaux géant ]" },
+    { q: "Identifiez ce dispositif sur la jante : 'Audi self-leveling'.", o: ["Capteur pression", "Cache-moyeu fixe", "Équilibrage auto", "Antivol"], a: 1, e: "Les anneaux restent droits même quand la roue tourne.", v: "[ VIDÉO : Logo Audi au centre de la jante qui ne tourne pas ]" },
+    { q: "Quel matériau compose majoritairement ce disque de frein RS ?", o: ["Acier", "Carbone-Céramique", "Fonte", "Aluminium"], a: 1, e: "Reconnaissable à sa texture grise pailletée et ses vis radiales.", v: "[ PHOTO : Disque de frein gris foncé, non brillant ]" },
+    { q: "Quelle est la fonction de ce capteur 'LiDAR' sur la calandre ?", o: ["Radar recul", "Scan 3D pour conduite autonome", "Vision nuit", "Température"], a: 1, e: "Il scanne l'environnement au laser pour les aides de niveau 3.", v: "[ PHOTO : Bloc rectangulaire noir vitré dans la calandre ]" },
+    { q: "Que signifie 'Vorsprung durch Technik' ?", o: ["La voiture pour tous", "L'avance par la technologie", "Le luxe avant tout", "Vitesse et passion"], a: 1, e: "C'est l'ADN de la marque depuis 1971.", v: "[ TEXTE : Slogan officiel ]" },
+    { q: "Quelle marque Auto Union faisait des vélos (logo anneau vert) ?", o: ["Audi", "Wanderer", "DKW", "Horch"], a: 1, e: "Wanderer a commencé par les bicyclettes.", v: "[ IMAGE : Vélo ancien avec logo ailé vert ]" },
+    { q: "Identifiez ce phare capable de projeter des symboles au sol.", o: ["Matrix LED", "Digital Matrix LED (DMD)", "Xenon", "Laser"], a: 1, e: "Il utilise 1.3 million de micro-miroirs pour projeter des images.", v: "[ VIDÉO : Phare projetant un logo au sol au démarrage ]" },
+    { q: "Quelle est cette aide au stationnement ?", o: ["Park Assist", "Remote Park Assist", "Caméra 360", "Bip recul"], a: 1, e: "Permet de garer la voiture via son smartphone de l'extérieur.", v: "[ VIDÉO : Voiture se garant seule sans personne au volant ]" },
+    { q: "Sur ce moteur V6, à quoi sert ce petit moteur 48V ?", o: ["Démarreur", "Compresseur électrique (EAV)", "Pompe à huile", "Ventilateur"], a: 1, e: "L'EAV élimine le temps de réponse (turbo lag).", v: "[ SCHÉMA : Turbine électrique placée avant le turbo ]" },
+    { q: "Quel est ce bouton 'SOS' au plafonnier ?", o: ["Appel assistance", "eCall (Appel d'urgence)", "Service client", "Alarme"], a: 1, e: "Obligatoire, il contacte les secours automatiquement en cas de choc.", v: "[ PHOTO : Bouton rouge sous clapet dans le plafonnier ]" },
+    { q: "Identifiez ce système audio haut de gamme.", o: ["Bose", "Bang & Olufsen", "Sonos", "Audi Sound"], a: 1, e: "B&O est le partenaire historique pour le son 3D Premium.", v: "[ PHOTO : Grille de haut-parleur en alu avec signature LED ]" },
+    { q: "À quoi sert cette paille de fer dans le réservoir e-fuel ?", o: ["Filtre", "Catalyseur de synthèse", "Réchauffeur", "Nettoyage"], a: 1, e: "Audi travaille sur les carburants synthétiques neutres en CO2.", v: "[ IMAGE : Expérience labo Audi sur l'e-benzin ]" },
+    { q: "Que signifie la lettre 'Q' chez Audi ?", o: ["Qualité", "Quattro", "SUV", "Question"], a: 1, e: "Q désigne la gamme des SUV dotés (originellement) du Quattro.", v: "[ PHOTO : Calandre de Q8 ]" },
+    { q: "Quelle est la dernière étape avant de livrer une Twin Cup ?", o: ["Laver la voiture", "Passer au banc", "Auto-Check final", "Facturer"], a: 2, e: "Le contrôle final garantit la satisfaction totale 'Audi Service'.", v: "[ IMAGE : Technicien cochant une checklist avec un sourire ]" }
+];
+
+let currentIdx = 0;
+let seconds = 0;
+let timerInterval;
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        seconds++;
+        document.getElementById('chrono').innerText = seconds + "s";
+    }, 1000);
+}
+
+function loadQ() {
+    if(currentIdx >= quizHistoryTech.length) { 
+        clearInterval(timerInterval);
+        document.getElementById('game-view').innerHTML = "<h2>FIN DE L'ÉPREUVE</h2><p>Temps total : " + seconds + " secondes.</p><button onclick='location.reload()'>REFAIRE LE TEST</button>"; 
+        return; 
+    }
+    const q = quizHistoryTech[currentIdx];
+    document.getElementById('question-text').innerText = (currentIdx + 1) + ". " + q.q;
+    const cont = document.getElementById('options-container');
+    cont.innerHTML = '';
+    q.o.forEach((opt, i) => {
+        const b = document.createElement('button');
+        b.innerText = opt;
+        b.onclick = () => reveal(i);
+        cont.appendChild(b);
+    });
+    document.getElementById('insight-box').style.display = 'none';
+}
+
+function reveal(idx) {
+    const correct = quizHistoryTech[currentIdx].a;
+    const btns = document.querySelectorAll('.options button');
+    btns.forEach((b, i) => {
+        b.disabled = true;
+        if(i === correct) b.classList.add('correct');
+        else if(i === idx) b.classList.add('wrong');
+    });
+    document.getElementById('insight-text').innerText = quizHistoryTech[currentIdx].i;
+    document.getElementById('insight-box').style.display = 'block';
+}
+
+function nextQuestion() {
+    currentIdx++;
+    loadQ();
+}
+
+loadQ();
+startTimer();
+</script>
+</body>
+</html>
