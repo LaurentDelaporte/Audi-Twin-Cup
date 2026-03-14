@@ -13,8 +13,6 @@
         .q-text { font-size: 1.3rem; color: #fff; margin-bottom: 20px; }
         .opt-btn { display: block; width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 15px; margin: 8px 0; cursor: pointer; text-align: left; transition: 0.2s; }
         .opt-btn:hover:not([disabled]) { background: #222; border-color: #f1052d; }
-        .correct { background: #1b5e20 !important; border-color: #4caf50 !important; }
-        .wrong { background: #b71c1c !important; border-color: #f44336 !important; }
         #feedback, #final-screen { margin-top: 20px; padding: 20px; background: #0a0a0a; display: none; border: 1px solid #222; text-align: center; }
         .btn-main { padding: 10px 25px; cursor:pointer; background: #f1052d; color: white; border: none; font-weight: bold; }
     </style>
@@ -28,12 +26,10 @@
     <div id="quiz-content">
         <div id="q-meta" class="q-meta"></div>
         <div id="q-text" class="q-text"></div>
-        <div id="q-text" class="q-text"></div>
-<img id="q-img" src="" style="display:none; width:100%; margin-bottom:20px; border-radius:4px;" alt="Visuel question">
-<div id="options"></div>
+        <img id="q-img" src="" style="display:none; width:100%; margin-bottom:20px; border-radius:4px;" alt="Visuel question">
         <div id="options"></div>
         <div id="feedback">
-            <p id="rationale" style="color: #fff; font-size: 0.9rem; text-align: left;"></p>
+            <p id="rationale" style="color: #fff; font-size: 0.9rem;"></p>
             <button class="btn-main" onclick="nextQ()">Question suivante</button>
         </div>
     </div>
@@ -41,54 +37,46 @@
     <div id="final-screen">
         <h2 style="color: #fff;">Challenge terminé !</h2>
         <p id="final-score" style="font-size: 1.5rem; color: #f1052d;"></p>
-        <button class="btn-main" onclick="location.reload()">Recommencer le quiz</button>
+        <button class="btn-main" onclick="location.reload()">Recommencer</button>
     </div>
 </div>
 
 <script>
 const questions = [
-{ image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Mich%C3%A8le_Mouton_-_1985_Welsh_Rally_%28interview%29_-Edited.jpg/250px-Mich%C3%A8le_Mouton_-_1985_Welsh_Rally_%28interview%29_-Edited.jpg", question: "Qui est cette pilote de légende, pionnière du rallye avec Audi ?", options: ["Michèle Mouton", "Jutta Kleinschmidt", "Fabrizia Pons", "Isolde Holderied"], reponse: "Michèle Mouton" },
-  
-];
-
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+    { 
+        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Mich%C3%A8le_Mouton_-_1985_Welsh_Rally_%28interview%29_-Edited.jpg/250px-Mich%C3%A8le_Mouton_-_1985_Welsh_Rally_%28interview%29_-Edited.jpg", 
+        question: "Qui est cette pilote de légende, pionnière du rallye avec Audi ?", 
+        options: ["Michèle Mouton", "Jutta Kleinschmidt", "Fabrizia Pons", "Isolde Holderied"], 
+        reponse: "Michèle Mouton",
+        rationale: "Michèle Mouton est la plus célèbre pilote de rallye de l'histoire d'Audi."
     }
-}
-
-// 1. Mélange global des questions au démarrage
-shuffle(questions);
+];
 
 let idx = 0, score = 0, timeLeft = 30, timer;
 
 function load() {
-    if (idx >= 30) {
+    if (idx >= questions.length) {
         document.getElementById('quiz-content').style.display = 'none';
-        document.getElementById('final-score').innerText = `Score : ${score} / 30`;
+        document.getElementById('final-score').innerText = `Score : ${score} / ${questions.length}`;
         document.getElementById('final-screen').style.display = 'block';
         return;
     }
 
     const q = questions[idx];
-    document.getElementById('q-meta').innerText = `QUESTION ${idx + 1}/30 - ${q.cat || "Expert"}`;
-    document.getElementById('q-text').innerText = q.q;
+    document.getElementById('q-meta').innerText = `QUESTION ${idx + 1}/${questions.length}`;
+    document.getElementById('q-text').innerText = q.question;
     
-    // --- GESTION IMAGE SIMPLIFIÉE ---
     const imgElement = document.getElementById('q-img');
-    if (q.img) {
-        imgElement.src = q.img;
+    if (q.image) {
+        imgElement.src = q.image;
         imgElement.style.display = "block";
-    } else {
-        imgElement.style.display = "none";
     }
-    // --------------------------------
 
     document.getElementById('feedback').style.display = 'none';
     const cont = document.getElementById('options'); 
     cont.innerHTML = '';
-    q.o.forEach(opt => {
+    
+    q.options.forEach(opt => {
         const b = document.createElement('button');
         b.className = 'opt-btn'; 
         b.innerText = opt;
@@ -98,10 +86,25 @@ function load() {
     startTimer();
 }
 
-// Reste du code inchangé (startTimer, reveal, nextQ)...
-function startTimer() { timeLeft = 30; timer = setInterval(() => { timeLeft--; document.getElementById('timer').style.width = (timeLeft/30*100) + "%"; document.getElementById('timer-text').innerText = timeLeft + "s"; if(timeLeft<=0) reveal(null); }, 1000); }
-function reveal(sel) { clearInterval(timer); if(sel === questions[idx].a) score++; document.getElementById('feedback').style.display = 'block'; document.getElementById('rationale').innerText = questions[idx].r; }
+function startTimer() { 
+    timeLeft = 30; 
+    timer = setInterval(() => { 
+        timeLeft--; 
+        document.getElementById('timer').style.width = (timeLeft/30*100) + "%"; 
+        document.getElementById('timer-text').innerText = timeLeft + "s"; 
+        if(timeLeft <= 0) reveal(null); 
+    }, 1000); 
+}
+
+function reveal(sel) { 
+    clearInterval(timer); 
+    if(sel === questions[idx].reponse) score++; 
+    document.getElementById('feedback').style.display = 'block'; 
+    document.getElementById('rationale').innerText = questions[idx].rationale; 
+}
+
 function nextQ() { idx++; load(); }
+
 load();
 </script>
 </body>
