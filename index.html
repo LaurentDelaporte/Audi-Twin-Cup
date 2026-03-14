@@ -52,6 +52,15 @@ const questions = [
     { cat: "Technique - Transmission", q: "Le système Quattro original utilisait un différentiel central. Pourquoi l'arbre de transmission avant passait-il à l'intérieur de l'arbre creux du différentiel ?", o: ["Pour réduire le bruit de transmission", "Pour permettre une compacité extrême de la transmission intégrale sur une plateforme traction", "Pour améliorer le refroidissement de l'huile", "Pour synchroniser les vitesses de rotation"], a: "Pour permettre une compacité extrême de la transmission intégrale sur une plateforme traction", r: "Cette astuce permettait d'intégrer un système 4x4 robuste sans avoir à redessiner entièrement le bloc moteur/boîte longitudinal Audi." },
     { cat: "Motorsport - Moteur", q: "Quelle configuration moteur permettait aux Auto Union Type C (1936) de rivaliser avec les Mercedes à compresseur ?", o: ["Un V8 atmosphérique", "Un V16 compresseur placé en position centrale arrière", "Un moteur rotatif", "Un 6 cylindres en ligne"], a: "Un V16 compresseur placé en position centrale arrière", r: "La position centrale arrière était inédite, optimisant la répartition des masses pour la motricité au détriment d'un comportement survireur difficile à maîtriser." }
 ];
+
+// Fonction pour mélanger le tableau de questions
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}    
 let idx = 0;
 let score = 0;
 let timeLeft = 30;
