@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audi Twin Cup - Ultimate Training (190 Q)</title>
+    <title>Audi Twin Cup - Ultimate Training</title>
     <style>
         :root { --audi-red: #f1052d; --bg: #0b0b0b; --panel: #1a1a1a; --text: #e5e5e5; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; display: flex; justify-content: center; }
@@ -12,9 +12,6 @@
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px; }
         .timer-box { font-size: 1.5rem; font-weight: bold; color: var(--audi-red); border: 2px solid var(--audi-red); border-radius: 50%; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; }
         .q-text { font-size: 1.2rem; margin: 20px 0; line-height: 1.5; min-height: 80px; font-weight: 500; color: #fff; }
-        .tag { font-weight: bold; font-size: 0.8rem; margin-bottom: 5px; display: inline-block; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; margin-right: 5px; }
-        .tag-visual { background: #00a3ff; color: white; }
-        .tag-expert { background: #ff8c00; color: white; }
         .options { display: grid; gap: 12px; }
         .opt-btn { background: #262626; border: 1px solid #3d3d3d; color: white; padding: 18px; text-align: left; cursor: pointer; transition: 0.2s; font-size: 1rem; border-radius: 4px; }
         .opt-btn:hover:not(:disabled) { border-color: var(--audi-red); background: #333; }
@@ -33,17 +30,14 @@
         <div class="header">
             <div>
                 <strong style="letter-spacing: 1px; font-size: 1.2rem;">AUDI TWIN CUP 2026</strong>
-                <div style="font-size: 0.8rem; color: #888; text-transform: uppercase;">Simulateur Expert : 190 Questions</div>
-                <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+                <div id="progress-container" class="progress-bar"><div class="progress-fill" id="progress"></div></div>
             </div>
             <div class="timer-box" id="timer">30</div>
         </div>
 
         <div id="quiz-ui">
             <div id="q-number" style="color: var(--audi-red); font-weight: bold; font-family: monospace;">QUESTION 1/30</div>
-            <div id="q-container">
-                <div class="q-text" id="q-text">Chargement...</div>
-            </div>
+            <div class="q-text" id="q-text">Chargement...</div>
             <div class="options" id="options"></div>
 
             <div id="feedback">
@@ -56,7 +50,7 @@
         <div id="final-screen" style="display:none; text-align: center; padding: 40px 0;">
             <h2 style="font-size: 2.5rem; color: var(--audi-red);">SESSION TERMINÉE</h2>
             <div id="final-score" style="font-size: 1.5rem; margin: 20px 0;"></div>
-            <button class="next-btn" onclick="location.reload()">Nouvelle session (30 Q aléatoires)</button>
+            <button class="next-btn" onclick="location.reload()">Nouvelle session</button>
         </div>
     </div>
 </div>
@@ -252,6 +246,17 @@ let score = 0;
 let timeLeft = 30;
 let timerId = null;
 
+// FONCTION MANQUANTE : Mélangeur aléatoire
+function shuffle(array) {
+    let currentIndex = array.length, randomIndex;
+    while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+    return array;
+}
+
 function initQuiz() {
     const pool = shuffle([...questionsData]);
     selectedQuestions = pool.slice(0, Math.min(pool.length, 30));
@@ -267,7 +272,7 @@ function startTimer() {
         document.getElementById('timer').innerText = timeLeft;
         if(timeLeft <= 0) {
             clearInterval(timerId);
-            checkAnswer(null); // Temps écoulé
+            checkAnswer(null);
         }
     }, 1000);
 }
@@ -281,6 +286,7 @@ function loadQuestion() {
 
     const optCont = document.getElementById('options');
     optCont.innerHTML = '';
+    // Mélange des options pour chaque question
     shuffle([...q.o]).forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'opt-btn';
@@ -289,11 +295,11 @@ function loadQuestion() {
         optCont.appendChild(btn);
     });
     
-    startTimer(); // Démarrage du timer à chaque question
+    startTimer();
 }
 
 function checkAnswer(selected) {
-    clearInterval(timerId); // Arrêt du timer
+    clearInterval(timerId);
     const q = selectedQuestions[currentIdx];
     const btns = document.querySelectorAll('.opt-btn');
     btns.forEach(b => {
