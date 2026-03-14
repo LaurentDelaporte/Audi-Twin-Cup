@@ -6,17 +6,22 @@
     <style>
         body { background: #050505; color: #ccc; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
         .card { background: #111; padding: 40px; border-radius: 4px; border-left: 4px solid #f1052d; width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        
         .q-img-container { width: 100%; height: 250px; margin-bottom: 20px; background-color: #000; border-radius: 4px; display: none; }
         .q-img-container img { width: 100%; height: 100%; object-fit: contain; }
+
         .timer-bar { height: 6px; background: #333; margin-bottom: 5px; }
         #timer { height: 100%; background: #f1052d; width: 100%; transition: width 1s linear; }
         #timer-text { color: #f1052d; font-size: 0.8rem; margin-bottom: 20px; font-weight: bold; }
         .q-meta { font-size: 0.7rem; color: #f1052d; text-transform: uppercase; margin-bottom: 10px; }
         .q-text { font-size: 1.3rem; color: #fff; margin-bottom: 20px; }
+        
         .opt-btn { display: block; width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 15px; margin: 8px 0; cursor: pointer; text-align: left; transition: 0.2s; }
         .opt-btn:hover:not([disabled]) { background: #222; border-color: #f1052d; }
+        
         .correct { background: #1b5e20 !important; border-color: #4caf50 !important; color: #fff; }
         .wrong { background: #b71c1c !important; border-color: #f44336 !important; color: #fff; }
+
         #feedback, #final-screen { margin-top: 20px; padding: 20px; background: #0a0a0a; display: none; border: 1px solid #222; text-align: center; }
         .btn-main { padding: 10px 25px; cursor:pointer; background: #f1052d; color: white; border: none; font-weight: bold; margin-top: 15px; }
     </style>
@@ -26,18 +31,23 @@
 <div class="card">
     <div class="timer-bar"><div id="timer"></div></div>
     <div id="timer-text">30s</div>
+    
     <div id="quiz-content">
         <div id="q-meta" class="q-meta"></div>
         <div id="q-text" class="q-text"></div>
+        
         <div id="q-img-wrapper" class="q-img-container">
             <img id="q-img" src="" alt="Visuel question">
         </div>
+
         <div id="options"></div>
+        
         <div id="feedback">
             <p id="rationale" style="color: #fff; font-size: 0.9rem;"></p>
             <button class="btn-main" onclick="nextQ()">Question suivante</button>
         </div>
     </div>
+
     <div id="final-screen">
         <h2 style="color: #fff;">Challenge terminé !</h2>
         <p id="final-score" style="font-size: 1.5rem; color: #f1052d;"></p>
@@ -233,15 +243,15 @@ const questionsData = [
   {cat: "Visuel", q: image: "https://commons.wikimedia.org/wiki/File:Stig_Blomqvist_2012_001.jpg", question: "Quel pilote suédois a remporté le titre WRC 1984 avec Audi ?", options: ["Stig Blomqvist", "Hannu Mikkola", "Walter Röhrl", "Ari Vatanen"], reponse: "Stig Blomqvist" },
   {cat: "Visuel", q: image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Allan_Mcnish.jpg/250px-Allan_Mcnish.jpg", question: "Qui est ce pilote écossais, pilier de l'endurance chez Audi ?", options: ["Allan McNish", "Mike Rockenfeller", "Lucas Di Grassi", "André Lotterer"], reponse: "Allan McNish" },
 
-{cat: "Visuel", q: image: "https://commons.wikimedia.org/wiki/File:Mich%C3%A8le_Mouton_-_1985_Welsh_Rally_(interview)_-Edited.jpg", question: "Qui est cette pilote de légende, pionnière du rallye avec Audi ?", options: ["Michèle Mouton", "Jutta Kleinschmidt", "Fabrizia Pons", "Isolde Holderied"], reponse: "Michèle Mouton" },
-  {cat: "Visuel", q: image: "https://commons.wikimedia.org/wiki/File:Tom_Kristensen_at_Silverstone_2011_001.jpg", question: "Qui est ce pilote danois, recordman des victoires aux 24h du Mans ?", options: ["Allan McNish", "Frank Biela", "Tom Kristensen", "Dindo Capello"], reponse: "Tom Kristensen" },
-  {cat: "Visuel", q: image: "https://commons.wikimedia.org/wiki/File:Stig_Blomqvist_2012_001.jpg", question: "Quel pilote suédois a remporté le titre WRC 1984 avec Audi ?", options: ["Stig Blomqvist", "Hannu Mikkola", "Walter Röhrl", "Ari Vatanen"], reponse: "Stig Blomqvist" },
-  {cat: "Visuel", q: image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Allan_Mcnish.jpg/250px-Allan_Mcnish.jpg", question: "Qui est ce pilote écossais, pilier de l'endurance chez Audi ?", options: ["Allan McNish", "Mike Rockenfeller", "Lucas Di Grassi", "André Lotterer"], reponse: "Allan McNish" },
-  {cat: "Visuel", q: image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/FoS20162016_0624_164531AA_%2827608297980%29_%28cropped%29.jpg/500px-FoS20162016_0624_164531AA_%2827608297980%29_%28cropped%29.jpg", question: "Quel pilote italien a remporté 5 fois les 24h du Mans avec Audi ?", options: ["Emanuele Pirro", "Dindo Capello", "Marco Werner", "Alex Caffi"], reponse: "Emanuele Pirro" },
-  {cat: "Visuel", q: image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Marcel_F%C3%A4ssler_2011_Silverstone.jpg/250px-Marcel_F%C3%A4ssler_2011_Silverstone.jpg", question: "Quel pilote suisse a formé un trio victorieux au Mans avec Audi ?", options: ["Marcel Fässler", "André Lotterer", "Benoît Tréluyer", "Nico Müller"], reponse: "Marcel Fässler" },
-  {cat: "Visuel", q: image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Andre_Lotterer_2012_WEC_Fuji.jpg/500px-Andre_Lotterer_2012_WEC_Fuji.jpg?_=20121018175656", question: "Quel pilote a été pilier de l'ère Audi R18 e-tron ?", options: ["André Lotterer", "Marcel Fässler", "Benoît Tréluyer", "Lucas Di Grassi"], reponse: "André Lotterer" },
-  {cat: "Visuel", q: image: "https://lh5.googleusercontent.com/proxy/qP6kq3X70YagEU3FNMPcsg4xVW8FEqOLD3Wbblwdf7ENqcitT1IZ4-ElB0HfC1aY4g6CiN9hKj_X4-fity_CX17BiE2XnKaiJpoNiJyxVeKBcptwnGL7LA8B__cQo69bFUL77cc", question: "Quel pilote français a gagné le Mans avec Audi en 2013 ?", options: ["Loïc Duval", "Benoît Tréluyer", "André Lotterer", "Marcel Fässler"], reponse: "Loïc Duval" },
-  {cat: "Visuel", q: image: "https://f1i.autojournal.fr/wp-content/uploads/sites/17/2026/01/gyzfszsxgaa7yoa-365x200.jpg", question: "Qui dirige le projet F1 chez Audi ?", options: ["Mattia Binotto", "Andreas Seidl", "Wolfgang Ullrich", "Toto Wolff"], reponse: "Mattia Binotto" }
+{cat: "Visuel", image: "https://commons.wikimedia.org/wiki/File:Mich%C3%A8le_Mouton_-_1985_Welsh_Rally_(interview)_-Edited.jpg", question: "Qui est cette pilote de légende, pionnière du rallye avec Audi ?", options: ["Michèle Mouton", "Jutta Kleinschmidt", "Fabrizia Pons", "Isolde Holderied"], reponse: "Michèle Mouton" },
+  {cat: "Visuel", image: "https://commons.wikimedia.org/wiki/File:Tom_Kristensen_at_Silverstone_2011_001.jpg", question: "Qui est ce pilote danois, recordman des victoires aux 24h du Mans ?", options: ["Allan McNish", "Frank Biela", "Tom Kristensen", "Dindo Capello"], reponse: "Tom Kristensen" },
+  {cat: "Visuel", image: "https://commons.wikimedia.org/wiki/File:Stig_Blomqvist_2012_001.jpg", question: "Quel pilote suédois a remporté le titre WRC 1984 avec Audi ?", options: ["Stig Blomqvist", "Hannu Mikkola", "Walter Röhrl", "Ari Vatanen"], reponse: "Stig Blomqvist" },
+  {cat: "Visuel", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Allan_Mcnish.jpg/250px-Allan_Mcnish.jpg", question: "Qui est ce pilote écossais, pilier de l'endurance chez Audi ?", options: ["Allan McNish", "Mike Rockenfeller", "Lucas Di Grassi", "André Lotterer"], reponse: "Allan McNish" },
+  {cat: "Visuel", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/FoS20162016_0624_164531AA_%2827608297980%29_%28cropped%29.jpg/500px-FoS20162016_0624_164531AA_%2827608297980%29_%28cropped%29.jpg", question: "Quel pilote italien a remporté 5 fois les 24h du Mans avec Audi ?", options: ["Emanuele Pirro", "Dindo Capello", "Marco Werner", "Alex Caffi"], reponse: "Emanuele Pirro" },
+  {cat: "Visuel", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Marcel_F%C3%A4ssler_2011_Silverstone.jpg/250px-Marcel_F%C3%A4ssler_2011_Silverstone.jpg", question: "Quel pilote suisse a formé un trio victorieux au Mans avec Audi ?", options: ["Marcel Fässler", "André Lotterer", "Benoît Tréluyer", "Nico Müller"], reponse: "Marcel Fässler" },
+  {cat: "Visuel", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Andre_Lotterer_2012_WEC_Fuji.jpg/500px-Andre_Lotterer_2012_WEC_Fuji.jpg?_=20121018175656", question: "Quel pilote a été pilier de l'ère Audi R18 e-tron ?", options: ["André Lotterer", "Marcel Fässler", "Benoît Tréluyer", "Lucas Di Grassi"], reponse: "André Lotterer" },
+  {cat: "Visuel", image: "https://lh5.googleusercontent.com/proxy/qP6kq3X70YagEU3FNMPcsg4xVW8FEqOLD3Wbblwdf7ENqcitT1IZ4-ElB0HfC1aY4g6CiN9hKj_X4-fity_CX17BiE2XnKaiJpoNiJyxVeKBcptwnGL7LA8B__cQo69bFUL77cc", question: "Quel pilote français a gagné le Mans avec Audi en 2013 ?", options: ["Loïc Duval", "Benoît Tréluyer", "André Lotterer", "Marcel Fässler"], reponse: "Loïc Duval" },
+  {cat: "Visuel", image: "https://f1i.autojournal.fr/wp-content/uploads/sites/17/2026/01/gyzfszsxgaa7yoa-365x200.jpg", question: "Qui dirige le projet F1 chez Audi ?", options: ["Mattia Binotto", "Andreas Seidl", "Wolfgang Ullrich", "Toto Wolff"], reponse: "Mattia Binotto" }
 ];
 
 let questions = []; 
@@ -269,7 +279,7 @@ function load() {
     
     const imgWrapper = document.getElementById('q-img-wrapper');
     const imgElement = document.getElementById('q-img');
-    if (q.image && q.image !== "") {
+    if (q.image && q.image.length > 0) {
         imgElement.src = q.image;
         imgWrapper.style.display = "block";
     } else {
@@ -321,6 +331,7 @@ function reveal(btn, sel) {
 
 function nextQ() { idx++; load(); }
 
+// Démarrage initial
 questions = shuffle([...questionsData]);
 load();
 </script>
