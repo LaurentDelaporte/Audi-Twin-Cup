@@ -53,19 +53,23 @@ const questions = [
     { cat: "Motorsport - Moteur", q: "Quelle configuration moteur permettait aux Auto Union Type C (1936) de rivaliser avec les Mercedes à compresseur ?", o: ["Un V8 atmosphérique", "Un V16 compresseur placé en position centrale arrière", "Un moteur rotatif", "Un 6 cylindres en ligne"], a: "Un V16 compresseur placé en position centrale arrière", r: "La position centrale arrière était inédite, optimisant la répartition des masses pour la motricité au détriment d'un comportement survireur difficile à maîtriser." }
 ];
 
-// Fonction pour mélanger le tableau de questions
+// 2. Mélange aléatoire (shuffle)
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
-}    
+}
+shuffle(questions);
+
+// 3. Variables globales
 let idx = 0;
 let score = 0;
 let timeLeft = 30;
 let timer;
 
+// 4. Fonctions principales
 function startTimer() {
     timeLeft = 30;
     document.getElementById('timer').style.width = "100%";
@@ -74,20 +78,20 @@ function startTimer() {
         document.getElementById('timer').style.width = (timeLeft / 30 * 100) + "%";
         if (timeLeft <= 0) { 
             clearInterval(timer); 
-            reveal(null, null); // Time out = mauvaise réponse
+            reveal(null, null); 
         }
     }, 1000);
 }
 
 function load() {
-    if (idx >= 30) {
-        alert(`Challenge terminé ! Ton score : ${score}/30`);
+    if (idx >= 30 || idx >= questions.length) {
+        alert(`Challenge terminé ! Ton score final : ${score}/${idx}`);
         return;
     }
     
     clearInterval(timer);
     const q = questions[idx];
-    document.getElementById('q-meta').innerText = `QUESTION ${idx + 1}/30 - ${q.cat}`;
+    document.getElementById('q-meta').innerText = `QUESTION ${idx + 1} - ${q.cat}`;
     document.getElementById('q-text').innerText = q.q;
     document.getElementById('feedback').style.display = 'none';
     
@@ -125,55 +129,10 @@ function reveal(selected, btn) {
 
 function nextQ() { 
     idx++; 
-    if(idx < 30 && idx < questions.length) {
-        load();
-    } else {
-        alert(`Challenge terminé ! Score final : ${score}/30`);
-    }
+    load(); 
 }
 
-load();
-
-function load() {
-    clearInterval(timer);
-    const q = questions[idx];
-    document.getElementById('q-meta').innerText = q.cat;
-    document.getElementById('q-text').innerText = q.q;
-    document.getElementById('feedback').style.display = 'none';
-    const cont = document.getElementById('options'); cont.innerHTML = '';
-    
-    q.o.forEach(opt => {
-        const b = document.createElement('button');
-        b.className = 'opt-btn'; b.innerText = opt;
-        b.onclick = () => { clearInterval(timer); reveal(opt, b); };
-        cont.appendChild(b);
-    });
-    startTimer();
-}
-
-function reveal(selected, btn) {
-    const q = questions[idx];
-    clearInterval(timer); // Arrête le chrono dès qu'on clique
-
-    document.querySelectorAll('.opt-btn').forEach(b => {
-        b.disabled = true; // Verrouille tous les choix
-        
-        // 1. La bonne réponse est TOUJOURS mise en vert
-        if(b.innerText === q.a) {
-            b.classList.add('correct');
-        } 
-        // 2. Si le clic était faux, on met l'erreur en rouge
-        else if(selected && b.innerText === selected) {
-            b.classList.add('wrong');
-        }
-    });
-
-    // 3. Affiche l'explication technique et le bouton suivant
-    document.getElementById('rationale').innerText = q.r;
-    document.getElementById('feedback').style.display = 'block';
-}
-
-function nextQ() { idx++; idx < questions.length ? load() : alert("Quiz terminé."); }
+// Lancement du quiz
 load();
 </script>
 </body>
