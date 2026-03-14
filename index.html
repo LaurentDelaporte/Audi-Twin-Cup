@@ -280,8 +280,17 @@ function initQuiz() {
 function loadQuestion() {
     const q = selectedQuestions[currentIdx];
     document.getElementById('feedback').style.display = 'none';
-    document.getElementById('progress').style.width = `${(currentIdx / 30) * 100}%`;
-    document.getElementById('q-number').innerText = `QUESTION ${currentIdx + 1}/30`;
+    
+    // Gestion de l'image
+    const imgWrapper = document.getElementById('img-wrapper');
+    const imgElement = document.getElementById('q-img');
+    
+    if (q.image) {
+        imgElement.src = q.image;
+        imgWrapper.style.display = 'block';
+    } else {
+        imgWrapper.style.display = 'none';
+    }
     
     // Affichage texte
     document.getElementById('q-text').innerHTML = `<div>${q.q}</div>`;
