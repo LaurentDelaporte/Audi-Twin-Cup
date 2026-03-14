@@ -8,9 +8,10 @@
         .card { background: #111; padding: 40px; border-radius: 4px; border-left: 4px solid #f1052d; width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         .timer-bar { height: 4px; background: #333; margin-bottom: 20px; }
         #timer { height: 100%; background: #f1052d; width: 100%; transition: width 1s linear; }
-        .q-meta { font-size: 0.7rem; color: #f1052d; text-transform: uppercase; }
-        .q-text { font-size: 1.3rem; color: #fff; margin: 20px 0; }
-        .opt-btn { display: block; width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 15px; margin: 8px 0; cursor: pointer; text-align: left; }
+        .q-meta { font-size: 0.7rem; color: #f1052d; text-transform: uppercase; margin-bottom: 10px; }
+        .q-text { font-size: 1.3rem; color: #fff; margin-bottom: 20px; }
+        .opt-btn { display: block; width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 15px; margin: 8px 0; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover:not([disabled]) { background: #222; border-color: #f1052d; }
         .correct { background: #1b5e20 !important; border-color: #4caf50 !important; }
         .wrong { background: #b71c1c !important; border-color: #f44336 !important; }
         #feedback { margin-top: 20px; padding: 15px; background: #0a0a0a; display: none; border: 1px solid #222; }
@@ -24,8 +25,8 @@
     <div id="q-text" class="q-text"></div>
     <div id="options"></div>
     <div id="feedback">
-        <p id="rationale" style="color: #fff;"></p>
-        <button onclick="nextQ()" style="padding: 10px 20px; cursor:pointer;">Question suivante</button>
+        <p id="rationale" style="color: #fff; font-size: 0.9rem;"></p>
+        <button onclick="nextQ()" style="padding: 10px 20px; cursor:pointer; background: #f1052d; color: white; border: none;">Question suivante</button>
     </div>
 </div>
 
@@ -53,7 +54,7 @@ const questions = [
     { cat: "Motorsport - Moteur", q: "Quelle configuration moteur permettait aux Auto Union Type C (1936) de rivaliser avec les Mercedes à compresseur ?", o: ["Un V8 atmosphérique", "Un V16 compresseur placé en position centrale arrière", "Un moteur rotatif", "Un 6 cylindres en ligne"], a: "Un V16 compresseur placé en position centrale arrière", r: "La position centrale arrière était inédite, optimisant la répartition des masses pour la motricité au détriment d'un comportement survireur difficile à maîtriser." }
 ];
 
-// 2. Mélange aléatoire (shuffle)
+// Mélange aléatoire
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -63,76 +64,52 @@ function shuffle(array) {
 }
 shuffle(questions);
 
-// 3. Variables globales
-let idx = 0;
-let score = 0;
-let timeLeft = 30;
-let timer;
+let idx = 0, score = 0, timeLeft = 30, timer;
 
-// 4. Fonctions principales
 function startTimer() {
     timeLeft = 30;
     document.getElementById('timer').style.width = "100%";
     timer = setInterval(() => {
         timeLeft--;
         document.getElementById('timer').style.width = (timeLeft / 30 * 100) + "%";
-        if (timeLeft <= 0) { 
-            clearInterval(timer); 
-            reveal(null, null); 
-        }
+        if (timeLeft <= 0) { clearInterval(timer); reveal(null, null); }
     }, 1000);
 }
 
 function load() {
-    if (idx >= 30 || idx >= questions.length) {
-        alert(`Challenge terminé ! Ton score final : ${score}/${idx}`);
+    if (idx >= questions.length) {
+        alert(`Challenge terminé ! Ton score final : ${score}/${questions.length}`);
         return;
     }
-    
     clearInterval(timer);
     const q = questions[idx];
-    document.getElementById('q-meta').innerText = `QUESTION ${idx + 1} - ${q.cat}`;
+    document.getElementById('q-meta').innerText = `QUESTION ${idx + 1}/${questions.length} - ${q.cat}`;
     document.getElementById('q-text').innerText = q.q;
     document.getElementById('feedback').style.display = 'none';
-    
-    const cont = document.getElementById('options'); 
-    cont.innerHTML = '';
+    const cont = document.getElementById('options'); cont.innerHTML = '';
     
     q.o.forEach(opt => {
         const b = document.createElement('button');
-        b.className = 'opt-btn'; 
-        b.innerText = opt;
-        b.onclick = () => { 
-            clearInterval(timer); 
-            reveal(opt, b); 
-        };
+        b.className = 'opt-btn'; b.innerText = opt;
+        b.onclick = () => { clearInterval(timer); reveal(opt, b); };
         cont.appendChild(b);
     });
     startTimer();
 }
 
 function reveal(selected, btn) {
-    const q = questions[idx];
     clearInterval(timer);
-
-    if(selected === q.a) score++;
-
+    if(selected === questions[idx].a) score++;
     document.querySelectorAll('.opt-btn').forEach(b => {
         b.disabled = true;
-        if(b.innerText === q.a) b.classList.add('correct');
+        if(b.innerText === questions[idx].a) b.classList.add('correct');
         else if(selected && b.innerText === selected) b.classList.add('wrong');
     });
-
-    document.getElementById('rationale').innerText = q.r;
+    document.getElementById('rationale').innerText = questions[idx].r;
     document.getElementById('feedback').style.display = 'block';
 }
 
-function nextQ() { 
-    idx++; 
-    load(); 
-}
-
-// Lancement du quiz
+function nextQ() { idx++; load(); }
 load();
 </script>
 </body>
