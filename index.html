@@ -6,32 +6,39 @@
     <style>
         body { background: #050505; color: #ccc; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
         .card { background: #111; padding: 40px; border-radius: 4px; border-left: 4px solid #f1052d; width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .timer-bar { height: 6px; background: #333; margin-bottom: 20px; position: relative; }
+        .timer-bar { height: 6px; background: #333; margin-bottom: 5px; position: relative; }
         #timer { height: 100%; background: #f1052d; width: 100%; transition: width 1s linear; }
-        #timer-text { color: #f1052d; font-size: 0.8rem; position: absolute; right: 0; top: 10px; font-weight: bold; }
+        #timer-text { color: #f1052d; font-size: 0.8rem; margin-bottom: 20px; font-weight: bold; }
         .q-meta { font-size: 0.7rem; color: #f1052d; text-transform: uppercase; margin-bottom: 10px; }
         .q-text { font-size: 1.3rem; color: #fff; margin-bottom: 20px; }
         .opt-btn { display: block; width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 15px; margin: 8px 0; cursor: pointer; text-align: left; transition: 0.2s; }
         .opt-btn:hover:not([disabled]) { background: #222; border-color: #f1052d; }
         .correct { background: #1b5e20 !important; border-color: #4caf50 !important; }
         .wrong { background: #b71c1c !important; border-color: #f44336 !important; }
-        #feedback { margin-top: 20px; padding: 15px; background: #0a0a0a; display: none; border: 1px solid #222; }
+        #feedback, #final-screen { margin-top: 20px; padding: 20px; background: #0a0a0a; display: none; border: 1px solid #222; text-align: center; }
+        .btn-main { padding: 10px 25px; cursor:pointer; background: #f1052d; color: white; border: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <div class="timer-bar">
-        <div id="timer"></div>
-    </div>
-    <div id="timer-text" style="color: #f1052d; font-size: 0.9rem; font-weight: bold; margin-bottom: 10px;">30s</div>
+    <div class="timer-bar"><div id="timer"></div></div>
+    <div id="timer-text">30s</div>
     
-    <div id="q-meta" class="q-meta"></div>
-    <div id="q-text" class="q-text"></div>
-    <div id="options"></div>
-    <div id="feedback">
-        <p id="rationale" style="color: #fff; font-size: 0.9rem;"></p>
-        <button onclick="nextQ()" style="padding: 10px 20px; cursor:pointer; background: #f1052d; color: white; border: none; margin-top: 10px;">Question suivante</button>
+    <div id="quiz-content">
+        <div id="q-meta" class="q-meta"></div>
+        <div id="q-text" class="q-text"></div>
+        <div id="options"></div>
+        <div id="feedback">
+            <p id="rationale" style="color: #fff; font-size: 0.9rem; text-align: left;"></p>
+            <button class="btn-main" onclick="nextQ()">Question suivante</button>
+        </div>
+    </div>
+
+    <div id="final-screen">
+        <h2 style="color: #fff;">Challenge terminé !</h2>
+        <p id="final-score" style="font-size: 1.5rem; color: #f1052d;"></p>
+        <button class="btn-main" onclick="location.reload()">Recommencer le quiz</button>
     </div>
 </div>
 
