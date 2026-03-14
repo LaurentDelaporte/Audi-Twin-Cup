@@ -69,10 +69,17 @@ let idx = 0, score = 0, timeLeft = 30, timer;
 function startTimer() {
     timeLeft = 30;
     document.getElementById('timer').style.width = "100%";
+    document.getElementById('timer-text').innerText = timeLeft + "s"; // Affichage initial
+    
     timer = setInterval(() => {
         timeLeft--;
         document.getElementById('timer').style.width = (timeLeft / 30 * 100) + "%";
-        if (timeLeft <= 0) { clearInterval(timer); reveal(null, null); }
+        document.getElementById('timer-text').innerText = timeLeft + "s"; // Mise à jour dynamique
+        
+        if (timeLeft <= 0) { 
+            clearInterval(timer); 
+            reveal(null, null); 
+        }
     }, 1000);
 }
 
