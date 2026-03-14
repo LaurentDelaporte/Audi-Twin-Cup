@@ -31,160 +31,27 @@
 
 <script>
 const questions = [
-    {
-        cat: "Technique - Châssis",
-        q: "Sur l'Audi RS 3 (8Y), le 'RS Torque Splitter' remplace le différentiel arrière Haldex. Quelle est la différence fondamentale dans la gestion du couple par rapport au système précédent ?",
-        o: ["Il utilise un accouplement visqueux central", "Il permet une vectorisation active du couple sur chaque roue arrière via deux embrayages multidisques pilotés", "Il bloque mécaniquement l'essieu arrière à 100%", "Il transfère le couple via une pompe hydraulique haute pression"],
-        a: "Il permet une vectorisation active du couple sur chaque roue arrière via deux embrayages multidisques pilotés",
-        r: "Le Torque Splitter ne se contente plus de répartir le couple entre les essieux, il gère activement la distribution latérale, permettant un torque vectoring complet et le mode 'Drift'.",
-        img: null
-    },
-    {
-        cat: "Histoire - Motorsport",
-        q: "En 1980, Audi présente la 'Ur-Quattro'. Quelle innovation majeure dans la transmission intégrale a permis de réduire les tensions mécaniques en courbe par rapport aux systèmes 4x4 de l'époque ?",
-        o: ["Le différentiel central à glissement limité", "L'arbre creux 'IHO' permettant un différentiel central traversé par l'arbre de transmission avant", "L'utilisation d'une boîte de transfert automatique", "Le découplage manuel des roues avant"],
-        a: "L'arbre creux 'IHO' permettant un différentiel central traversé par l'arbre de transmission avant",
-        r: "L'ingénieur Jörg Bensinger a conçu cet arbre creux, une astuce d'ingénierie qui a permis d'intégrer la transmission intégrale dans un véhicule de série compact sans rallonger excessivement l'empattement.",
-        img: null
-    },
-    {
-        cat: "Technique - Électronique de puissance",
-        q: "L'architecture 800V de l'Audi e-tron GT repose sur des onduleurs à semi-conducteurs. Quel matériau est utilisé pour optimiser les pertes par commutation par rapport au silicium traditionnel ?",
-        o: ["Arséniure de gallium (GaAs)", "Carbure de silicium (SiC)", "Nitrures de gallium (GaN)", "Oxyde de zinc (ZnO)"],
-        a: "Carbure de silicium (SiC)",
-        r: "Le SiC permet une efficacité thermique supérieure et des fréquences de commutation plus élevées, réduisant la taille des onduleurs et augmentant l'autonomie.",
-        img: null
-    },
-    {
-        cat: "Histoire - Motorsport",
-        q: "En 1987, Walter Röhrl remporte Pikes Peak avec l'Audi S1. Quelle modification aérodynamique extrême a été rendue nécessaire par la puissance du moteur 5 cylindres turbocompressé ?",
-        o: ["Un aileron arrière en fibre de carbone réglable", "Un splitter avant proéminent et une aile arrière surdimensionnée pour l'appui", "Un fond plat à effet de sol", "Des flaps mobiles motorisés"],
-        a: "Un splitter avant proéminent et une aile arrière surdimensionnée pour l'appui",
-        r: "L'aérodynamique était cruciale pour maintenir la motricité sur les portions non goudronnées et compenser la perte de densité de l'air en altitude.",
-        img: null
-    },
-    {
-        cat: "Technique - Thermodynamique",
-        q: "Comment l'Audi RS 6 (C8) gère-t-elle la désactivation des cylindres (COD) lors des phases de faible charge ?",
-        o: ["En coupant l'injection sur les cylindres 2, 3, 5 et 8", "En fermant électroniquement les soupapes d'admission et d'échappement par décalage d'arbres à cames", "En désaccouplant l'arbre de transmission", "Par une double injection directe"],
-        a: "En fermant électroniquement les soupapes d'admission et d'échappement par décalage d'arbres à cames",
-        r: "Le système Audi valvelift system (AVS) ferme les soupapes pour transformer les cylindres en 'pompes à air' passives, minimisant les pertes par pompage.",
-        img: null
-    },
-    {
-        cat: "Technique - Châssis",
-        q: "Que permet le système 'Quattro ultra' (disponible sur plateformes MLB) par rapport au Quattro traditionnel permanent ?",
-        o: ["Une réduction de la garde au sol", "Un découplage total de l'arbre de transmission arrière via deux embrayages pour réduire les traînées mécaniques", "Une gestion purement électronique sans différentiel central", "Une transmission intégrale uniquement électrique"],
-        a: "Un découplage total de l'arbre de transmission arrière via deux embrayages pour réduire les traînées mécaniques",
-        r: "Le Quattro ultra analyse en continu les paramètres de conduite et peut réengager le train arrière en moins de 250 millisecondes si besoin.",
-        img: null
-    },
-    {
-        cat: "Histoire - Marque",
-        q: "Quel était le rôle des quatre anneaux avant la fusion de 1932 (Auto Union) ?",
-        o: ["Ils symbolisaient les 4 roues motrices", "Ils représentaient les 4 marques fusionnées : Audi, DKW, Horch et Wanderer", "Ils représentaient les 4 fondateurs de l'entreprise", "Ils étaient le logo original d'Audi"],
-        a: "Ils représentaient les 4 marques fusionnées : Audi, DKW, Horch et Wanderer",
-        r: "Face à la Grande Dépression, ces quatre constructeurs saxons se sont unis pour survivre, formant le groupe Auto Union.",
-        img: null
-    },
-    {
-        cat: "Technique - Software",
-        q: "Qu'est-ce que le 'Predictive Efficiency Assist' (PEA) utilise dans le MMI pour anticiper la consommation d'énergie ?",
-        o: ["Uniquement la caméra frontale", "Les données cartographiques GPS (topographie, virages, limitations) couplées aux capteurs radars", "L'historique de conduite du conducteur uniquement", "Le mode Sport actif"],
-        a: "Les données cartographiques GPS (topographie, virages, limitations) couplées aux capteurs radars",
-        r: "Le système adapte la régénération d'énergie et la roue libre avant même que le conducteur n'atteigne le point de décélération.",
-        img: null
-    },
-    {
-        cat: "Technique - Moteur",
-        q: "Quel est l'avantage technique du placement des turbocompresseurs dans le 'V' des moteurs Audi V8 4.0 TFSI (Hot-V) ?",
-        o: ["Meilleur refroidissement par eau", "Réduction du 'turbolag' par diminution de la distance entre échappement et turbine", "Installation plus facile dans le compartiment moteur", "Augmentation de la pression d'huile"],
-        a: "Réduction du 'turbolag' par diminution de la distance entre échappement et turbine",
-        r: "Le trajet des gaz d'échappement vers la turbine est réduit au minimum, ce qui permet une montée en pression quasi instantanée.",
-        img: null
-    },
-    {
-        cat: "Technique - Éclairage",
-        q: "Quelle est la particularité des 'Digital Matrix LED' sur l'Audi e-tron ?",
-        o: ["Ils projettent des publicités au sol", "Ils utilisent des miroirs DMD (Digital Micromirror Device) pour une précision de faisceau exceptionnelle", "Ils remplacent les feux de jour", "Ils permettent une vision nocturne thermique"],
-        a: "Ils utilisent des miroirs DMD (Digital Micromirror Device) pour une précision de faisceau exceptionnelle",
-        r: "Grâce à des millions de micro-miroirs, la lumière peut être dirigée avec une précision chirurgicale, évitant l'éblouissement tout en éclairant les zones complexes.",
-        img: null
-    },
-    {
-        cat: "Transmission",
-        q: "Sur le différentiel sport (Sports Differential) à train épicycloïdal, quelle est la fonction du moteur électrique et du train d'engrenages 'Superimposition' ?",
-        o: ["Réduire le poids de l'essieu arrière", "Générer une différence de vitesse de rotation entre les roues arrière", "Assurer le refroidissement de l'huile par pompe active", "Simuler un blocage de différentiel à 100%"],
-        a: "Générer une différence de vitesse de rotation entre les roues arrière",
-        r: "Le train épicycloïdal superpose une vitesse de rotation supplémentaire à l'une des roues pour forcer l'auto à pivoter autour de son axe vertical (lacet)."
-    },
-    {
-        cat: "Thermodynamique",
-        q: "Dans le moteur 4.0 TFSI V8 (Hot-V), quel est l'impact majeur du positionnement des turbos à l'intérieur du 'V' sur le cycle de combustion ?",
-        o: ["Réduction de la température d'admission", "Minimisation des pertes thermiques entre l'échappement et la turbine", "Augmentation du volume de la chambre de combustion", "Suppression du besoin de refroidissement par eau"],
-        a: "Minimisation des pertes thermiques entre l'échappement et la turbine",
-        r: "La distance réduite minimise l'inertie des gaz et préserve l'énergie thermique, ce qui augmente considérablement le rendement de la turbine à basse charge."
-    },
-    {
-        cat: "Châssis / Dynamique",
-        q: "Comment fonctionne le système de 'Quattro ultra' pour passer de la transmission intégrale à la traction avant ?",
-        o: ["Débrayage manuel par le conducteur", "Désaccouplement mécanique de l'arbre de transmission par deux embrayages (boîte de transfert et roue arrière)", "Utilisation d'un coupleur visqueux à base de silicone", "Réduction de la pression des pneus arrière"],
-        a: "Désaccouplement mécanique de l'arbre de transmission par deux embrayages (boîte de transfert et roue arrière)",
-        r: "Pour minimiser les pertes par traînée mécanique (frottements), l'arbre de transmission est totalement déconnecté lorsque la motricité intégrale n'est pas requise."
-    },
-    {
-        cat: "Électronique",
-        q: "Quelle est la particularité de la gestion de charge sur l'architecture 800V de l'e-tron GT en cas de borne de recharge limitée à 400V ?",
-        o: ["La charge est impossible", "Le système active un 'Boost Converter' pour élever la tension vers la batterie", "La batterie se charge à 200V seulement", "L'onduleur passe en mode alternatif"],
-        a: "Le système active un 'Boost Converter' pour élever la tension vers la batterie",
-        r: "Le convertisseur DC/DC élève la tension de la borne (400V) vers celle du pack batterie (800V) pour permettre une charge rapide même sur des infrastructures anciennes."
-    },
-    {
-        cat: "Historique / Motorsport",
-        q: "Pourquoi l'Audi Sport Quattro S1 E2 a-t-elle nécessité un empattement réduit par rapport à la Quattro A2 ?",
-        o: ["Pour favoriser la stabilité à haute vitesse", "Pour réduire le sous-virage chronique induit par le porte-à-faux avant", "Pour réduire le poids total de 200 kg", "Pour faciliter le montage d'une boîte séquentielle"],
-        a: "Pour réduire le sous-virage chronique induit par le porte-à-faux avant",
-        r: "Le moteur longitudinal avant positionné devant l'essieu créait un fort sous-virage. Raccourcir l'empattement a permis de recentrer les masses et d'améliorer l'agilité."
-    },
-    
-    {
-        cat: "Histoire - Ingénierie",
-        q: "Au-delà de la traduction latine, quel impératif légal a contraint August Horch à abandonner son nom pour fonder Audi en 1909 ?",
-        o: ["Défaillance financière", "Litige sur l'utilisation du nom 'Horch' dans une nouvelle société", "Conflit avec les syndicats", "Obligation du gouvernement prussien"],
-        a: "Litige sur l'utilisation du nom 'Horch' dans une nouvelle société",
-        r: "Horch avait perdu les droits sur l'usage commercial de son propre nom suite à un conflit avec les actionnaires de sa première entreprise."
-    },
-    {
-        cat: "Technique - Aérodynamique",
-        q: "L'Audi 100 (C3) de 1982 a atteint un Cx de 0,30. Quelle innovation de carrosserie a été déterminante pour ce résultat ?",
-        o: ["Suspension pneumatique adaptative", "Vitres affleurantes et suppression des gouttières de toit", "Fond plat intégral", "Aileron arrière actif"],
-        a: "Vitres affleurantes et suppression des gouttières de toit",
-        r: "L'intégration des vitres dans le plan de la carrosserie et l'élimination des aspérités (gouttières) furent révolutionnaires pour l'écoulement laminaire."
-    },
-    {
-        cat: "Technique - Châssis",
-        q: "Quelle est la particularité structurelle de l'Audi Space Frame (ASF) introduit sur l'A8 (D2) en 1994 ?",
-        o: ["Un châssis monocoque en acier à ultra-haute limite élastique", "Une structure en treillis tubulaire recouvert de panneaux aluminium", "Un cadre de profilés extrudés en aluminium assemblés par nœuds de fonderie", "Une carrosserie en matériaux composites carbonés"],
-        a: "Un cadre de profilés extrudés en aluminium assemblés par nœuds de fonderie",
-        r: "L'ASF utilise des profilés extrudés pour la rigidité et des pièces de fonderie pour les points de jonction complexes, optimisant le rapport rigidité/poids."
-    },
-    {
-        cat: "Technique - Transmission",
-        q: "Le système Quattro original utilisait un différentiel central. Pourquoi l'arbre de transmission avant passait-il à l'intérieur de l'arbre creux du différentiel ?",
-        o: ["Pour réduire le bruit de transmission", "Pour permettre une compacité extrême de la transmission intégrale sur une plateforme traction", "Pour améliorer le refroidissement de l'huile", "Pour synchroniser les vitesses de rotation"],
-        a: "Pour permettre une compacité extrême de la transmission intégrale sur une plateforme traction",
-        r: "Cette astuce permettait d'intégrer un système 4x4 robuste sans avoir à redessiner entièrement le bloc moteur/boîte longitudinal Audi."
-    },
-    {
-        cat: "Motorsport - Moteur",
-        q: "Quelle configuration moteur permettait aux Auto Union Type C (1936) de rivaliser avec les Mercedes à compresseur ?",
-        o: ["Un V8 atmosphérique", "Un V16 compresseur placé en position centrale arrière", "Un moteur rotatif", "Un 6 cylindres en ligne"],
-        a: "Un V16 compresseur placé en position centrale arrière",
-        r: "La position centrale arrière était inédite, optimisant la répartition des masses pour la motricité au détriment d'un comportement survireur difficile à maîtriser."
-    }
-
+    { cat: "Technique - Châssis", q: "Sur l'Audi RS 3 (8Y), le 'RS Torque Splitter' remplace le différentiel arrière Haldex. Quelle est la différence fondamentale dans la gestion du couple par rapport au système précédent ?", o: ["Il utilise un accouplement visqueux central", "Il permet une vectorisation active du couple sur chaque roue arrière via deux embrayages multidisques pilotés", "Il bloque mécaniquement l'essieu arrière à 100%", "Il transfère le couple via une pompe hydraulique haute pression"], a: "Il permet une vectorisation active du couple sur chaque roue arrière via deux embrayages multidisques pilotés", r: "Le Torque Splitter ne se contente plus de répartir le couple entre les essieux, il gère activement la distribution latérale, permettant un torque vectoring complet et le mode 'Drift'." },
+    { cat: "Histoire - Motorsport", q: "En 1980, Audi présente la 'Ur-Quattro'. Quelle innovation majeure dans la transmission intégrale a permis de réduire les tensions mécaniques en courbe par rapport aux systèmes 4x4 de l'époque ?", o: ["Le différentiel central à glissement limité", "L'arbre creux 'IHO' permettant un différentiel central traversé par l'arbre de transmission avant", "L'utilisation d'une boîte de transfert automatique", "Le découplage manuel des roues avant"], a: "L'arbre creux 'IHO' permettant un différentiel central traversé par l'arbre de transmission avant", r: "L'ingénieur Jörg Bensinger a conçu cet arbre creux, une astuce d'ingénierie qui a permis d'intégrer la transmission intégrale dans un véhicule de série compact sans rallonger excessivement l'empattement." },
+    { cat: "Technique - Électronique de puissance", q: "L'architecture 800V de l'Audi e-tron GT repose sur des onduleurs à semi-conducteurs. Quel matériau est utilisé pour optimiser les pertes par commutation par rapport au silicium traditionnel ?", o: ["Arséniure de gallium (GaAs)", "Carbure de silicium (SiC)", "Nitrures de gallium (GaN)", "Oxyde de zinc (ZnO)"], a: "Carbure de silicium (SiC)", r: "Le SiC permet une efficacité thermique supérieure et des fréquences de commutation plus élevées, réduisant la taille des onduleurs et augmentant l'autonomie." },
+    { cat: "Histoire - Motorsport", q: "En 1987, Walter Röhrl remporte Pikes Peak avec l'Audi S1. Quelle modification aérodynamique extrême a été rendue nécessaire par la puissance du moteur 5 cylindres turbocompressé ?", o: ["Un aileron arrière en fibre de carbone réglable", "Un splitter avant proéminent et une aile arrière surdimensionnée pour l'appui", "Un fond plat à effet de sol", "Des flaps mobiles motorisés"], a: "Un splitter avant proéminent et une aile arrière surdimensionnée pour l'appui", r: "L'aérodynamique était cruciale pour maintenir la motricité sur les portions non goudronnées et compenser la perte de densité de l'air en altitude." },
+    { cat: "Technique - Thermodynamique", q: "Comment l'Audi RS 6 (C8) gère-t-elle la désactivation des cylindres (COD) lors des phases de faible charge ?", o: ["En coupant l'injection sur les cylindres 2, 3, 5 et 8", "En fermant électroniquement les soupapes d'admission et d'échappement par décalage d'arbres à cames", "En désaccouplant l'arbre de transmission", "Par une double injection directe"], a: "En fermant électroniquement les soupapes d'admission et d'échappement par décalage d'arbres à cames", r: "Le système Audi valvelift system (AVS) ferme les soupapes pour transformer les cylindres en 'pompes à air' passives, minimisant les pertes par pompage." },
+    { cat: "Technique - Châssis", q: "Que permet le système 'Quattro ultra' (disponible sur plateformes MLB) par rapport au Quattro traditionnel permanent ?", o: ["Une réduction de la garde au sol", "Un découplage total de l'arbre de transmission arrière via deux embrayages pour réduire les traînées mécaniques", "Une gestion purement électronique sans différentiel central", "Une transmission intégrale uniquement électrique"], a: "Un découplage total de l'arbre de transmission arrière via deux embrayages pour réduire les traînées mécaniques", r: "Le Quattro ultra analyse en continu les paramètres de conduite et peut réengager le train arrière en moins de 250 millisecondes si besoin." },
+    { cat: "Histoire - Marque", q: "Quel était le rôle des quatre anneaux avant la fusion de 1932 (Auto Union) ?", o: ["Ils symbolisaient les 4 roues motrices", "Ils représentaient les 4 marques fusionnées : Audi, DKW, Horch et Wanderer", "Ils représentaient les 4 fondateurs de l'entreprise", "Ils étaient le logo original d'Audi"], a: "Ils représentaient les 4 marques fusionnées : Audi, DKW, Horch et Wanderer", r: "Face à la Grande Dépression, ces quatre constructeurs saxons se sont unis pour survivre, formant le groupe Auto Union." },
+    { cat: "Technique - Software", q: "Qu'est-ce que le 'Predictive Efficiency Assist' (PEA) utilise dans le MMI pour anticiper la consommation d'énergie ?", o: ["Uniquement la caméra frontale", "Les données cartographiques GPS (topographie, virages, limitations) couplées aux capteurs radars", "L'historique de conduite du conducteur uniquement", "Le mode Sport actif"], a: "Les données cartographiques GPS (topographie, virages, limitations) couplées aux capteurs radars", r: "Le système adapte la régénération d'énergie et la roue libre avant même que le conducteur n'atteigne le point de décélération." },
+    { cat: "Technique - Moteur", q: "Quel est l'avantage technique du placement des turbocompresseurs dans le 'V' des moteurs Audi V8 4.0 TFSI (Hot-V) ?", o: ["Meilleur refroidissement par eau", "Réduction du 'turbolag' par diminution de la distance entre échappement et turbine", "Installation plus facile dans le compartiment moteur", "Augmentation de la pression d'huile"], a: "Réduction du 'turbolag' par diminution de la distance entre échappement et turbine", r: "Le trajet des gaz d'échappement vers la turbine est réduit au minimum, ce qui permet une montée en pression quasi instantanée." },
+    { cat: "Technique - Éclairage", q: "Quelle est la particularité des 'Digital Matrix LED' sur l'Audi e-tron ?", o: ["Ils projettent des publicités au sol", "Ils utilisent des miroirs DMD (Digital Micromirror Device) pour une précision de faisceau exceptionnelle", "Ils remplacent les feux de jour", "Ils permettent une vision nocturne thermique"], a: "Ils utilisent des miroirs DMD (Digital Micromirror Device) pour une précision de faisceau exceptionnelle", r: "Grâce à des millions de micro-miroirs, la lumière peut être dirigée avec une précision chirurgicale, évitant l'éblouissement tout en éclairant les zones complexes." },
+    { cat: "Transmission", q: "Sur le différentiel sport (Sports Differential) à train épicycloïdal, quelle est la fonction du moteur électrique et du train d'engrenages 'Superimposition' ?", o: ["Réduire le poids de l'essieu arrière", "Générer une différence de vitesse de rotation entre les roues arrière", "Assurer le refroidissement de l'huile par pompe active", "Simuler un blocage de différentiel à 100%"], a: "Générer une différence de vitesse de rotation entre les roues arrière", r: "Le train épicycloïdal superpose une vitesse de rotation supplémentaire à l'une des roues pour forcer l'auto à pivoter autour de son axe vertical (lacet)." },
+    { cat: "Thermodynamique", q: "Dans le moteur 4.0 TFSI V8 (Hot-V), quel est l'impact majeur du positionnement des turbos à l'intérieur du 'V' sur le cycle de combustion ?", o: ["Réduction de la température d'admission", "Minimisation des pertes thermiques entre l'échappement et la turbine", "Augmentation du volume de la chambre de combustion", "Suppression du besoin de refroidissement par eau"], a: "Minimisation des pertes thermiques entre l'échappement et la turbine", r: "La distance réduite minimise l'inertie des gaz et préserve l'énergie thermique, ce qui augmente considérablement le rendement de la turbine à basse charge." },
+    { cat: "Châssis / Dynamique", q: "Comment fonctionne le système de 'Quattro ultra' pour passer de la transmission intégrale à la traction avant ?", o: ["Débrayage manuel par le conducteur", "Désaccouplement mécanique de l'arbre de transmission par deux embrayages (boîte de transfert et roue arrière)", "Utilisation d'un coupleur visqueux à base de silicone", "Réduction de la pression des pneus arrière"], a: "Désaccouplement mécanique de l'arbre de transmission par deux embrayages (boîte de transfert et roue arrière)", r: "Pour minimiser les pertes par traînée mécanique (frottements), l'arbre de transmission est totalement déconnecté lorsque la motricité intégrale n'est pas requise." },
+    { cat: "Électronique", q: "Quelle est la particularité de la gestion de charge sur l'architecture 800V de l'e-tron GT en cas de borne de recharge limitée à 400V ?", o: ["La charge est impossible", "Le système active un 'Boost Converter' pour élever la tension vers la batterie", "La batterie se charge à 200V seulement", "L'onduleur passe en mode alternatif"], a: "Le système active un 'Boost Converter' pour élever la tension vers la batterie", r: "Le convertisseur DC/DC élève la tension de la borne (400V) vers celle du pack batterie (800V) pour permettre une charge rapide même sur des infrastructures anciennes." },
+    { cat: "Historique / Motorsport", q: "Pourquoi l'Audi Sport Quattro S1 E2 a-t-elle nécessité un empattement réduit par rapport à la Quattro A2 ?", o: ["Pour favoriser la stabilité à haute vitesse", "Pour réduire le sous-virage chronique induit par le porte-à-faux avant", "Pour réduire le poids total de 200 kg", "Pour faciliter le montage d'une boîte séquentielle"], a: "Pour réduire le sous-virage chronique induit par le porte-à-faux avant", r: "Le moteur longitudinal avant positionné devant l'essieu créait un fort sous-virage. Raccourcir l'empattement a permis de recentrer les masses et d'améliorer l'agilité." },
+    { cat: "Histoire - Ingénierie", q: "Au-delà de la traduction latine, quel impératif légal a contraint August Horch à abandonner son nom pour fonder Audi en 1909 ?", o: ["Défaillance financière", "Litige sur l'utilisation du nom 'Horch' dans une nouvelle société", "Conflit avec les syndicats", "Obligation du gouvernement prussien"], a: "Litige sur l'utilisation du nom 'Horch' dans une nouvelle société", r: "Horch avait perdu les droits sur l'usage commercial de son propre nom suite à un conflit avec les actionnaires de sa première entreprise." },
+    { cat: "Technique - Aérodynamique", q: "L'Audi 100 (C3) de 1982 a atteint un Cx de 0,30. Quelle innovation de carrosserie a été déterminante pour ce résultat ?", o: ["Suspension pneumatique adaptative", "Vitres affleurantes et suppression des gouttières de toit", "Fond plat intégral", "Aileron arrière actif"], a: "Vitres affleurantes et suppression des gouttières de toit", r: "L'intégration des vitres dans le plan de la carrosserie et l'élimination des aspérités (gouttières) furent révolutionnaires pour l'écoulement laminaire." },
+    { cat: "Technique - Châssis", q: "Quelle est la particularité structurelle de l'Audi Space Frame (ASF) introduit sur l'A8 (D2) en 1994 ?", o: ["Un châssis monocoque en acier à ultra-haute limite élastique", "Une structure en treillis tubulaire recouvert de panneaux aluminium", "Un cadre de profilés extrudés en aluminium assemblés par nœuds de fonderie", "Une carrosserie en matériaux composites carbonés"], a: "Un cadre de profilés extrudés en aluminium assemblés par nœuds de fonderie", r: "L'ASF utilise des profilés extrudés pour la rigidité et des pièces de fonderie pour les points de jonction complexes, optimisant le rapport rigidité/poids." },
+    { cat: "Technique - Transmission", q: "Le système Quattro original utilisait un différentiel central. Pourquoi l'arbre de transmission avant passait-il à l'intérieur de l'arbre creux du différentiel ?", o: ["Pour réduire le bruit de transmission", "Pour permettre une compacité extrême de la transmission intégrale sur une plateforme traction", "Pour améliorer le refroidissement de l'huile", "Pour synchroniser les vitesses de rotation"], a: "Pour permettre une compacité extrême de la transmission intégrale sur une plateforme traction", r: "Cette astuce permettait d'intégrer un système 4x4 robuste sans avoir à redessiner entièrement le bloc moteur/boîte longitudinal Audi." },
+    { cat: "Motorsport - Moteur", q: "Quelle configuration moteur permettait aux Auto Union Type C (1936) de rivaliser avec les Mercedes à compresseur ?", o: ["Un V8 atmosphérique", "Un V16 compresseur placé en position centrale arrière", "Un moteur rotatif", "Un 6 cylindres en ligne"], a: "Un V16 compresseur placé en position centrale arrière", r: "La position centrale arrière était inédite, optimisant la répartition des masses pour la motricité au détriment d'un comportement survireur difficile à maîtriser." }
 ];
-
 let idx = 0, timeLeft = 30, timer;
 
 function startTimer() {
