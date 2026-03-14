@@ -1,37 +1,39 @@
-# 🏎️ Audi Twin Cup - Ultimate Training Simulator
+# 🏎️ Audi Twin Cup - Master Trainer
 
-![Audi Sport Style](https://img.shields.io/badge/Audi-Vorsprung%20durch%20Technik-black?style=for-the-badge&logo=audi)
-![Language](https://img.shields.io/badge/Language-HTML5%20%2F%20JS-orange?style=for-the-badge)
+Ce projet est un simulateur de quiz interactif conçu pour la préparation intensive des techniciens et conseillers techniques au concours **Audi Twin Cup**. Il est optimisé pour tester les connaissances sur les architectures complexes, les systèmes de propulsion électrique (PPE, e-tron), les technologies thermiques (TFSI, TDI) et les systèmes d'aide à la conduite.
 
-## 📖 Présentation
-Ce simulateur est un outil d'entraînement interactif conçu pour les techniciens et conseillers service préparant l'**Audi Twin Cup**. Il regroupe **50 questions expertes** couvrant l'intégralité de l'écosystème Audi, de l'héritage historique d'Auto Union aux technologies futures de la Formule 1 2026.
+## 🚀 Fonctionnalités
+* **Base de données robuste :** Supporte jusqu'à 250 questions au format JSON.
+* **Logique d'apprentissage :** Système de "Rationale" (justification technique) pour chaque question, favorisant la compréhension plutôt que le par cœur.
+* **Design immersif :** Interface sobre aux couleurs de la charte graphique Audi (Noir, Rouge, Gris).
+* **Support technique :** Intégration de balises de schémas techniques pour visualiser les systèmes complexes.
+* **Responsive :** Fonctionne directement dans n'importe quel navigateur sans installation.
 
-## 🛠️ Compétences Testées
-Le quiz est structuré autour de quatre piliers fondamentaux :
-* **Héritage & Culture :** Identification des figures clés (Ferdinand Piëch, Walter Röhrl) et des marques fondatrices.
-* **Expertise Technique :** Diagnostic (ODIS), motorisations (TDI, TFSI, 5 cylindres) et systèmes de bord.
-* **Électrification (e-tron) :** Architecture PPE 800V, gestion thermique et sécurité Haute Tension.
-* **Reconnaissance Visuelle :** Identification de composants mécaniques, de logos historiques et d'interfaces MMI.
+## 🛠️ Installation & Utilisation
+1. Télécharge ou clone ce dépôt sur ta machine.
+2. Ouvre le fichier `quiz.html` dans ton navigateur (Chrome, Firefox ou Edge recommandés).
+3. C'est tout ! Aucune dépendance externe n'est requise.
 
-## 🚀 Installation & Utilisation
-Le simulateur est **"Stand-alone"** (autonome). Aucun serveur ni installation de base de données n'est requis.
+## 🧠 Organisation des questions
+Le quiz couvre trois niveaux de complexité :
+* **Niveau Standard :** Histoire de la marque et bases mécaniques.
+* **Niveau Expert :** Systèmes de transmission (Quattro), gestion boîte S tronic, aides à la conduite.
+* **Niveau Expert/Hard :** Architecture 800V, gestion thermique intégrée de la plateforme PPE, onduleurs, et protocoles E³.
 
-1.  **Télécharger** le fichier `audi_expert_50.html`.
-2.  **Ouvrir** le fichier avec n'importe quel navigateur moderne (Chrome, Firefox, Safari, Edge).
-3.  **Répondre** aux questions et lire les analyses techniques après chaque validation.
+## 📊 Références Techniques Clés
+Le simulateur facilite l'accès aux concepts critiques via les systèmes suivants :
+* 
+* 
+* 
+* 
 
-## 🖥️ Fonctionnalités du Code
-* **Algorithme de Score :** Calcul en temps réel du taux de réussite.
-* **Barre de Progression :** Suivi dynamique de l'avancement sur les 50 questions.
-* **Feedback Pédagogique :** Chaque réponse affiche une explication détaillée pour renforcer la mémorisation.
-* **Responsive Design :** Compatible avec les tablettes et smartphones pour un entraînement en atelier.
+## 📝 Contribuer au contenu
+Pour ajouter ou modifier des questions, édite simplement le tableau `const questions` dans le fichier `quiz.html` en respectant ce format JSON :
 
-## 🧪 Exemple de Question
-> **Q :** Quel composant est représenté ici sur ce schéma de boîte S-tronic ?
-> **R :** La Mécatronique (Cerveau hydraulique et électronique de la boîte).
-
-## ⚖️ Licence
-Ce projet est destiné à un usage pédagogique privé dans le cadre de la préparation aux concours internes Audi.
-
----
-*Vorsprung durch Technik
+```json
+{
+  "q": "Ta question ici ?",
+  "o": ["Option A", "Option B", "Option C", "Option D"],
+  "a": "La bonne réponse",
+  "r": "Explication technique détaillée."
+}
