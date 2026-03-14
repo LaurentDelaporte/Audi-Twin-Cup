@@ -260,6 +260,7 @@ const questionsData = [
   {cat: "Visuel", image: "https://f1i.autojournal.fr/wp-content/uploads/sites/17/2026/01/gyzfszsxgaa7yoa-365x200.jpg", q: "Qui dirige le projet F1 chez Audi ?", options: ["Mattia Binotto", "Andreas Seidl", "Wolfgang Ullrich", "Toto Wolff"], reponse: "Mattia Binotto" }
 ];
 
+let allQuestions = questionsData; // On utilise le tableau directement
 let selectedQuestions = [];
 let currentIdx = 0;
 let score = 0;
@@ -267,35 +268,13 @@ let timeLeft = 30;
 let timerId = null;
 
 function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
+    return array.sort(() => Math.random() - 0.5);
 }
 
 function initQuiz() {
-    const shuffledPool = shuffle([...allQuestions]);
-    selectedQuestions = shuffledPool.slice(0, 30);
-    selectedQuestions.forEach(q => q.o = shuffle([...q.o]));
+    // Mélange le pool et prend les 30 premières
+    selectedQuestions = shuffle([...allQuestions]).slice(0, 30);
     loadQuestion();
-}
-
-function startTimer() {
-    clearInterval(timerId);
-    timeLeft = 30;
-    document.getElementById('timer').innerText = timeLeft;
-    document.getElementById('timer').style.color = "var(--audi-red)";
-    
-    timerId = setInterval(() => {
-        timeLeft--;
-        document.getElementById('timer').innerText = timeLeft;
-        if(timeLeft <= 5) document.getElementById('timer').style.color = "orange";
-        if(timeLeft <= 0) {
-            clearInterval(timerId);
-            checkAnswer(null);
-        }
-    }, 1000);
 }
 
 function loadQuestion() {
@@ -304,16 +283,16 @@ function loadQuestion() {
     document.getElementById('progress').style.width = `${(currentIdx / 30) * 100}%`;
     document.getElementById('q-number').innerText = `QUESTION ${currentIdx + 1}/30`;
     
-    let tagsHTML = '';
-    if(q.v) tagsHTML += `<span class="tag tag-visual">Analyse Visuelle</span>`;
-    if(q.e) tagsHTML += `<span class="tag tag-expert">Expert</span>`;
-    
-    document.getElementById('q-text').innerHTML = tagsHTML + `<div>${q.q}</div>`;
+    // Affichage texte
+    document.getElementById('q-text').innerHTML = `<div>${q.q}</div>`;
     
     const optCont = document.getElementById('options');
     optCont.innerHTML = '';
     
-    q.o.forEach(opt => {
+    // Mélange des options
+    const options = shuffle([...q.o]);
+    
+    options.forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'opt-btn';
         btn.innerText = opt;
@@ -322,6 +301,20 @@ function loadQuestion() {
     });
     
     startTimer();
+}
+
+function startTimer() {
+    clearInterval(timerId);
+    timeLeft = 30;
+    document.getElementById('timer').innerText = timeLeft;
+    timerId = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').innerText = timeLeft;
+        if(timeLeft <= 0) {
+            clearInterval(timerId);
+            checkAnswer(null);
+        }
+    }, 1000);
 }
 
 function checkAnswer(selected) {
@@ -335,16 +328,7 @@ function checkAnswer(selected) {
         if(selected && b.innerText === selected && selected !== q.a) b.classList.add('wrong');
     });
 
-    const resTitle = document.getElementById('result-title');
-    if(selected === q.a) {
-        score++;
-        resTitle.innerText = "SUCCÈS : DIAGNOSTIC CORRECT";
-        resTitle.style.color = "#28a745";
-    } else {
-        resTitle.innerText = selected === null ? "TEMPS ÉCOULÉ" : "ERREUR DE RÉFÉRENCE";
-        resTitle.style.color = "#dc3545";
-    }
-
+    document.getElementById('result-title').innerText = (selected === q.a) ? "SUCCÈS" : "ERREUR";
     document.getElementById('rationale').innerText = q.r;
     document.getElementById('feedback').style.display = 'block';
 }
@@ -357,14 +341,9 @@ function nextQuestion() {
 
 function showFinal() {
     document.getElementById('quiz-ui').style.display = 'none';
-    const final = document.getElementById('final-screen');
-    final.style.display = 'block';
-    
-    let rank = score >= 28 ? "MAÎTRE TECHNIQUE AUDI" : score >= 22 ? "EXPERT RÉSEAU" : "COLLABORATEUR SERVICE";
-    document.getElementById('final-score').innerHTML = `Score Final : <strong>${score}/30</strong><br><small>Rang obtenu : ${rank}</small>`;
+    document.getElementById('final-screen').style.display = 'block';
+    document.getElementById('final-score').innerHTML = `Score Final : <strong>${score}/30</strong>`;
 }
 
 window.onload = initQuiz;
 </script>
-</body>
-</html>
