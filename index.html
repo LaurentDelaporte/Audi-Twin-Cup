@@ -19,7 +19,6 @@
         .opt-btn { display: block; width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 15px; margin: 8px 0; cursor: pointer; text-align: left; transition: 0.2s; }
         .opt-btn:hover:not([disabled]) { background: #222; border-color: #f1052d; }
         
-        /* Couleurs de réponse */
         .correct { background: #1b5e20 !important; border-color: #4caf50 !important; color: #fff; }
         .wrong { background: #b71c1c !important; border-color: #f44336 !important; color: #fff; }
 
@@ -57,14 +56,22 @@
 </div>
 
 <script>
-// Tableau des 30 questions
-const questions = [
+const questionsData = [
     { image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Mich%C3%A8le_Mouton_-_1985_Welsh_Rally_%28interview%29_-Edited.jpg/250px-Mich%C3%A8le_Mouton_-_1985_Welsh_Rally_%28interview%29_-Edited.jpg", question: "Qui est cette pilote de légende, pionnière du rallye avec Audi ?", options: ["Michèle Mouton", "Jutta Kleinschmidt", "Fabrizia Pons", "Isolde Holderied"], reponse: "Michèle Mouton", rationale: "Michèle Mouton est la plus célèbre pilote de rallye de l'histoire d'Audi." },
-    { image: "", question: "Quel est le nom du directeur technique responsable du développement moteur F1 à Neuburg ?", options: ["Adam Baker", "Andreas Seidl", "Mattia Binotto", "Frédéric Vasseur"], reponse: "Adam Baker", rationale: "Il dirige le projet Audi Formula Racing GmbH." },
-    // ... Ajoutez ici vos autres questions jusqu'à 30
+    { image: "", question: "Quel est le nom du directeur technique responsable du développement moteur F1 à Neuburg ?", options: ["Adam Baker", "Andreas Seidl", "Mattia Binotto", "Frédéric Vasseur"], reponse: "Adam Baker", rationale: "Il dirige le projet Audi Formula Racing GmbH." }
+    // Ajoutez ici la suite de vos 30 questions sur le même modèle
 ];
 
+let questions = []; 
 let idx = 0, score = 0, timeLeft = 30, timer;
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
 function load() {
     if (idx >= questions.length) {
@@ -80,7 +87,6 @@ function load() {
     
     const imgWrapper = document.getElementById('q-img-wrapper');
     const imgElement = document.getElementById('q-img');
-    
     if (q.image && q.image.length > 0) {
         imgElement.src = q.image;
         imgWrapper.style.display = "block";
@@ -88,11 +94,13 @@ function load() {
         imgWrapper.style.display = "none";
     }
 
+    let optionsMelangees = shuffle([...q.options]);
+
     document.getElementById('feedback').style.display = 'none';
     const cont = document.getElementById('options'); 
     cont.innerHTML = '';
     
-    q.options.forEach(opt => {
+    optionsMelangees.forEach(opt => {
         const b = document.createElement('button');
         b.className = 'opt-btn'; 
         b.innerText = opt;
@@ -114,8 +122,6 @@ function startTimer() {
 
 function reveal(btn, sel) { 
     clearInterval(timer);
-    
-    // Désactiver tous les boutons
     const buttons = document.querySelectorAll('.opt-btn');
     buttons.forEach(b => {
         b.disabled = true;
@@ -133,6 +139,8 @@ function reveal(btn, sel) {
 
 function nextQ() { idx++; load(); }
 
+// Démarrage initial
+questions = shuffle([...questionsData]);
 load();
 </script>
 </body>
