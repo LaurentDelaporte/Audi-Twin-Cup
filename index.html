@@ -122,12 +122,10 @@ function shuffle(array) {
 shuffle(questions);
 
 let idx = 0, score = 0, timeLeft = 30, timer;
-let currentShuffledOptions = []; // Stocke les options mélangées de la question en cours
 
 function startTimer() {
     timeLeft = 30;
     document.getElementById('timer').style.width = "100%";
-    document.getElementById('timer-text').innerText = timeLeft + "s";
     timer = setInterval(() => {
         timeLeft--;
         document.getElementById('timer').style.width = (timeLeft / 30 * 100) + "%";
@@ -137,53 +135,33 @@ function startTimer() {
 }
 
 function load() {
-    // MODIFICATION ICI : on limite à 30 au lieu de la longueur totale
-    if (idx >= 30) { 
-        clearInterval(timer);
+    if (idx >= 30) {
         document.getElementById('quiz-content').style.display = 'none';
-        document.getElementById('timer-text').style.display = 'none';
-        document.getElementById('final-score').innerText = `Ton score : ${score} / ${questions.length}`;
+        document.getElementById('final-score').innerText = `Score : ${score} / 30`;
         document.getElementById('final-screen').style.display = 'block';
         return;
     }
-    
-    clearInterval(timer);
     const q = questions[idx];
-    
-    // 2. Mélange propre des options pour cette question précise
-    currentShuffledOptions = [...q.o];
-    shuffle(currentShuffledOptions);
-
-    document.getElementById('q-meta').innerText = `QUESTION ${idx + 1}/${questions.length} - ${q.cat}`;
+    document.getElementById('q-meta').innerText = `QUESTION ${idx + 1}/30 - ${q.cat}`;
     document.getElementById('q-text').innerText = q.q;
     document.getElementById('feedback').style.display = 'none';
     const cont = document.getElementById('options'); cont.innerHTML = '';
-    
-    currentShuffledOptions.forEach(opt => {
+    q.o.forEach(opt => {
         const b = document.createElement('button');
-        b.className = 'opt-btn'; 
-        b.innerText = opt;
-        b.onclick = () => { reveal(opt); };
+        b.className = 'opt-btn'; b.innerText = opt;
+        b.onclick = () => reveal(opt);
         cont.appendChild(b);
     });
     startTimer();
 }
 
-function reveal(selected) {
+function reveal(sel) {
     clearInterval(timer);
-    if(selected === questions[idx].a) score++;
-    
-    document.querySelectorAll('.opt-btn').forEach(b => {
-        b.disabled = true;
-        if(b.innerText === questions[idx].a) b.classList.add('correct');
-        else if(selected && b.innerText === selected) b.classList.add('wrong');
-    });
-    document.getElementById('rationale').innerText = questions[idx].r;
+    if(sel === questions[idx].a) score++;
     document.getElementById('feedback').style.display = 'block';
+    document.getElementById('rationale').innerText = questions[idx].r;
 }
-
 function nextQ() { idx++; load(); }
-
 load();
 </script>
 </body>
