@@ -2,33 +2,66 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Audi Twin Cup - Master Expert (200 Q)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audi Twin Cup - Ultimate Training (190 Q)</title>
     <style>
         :root { --audi-red: #f1052d; --bg: #0b0b0b; --panel: #1a1a1a; --text: #e5e5e5; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
-        .card { background: var(--panel); padding: 30px; border-radius: 12px; border-top: 6px solid var(--audi-red); width: 100%; max-width: 800px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .q-text { font-size: 1.3rem; margin: 20px 0; font-weight: 600; }
-        .opt-btn { display: block; width: 100%; background: #2a2a2a; color: white; border: 1px solid #444; padding: 15px; margin-bottom: 10px; cursor: pointer; border-radius: 6px; transition: 0.3s; }
-        .opt-btn:hover:not(:disabled) { background: var(--audi-red); }
-        .correct { background: #1b5e20 !important; border-color: #4caf50 !important; }
-        .wrong { background: #b71c1c !important; border-color: #f44336 !important; }
-        .next-btn { background: #444; color: white; border: none; padding: 15px 30px; cursor: pointer; border-radius: 6px; width: 100%; margin-top: 20px; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 850px; }
+        .card { background: var(--panel); padding: 25px; border-radius: 8px; border-top: 5px solid var(--audi-red); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+        .timer-box { font-size: 1.5rem; font-weight: bold; color: var(--audi-red); border: 2px solid var(--audi-red); border-radius: 50%; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; }
+        .q-text { font-size: 1.2rem; margin: 20px 0; line-height: 1.5; min-height: 80px; font-weight: 500; color: #fff; }
+        .tag { font-weight: bold; font-size: 0.8rem; margin-bottom: 5px; display: inline-block; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; margin-right: 5px; }
+        .tag-visual { background: #00a3ff; color: white; }
+        .tag-expert { background: #ff8c00; color: white; }
+        .options { display: grid; gap: 12px; }
+        .opt-btn { background: #262626; border: 1px solid #3d3d3d; color: white; padding: 18px; text-align: left; cursor: pointer; transition: 0.2s; font-size: 1rem; border-radius: 4px; }
+        .opt-btn:hover:not(:disabled) { border-color: var(--audi-red); background: #333; }
+        .correct { background: #28a745 !important; border-color: #28a745 !important; }
+        .wrong { background: #dc3545 !important; border-color: #dc3545 !important; }
+        #feedback { margin-top: 25px; padding: 20px; background: #000; border-left: 4px solid var(--audi-red); display: none; }
+        .next-btn { background: var(--audi-red); color: white; border: none; padding: 15px; margin-top: 15px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase; border-radius: 4px; }
+        .progress-bar { height: 6px; background: #333; width: 100%; margin-top: 10px; border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--audi-red); width: 0%; transition: 0.4s; }
     </style>
 </head>
 <body>
 
-<div class="card" id="quiz">
-    <div id="q-number" style="color: var(--audi-red); font-weight: bold;"></div>
-    <div class="q-text" id="q-text"></div>
-    <div id="options"></div>
-    <div id="feedback" style="display:none; padding: 15px; background: #000; margin-top: 20px; border-radius: 5px;">
-        <div id="rationale" style="margin-bottom: 10px;"></div>
-        <button class="next-btn" onclick="nextQ()">Question Suivante</button>
+<div class="container">
+    <div class="card">
+        <div class="header">
+            <div>
+                <strong style="letter-spacing: 1px; font-size: 1.2rem;">AUDI TWIN CUP 2026</strong>
+                <div style="font-size: 0.8rem; color: #888; text-transform: uppercase;">Simulateur Expert : 190 Questions</div>
+                <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+            </div>
+            <div class="timer-box" id="timer">30</div>
+        </div>
+
+        <div id="quiz-ui">
+            <div id="q-number" style="color: var(--audi-red); font-weight: bold; font-family: monospace;">QUESTION 1/30</div>
+            <div id="q-container">
+                <div class="q-text" id="q-text">Chargement...</div>
+            </div>
+            <div class="options" id="options"></div>
+
+            <div id="feedback">
+                <div id="result-title" style="font-weight: bold; margin-bottom: 5px;"></div>
+                <div id="rationale" style="font-size: 0.95rem; color: #bbb; line-height: 1.4;"></div>
+                <button class="next-btn" onclick="nextQuestion()">Question Suivante</button>
+            </div>
+        </div>
+        
+        <div id="final-screen" style="display:none; text-align: center; padding: 40px 0;">
+            <h2 style="font-size: 2.5rem; color: var(--audi-red);">SESSION TERMINÉE</h2>
+            <div id="final-score" style="font-size: 1.5rem; margin: 20px 0;"></div>
+            <button class="next-btn" onclick="location.reload()">Nouvelle session (30 Q aléatoires)</button>
+        </div>
     </div>
 </div>
 
 <script>
-// Ta base de données
 const allQuestions = [
     // --- MODULE 1 : HERITAGE (30 questions de base) ---
     { q: "En quelle année la marque Audi a-t-elle été déposée par August Horch ?", o: ["1909", "1899", "1932", "1945"], a: "1909", r: "Après un différend juridique, il a utilisé la traduction latine de son nom 'Horch' (Écoute)." },
@@ -220,56 +253,114 @@ const allQuestions = [
     { q: "Avantage freins PSCB (carbure tungstène) ?", o: ["-90% poussière / Pas de rouille", "Couleur verte", "Moins cher", "Poids plume"], a: "-90% poussière / Pas de rouille", r: "Intermédiaire idéal acier/céramique.", e: true },
     { q: "Traitement chemises cylindres 5 cyl Alu ?", o: ["Revêtement Plasma", "Chrome", "Acier", "Aucun"], a: "Revêtement Plasma", r: "Réduit poids et frottements.", e: true },
     { q: "3 réglages R8 Performance Mode ?", o: ["Snow, Wet, Dry", "Eco, Norm, Sport", "City, Road, Race", "Auto, On, Off"], a: "Snow, Wet, Dry", r: "Grip optimal selon conditions météo.", e: true },
-    { q: "Équipement sécurité commun R8 LMS / RS 3 LMS ?", o: ["Trappe de secours au toit", "Siège cuir", "ABS", "Clim"], a: "Trappe de secours au toit", r: "Permet l'extraction verticale du pilote.", e: true },
-	// [Ajout des 10 nouvelles questions "Très Hard"]
-    { q: "Sur une e-tron, pourquoi le refroidissement liquide batterie est-il vital en charge DC rapide ?", o: ["Pour maintenir la chimie < 35°C", "Pour augmenter le courant", "Pour alimenter l'habitacle", "Pour réduire la puissance de calcul"], a: "Pour maintenir la chimie < 35°C", r: "Le refroidissement est critique pour la durée de vie des cellules." },
-    { q: "Pourquoi le 'Hot V' sur 4.0 TFSI ?", o: ["Réduire distance échappement/turbine", "Refroidir par air", "Diminuer poids", "Injection eau"], a: "Réduire distance échappement/turbine", r: "Réduit la latence (turbo lag) au minimum." },
-    { q: "Comment le RS Torque Splitter vectorise-t-il ?", o: ["2 embrayages multidisques indépendants", "Freinage roue seule", "Rapport démultiplication variable", "Moteurs électriques"], a: "2 embrayages multidisques indépendants", r: "Gestion mécanique active par côté." },
-    { q: "Angle braquage roues arrière Q7 ?", o: ["5 degrés", "15 degrés", "1 degré", "45 degrés"], a: "5 degrés", r: "Optimise agilité et stabilité." },
-    { q: "Avantage moteur ASM avant sur Q4 e-tron ?", o: ["Zéro résistance magnétique à l'arrêt", "Moins cher", "Refroidissement air", "Plus puissant"], a: "Zéro résistance magnétique à l'arrêt", r: "Élimine la traînée électrique." },
-    { q: "Usure freins PSCB (Carbure) vs Acier ?", o: ["-90% poussière", "Montée en temp lente", "Plaquettes métal pur", "Aucun refroidissement"], a: "-90% poussière", r: "Surface polie très durable." },
-    { q: "Interaction Matrix LED / Caméra ?", o: ["Identification et extinction précise", "Variation globale", "GPS", "Infrarouge"], a: "Identification et extinction précise", r: "Analyse en temps réel des sources lumineuses." },
-    { q: "Régénération hybride TFSI e ?", o: ["Moteur élec = générateur", "Moteur thermique entraîné", "Disques chauffent", "Échappement injecte air"], a: "Moteur élec = générateur", r: "Convertit cinétique en électricité." },
-    { q: "Pre Sense et choc piéton inévitable ?", o: ["Préparation sécurité + freinage auto", "Klaxon", "Airbags directs", "Dérapage"], a: "Préparation sécurité + freinage auto", r: "Système préventif avant impact." },
-    { q: "Rôle Gateway MAJ OTA (Architecture E³ 1.2) ?", o: ["Centralise distribution paquets données", "Vitesse 5G", "Stockage logiciel", "Désactive moteur"], a: "Centralise distribution paquets données", r: "Orchestre la mise à jour des calculateurs." }
+    { q: "Équipement sécurité commun R8 LMS / RS 3 LMS ?", o: ["Trappe de secours au toit", "Siège cuir", "ABS", "Clim"], a: "Trappe de secours au toit", r: "Permet l'extraction verticale du pilote.", e: true }
 ];
 
-// Correction : utilisation de la variable correcte (allQuestions)
-let idx = 0, score = 0;
-const pool = allQuestions.sort(() => Math.random() - 0.5);
+let selectedQuestions = [];
+let currentIdx = 0;
+let score = 0;
+let timeLeft = 30;
+let timerId = null;
 
-function load() {
-    if (idx >= pool.length) {
-        document.getElementById('quiz').innerHTML = `<h2>Quiz terminé !</h2><p>Score final : ${score}/${pool.length}</p>`;
-        return;
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
-    const q = pool[idx];
-    document.getElementById('q-number').innerText = `QUESTION ${idx + 1}/${pool.length}`;
-    document.getElementById('q-text').innerText = q.q;
-    const cont = document.getElementById('options'); 
-    cont.innerHTML = '';
-    q.o.forEach(opt => {
-        const b = document.createElement('button');
-        b.className = 'opt-btn'; 
-        b.innerText = opt;
-        b.onclick = () => reveal(opt, b);
-        cont.appendChild(b);
-    });
-    document.getElementById('feedback').style.display = 'none';
+    return array;
 }
 
-function reveal(opt, btn) {
-    const q = pool[idx];
-    document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
-    if(opt === q.a) { btn.classList.add('correct'); score++; }
-    else { btn.classList.add('wrong'); }
+function initQuiz() {
+    const shuffledPool = shuffle([...allQuestions]);
+    selectedQuestions = shuffledPool.slice(0, 30);
+    selectedQuestions.forEach(q => q.o = shuffle([...q.o]));
+    loadQuestion();
+}
+
+function startTimer() {
+    clearInterval(timerId);
+    timeLeft = 30;
+    document.getElementById('timer').innerText = timeLeft;
+    document.getElementById('timer').style.color = "var(--audi-red)";
+    
+    timerId = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').innerText = timeLeft;
+        if(timeLeft <= 5) document.getElementById('timer').style.color = "orange";
+        if(timeLeft <= 0) {
+            clearInterval(timerId);
+            checkAnswer(null);
+        }
+    }, 1000);
+}
+
+function loadQuestion() {
+    const q = selectedQuestions[currentIdx];
+    document.getElementById('feedback').style.display = 'none';
+    document.getElementById('progress').style.width = `${(currentIdx / 30) * 100}%`;
+    document.getElementById('q-number').innerText = `QUESTION ${currentIdx + 1}/30`;
+    
+    let tagsHTML = '';
+    if(q.v) tagsHTML += `<span class="tag tag-visual">Analyse Visuelle</span>`;
+    if(q.e) tagsHTML += `<span class="tag tag-expert">Expert</span>`;
+    
+    document.getElementById('q-text').innerHTML = tagsHTML + `<div>${q.q}</div>`;
+    
+    const optCont = document.getElementById('options');
+    optCont.innerHTML = '';
+    
+    q.o.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(opt);
+        optCont.appendChild(btn);
+    });
+    
+    startTimer();
+}
+
+function checkAnswer(selected) {
+    clearInterval(timerId);
+    const q = selectedQuestions[currentIdx];
+    const btns = document.querySelectorAll('.opt-btn');
+    
+    btns.forEach(b => {
+        b.disabled = true;
+        if(b.innerText === q.a) b.classList.add('correct');
+        if(selected && b.innerText === selected && selected !== q.a) b.classList.add('wrong');
+    });
+
+    const resTitle = document.getElementById('result-title');
+    if(selected === q.a) {
+        score++;
+        resTitle.innerText = "SUCCÈS : DIAGNOSTIC CORRECT";
+        resTitle.style.color = "#28a745";
+    } else {
+        resTitle.innerText = selected === null ? "TEMPS ÉCOULÉ" : "ERREUR DE RÉFÉRENCE";
+        resTitle.style.color = "#dc3545";
+    }
+
     document.getElementById('rationale').innerText = q.r;
     document.getElementById('feedback').style.display = 'block';
 }
 
-function nextQ() { idx++; load(); }
+function nextQuestion() {
+    currentIdx++;
+    if(currentIdx < 30) loadQuestion();
+    else showFinal();
+}
 
-load();
+function showFinal() {
+    document.getElementById('quiz-ui').style.display = 'none';
+    const final = document.getElementById('final-screen');
+    final.style.display = 'block';
+    
+    let rank = score >= 28 ? "MAÎTRE TECHNIQUE AUDI" : score >= 22 ? "EXPERT RÉSEAU" : "COLLABORATEUR SERVICE";
+    document.getElementById('final-score').innerHTML = `Score Final : <strong>${score}/30</strong><br><small>Rang obtenu : ${rank}</small>`;
+}
+
+window.onload = initQuiz;
 </script>
 </body>
 </html>
