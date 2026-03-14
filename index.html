@@ -137,7 +137,8 @@ function startTimer() {
 }
 
 function load() {
-    if (idx >= questions.length) {
+    // MODIFICATION ICI : on limite à 30 au lieu de la longueur totale
+    if (idx >= 30) { 
         clearInterval(timer);
         document.getElementById('quiz-content').style.display = 'none';
         document.getElementById('timer-text').style.display = 'none';
