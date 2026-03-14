@@ -33,6 +33,7 @@
 </div>
 
 <script>
+// Tableau complet avec fermeture propre
 const allQuestions = [
     // --- MODULE 1 : HERITAGE (30 questions de base) ---
     { q: "En quelle année la marque Audi a-t-elle été déposée par August Horch ?", o: ["1909", "1899", "1932", "1945"], a: "1909", r: "Après un différend juridique, il a utilisé la traduction latine de son nom 'Horch' (Écoute)." },
@@ -236,68 +237,71 @@ const allQuestions = [
     { q: "Régénération hybride TFSI e ?", o: ["Moteur élec = générateur", "Moteur thermique entraîné", "Disques chauffent", "Échappement injecte air"], a: "Moteur élec = générateur", r: "Convertit cinétique en électricité." },
     { q: "Pre Sense et choc piéton inévitable ?", o: ["Préparation sécurité + freinage auto", "Klaxon", "Airbags directs", "Dérapage"], a: "Préparation sécurité + freinage auto", r: "Système préventif avant impact." },
     { q: "Rôle Gateway MAJ OTA (Architecture E³ 1.2) ?", o: ["Centralise distribution paquets données", "Vitesse 5G", "Stockage logiciel", "Désactive moteur"], a: "Centralise distribution paquets données", r: "Orchestre la mise à jour des calculateurs." },
-  {"q": "Quelle est la tension nominale de l'architecture PPE (Q6 e-tron) ?", "o": ["400V", "800V", "48V", "12V"], "a": "800V", "r": "L'architecture 800V permet une charge ultra-rapide et réduit les pertes par effet Joule. "},
-  {"q": "Sur le moteur V8 4.0 TFSI, quel est le bénéfice du 'Hot V' ?", "o": ["Refroidissement accru", "Réduction du turbo lag", "Poids réduit", "Meilleure lubrification"], "a": "Réduction du turbo lag", "r": "Le placement des turbos au centre du V réduit la distance des gaz d'échappement."},
-  {"q": "Quel est le rôle du système Torque Splitter sur RS3 ?", "o": ["Gestion suspension", "Vectorisation active du couple", "Freinage d'urgence", "Économie carburant"], "a": "Vectorisation active du couple", "r": "Il remplace le différentiel arrière classique pour une agilité accrue. "},
-  {"q": "Que permet le système de direction intégrale ?", "o": ["Réduction rayon de braquage", "Vitesse max accrue", "Meilleur freinage", "Réduction conso"], "a": "Réduction rayon de braquage", "r": "Les roues arrière braquent dans le sens opposé à basse vitesse."},
-  {"q": "Sur le moteur 5 cylindres 2.5 TFSI, quel est l'ordre d'allumage ?", "o": ["1-2-4-5-3", "1-3-5-2-4", "1-5-3-2-4", "1-2-3-4-5"], "a": "1-2-4-5-3", "r": "Cet ordre spécifique génère la signature sonore unique."},
-  {"q": "Comment fonctionne le mode 'Coasting' sur une boîte S tronic ?", "o": ["Débrayage total", "Moteur coupé", "Freinage moteur", "Vitesse réduite"], "a": "Débrayage total", "r": "La transmission est découplée pour réduire la traînée mécanique."},
-  {"q": "Quelle est la fonction principale d'un catalyseur SCR ?", "o": ["Filtrer particules", "Réduire NOx avec AdBlue", "Augmenter puissance", "Refroidir gaz"], "a": "Réduire NOx avec AdBlue", "r": "La réaction chimique transforme les NOx en azote et eau. "},
-  {"q": "Pourquoi utiliser de l'aluminium en châssis (ASF) ?", "o": ["Poids réduit", "Coût réduit", "Flexibilité", "Facilité peinture"], "a": "Poids réduit", "r": "L'aluminium permet un excellent ratio rigidité/poids."},
-  {"q": "Qu'est-ce que le 'Blended Braking' ?", "o": ["Mélange essence/élec", "Freinage élec/hydraulique", "Freinage ABS/ESP", "Freinage avant/arrière"], "a": "Freinage élec/hydraulique", "r": "Combinaison de la régénération électrique et des freins mécaniques."},
-  {"q": "Que signifie la technologie 'Matrix LED' ?", "o": ["Allumage par segments", "Intensité variable", "Couleur changeante", "Auto-nettoyage"], "a": "Allumage par segments", "r": "Permet d'éteindre des segments précis pour ne pas éblouir. "},
-  {"q": "Comment le Quattro Ultra détecte-t-il le besoin en motricité ?", "o": ["Capteurs roues", "Capteurs angle volant", "Capteurs accélération", "Tous les précédents"], "a": "Tous les précédents", "r": "Le système anticipe le besoin en analysant 100 fois par seconde."},
-  {"q": "Pourquoi le refroidissement batterie PPE est-il dit 'intégré' ?", "o": ["Refroidissement liquide commun", "Refroidissement air", "Refroidissement passif", "Pas de refroidissement"], "a": "Refroidissement liquide commun", "r": "Optimise les échanges thermiques pour toute la chaîne de traction."},
-  {"q": "Quel type de rotor est utilisé sur les moteurs PSM Audi ?", "o": ["Aimants permanents", "Bobinage induit", "Cage d'écureuil", "Rotor à griffes"], "a": "Aimants permanents", "r": "Assure une densité de puissance élevée."},
-  {"q": "Qu'est-ce qu'une pompe à chaleur dans un VE ?", "o": ["Chauffe le moteur", "Récupère calories ambiantes", "Refroidit la batterie", "Rien"], "a": "Récupère calories ambiantes", "r": "Améliore drastiquement l'autonomie en hiver."},
-  {"q": "Quelle est la plage de fréquence du Lidar A8 ?", "o": ["Infrarouge", "Ultra-violet", "Radio", "Visible"], "a": "Infrarouge", "r": "Permet de cartographier l'environnement 3D précisément."},
-  {"q": "Quelle est l'utilité des clapets d'échappement (RS) ?", "o": ["Réduire bruit", "Gestion contre-pression", "Esthétique", "Refroidissement"], "a": "Gestion contre-pression", "r": "Optimise la dynamique des gaz selon le régime."},
-  {"q": "Sur le Q8 e-tron, qu'est-ce qu'une caméra de rétrovision ?", "o": ["Remplace rétro physique", "Caméra recul", "Caméra 360", "Dashcam"], "a": "Remplace rétro physique", "r": "Améliore le coefficient de traînée (Cx)."},
-  {"q": "Pourquoi utiliser une boîte à double embrayage ?", "o": ["Pas de coupure de couple", "Poids", "Prix", "Compacité"], "a": "Pas de coupure de couple", "r": "Le rapport suivant est déjà pré-engagé."},
-  {"q": "Qu'est-ce que le 'Launch Control' ?", "o": ["Aide démarrage rapide", "Aide stationnement", "Freinage auto", "Mode confort"], "a": "Aide démarrage rapide", "r": "Optimise le couple et le patinage au départ arrêté."},
-  {"q": "Quel est le but des Air Curtains ?", "o": ["Réduire turbulences roues", "Refroidir freins", "Style", "Refroidir moteur"], "a": "Réduire turbulences roues", "r": "Lissent le flux d'air sur les flancs. "},
-  {"q": "Que régule le système E³ (E-cubed) ?", "o": ["Architecture électronique", "Freinage", "Suspension", "Moteur"], "a": "Architecture électronique", "r": "Le cerveau central de gestion des données du véhicule."},
-  {"q": "Quelle est la différence entre un moteur asynchrone et synchrone ?", "o": ["Glissement", "Tension", "Poids", "Prix"], "a": "Glissement", "r": "L'asynchrone a un glissement de fréquence entre stator et rotor."},
-  {"q": "Rôle du pré-conditionnement batterie ?", "o": ["Charge plus rapide", "Plus d'autonomie", "Moins de poids", "Plus de puissance"], "a": "Charge plus rapide", "r": "Amène la batterie à sa température optimale avant charge."},
-  {"q": "Que protège le Pre Sense ?", "o": ["Occupants et piétons", "Moteur", "Batterie", "Carrosserie"], "a": "Occupants et piétons", "r": "Système de sécurité active préventif."},
-  {"q": "Qu'est-ce qu'une structure Space Frame ?", "o": ["Châssis aluminium", "Châssis acier", "Carrosserie carbone", "Moteur central"], "a": "Châssis aluminium", "r": "Structure porteuse en aluminium."},
-  {"q": "Qu'est-ce qu'un onduleur biphasé ?", "o": ["Inexistant en VE Audi", "Charge rapide", "Freinage", "Chauffage"], "a": "Inexistant en VE Audi", "r": "Audi utilise le triphasé pour la traction."},
-  {"q": "Quelle est la fonction d'une vanne EGR ?", "o": ["Recirculation gaz", "Filtre air", "Refroidissement", "Injection"], "a": "Recirculation gaz", "r": "Réduit les NOx en réinjectant des gaz brûlés."},
-  {"q": "Qu'est-ce qu'une suspension active ?", "o": ["Réglage dureté auto", "Hauteur fixe", "Ressorts acier", "Amortisseur seul"], "a": "Réglage dureté auto", "r": "Modifie les caractéristiques en temps réel."},
-  {"q": "Rôle du différentiel Torsen ?", "o": ["Auto-bloquant mécanique", "Direction", "Freinage", "Gestion batterie"], "a": "Auto-bloquant mécanique", "r": "Répartit le couple selon l'adhérence mécaniquement."},
-  {"q": "Qu'est-ce que le système MMI ?", "o": ["Interface homme-machine", "Moteur", "Boîte", "Transmission"], "a": "Interface homme-machine", "r": "Système de contrôle des fonctions infotainment."},
-  {"q": "Pourquoi les freins carbone-céramique sont-ils supérieurs ?", "o": ["Résistance chaleur", "Poids", "Prix", "Look"], "a": "Résistance chaleur", "r": "Ils ne subissent pas de fading à haute température. "},
-  {"q": "Quelle est la fonction de l'alternateur-démarreur (RSG) ?", "o": ["Mild-hybrid", "Démarrage", "Recharge", "Refroidissement"], "a": "Mild-hybrid", "r": "Récupère l'énergie et assiste le moteur."},
-  {"q": "Quelle est la température idéale de fonctionnement d'une batterie haute tension ?", "o": ["20-35°C", "0-10°C", "80-100°C", "50-60°C"], "a": "20-35°C", "r": "Plage de rendement électrochimique optimal."},
-  {"q": "Qu'est-ce que l'injection directe ?", "o": ["Essence dans cylindre", "Essence dans admission", "Diesel admission", "Air dans cylindre"], "a": "Essence dans cylindre", "r": "Pulvérisation haute pression directe."},
-  {"q": "Rôle du turbo-compresseur ?", "o": ["Comprimer air", "Refroidir", "Filtrer", "Échapper"], "a": "Comprimer air", "r": "Augmente la densité d'air à l'admission."},
-  {"q": "Qu'est-ce qu'un véhicule hybride rechargeable ?", "o": ["Batterie + Moteur thermique", "Essence seule", "Diesel seul", "Élec seule"], "a": "Batterie + Moteur thermique", "r": "Possède deux modes d'énergie distincts."},
-  {"q": "Comment fonctionne le système Audi Drive Select ?", "o": ["Modifie cartographie moteur/boîte", "Modifie couleur", "Modifie sono", "Rien"], "a": "Modifie cartographie moteur/boîte", "r": "Adapte les paramètres dynamiques."},
-  {"q": "Quel est l'avantage du 5 cylindres ?", "o": ["Compacité + puissance", "Poids", "Économie", "Refroidissement"], "a": "Compacité + puissance", "r": "Très bonne densité de puissance."},
-  {"q": "Qu'est-ce que le système e-tron Route Planner ?", "o": ["Planificateur trajet élec", "GPS classique", "Boussole", "Radio"], "a": "Planificateur trajet élec", "r": "Optimise les arrêts de recharge sur le parcours."},
-  {"q": "Qu'est-ce qu'un catalyseur ?", "o": ["Réduit émissions polluantes", "Boost moteur", "Filtre huile", "Gestion boite"], "a": "Réduit émissions polluantes", "r": "Transformation chimique des gaz."},
-  {"q": "Rôle du capteur de cliquetis ?", "o": ["Détection pré-allumage", "Détection fuite", "Niveau huile", "Température"], "a": "Détection pré-allumage", "r": "Protège le moteur contre la destruction."},
-  {"q": "Qu'est-ce qu'une injection stratifiée ?", "o": ["Combustion optimisée", "Injection directe", "Injection diesel", "Injection admission"], "a": "Combustion optimisée", "r": "Mélange pauvre en conditions de faible charge."},
-  {"q": "Utilité de la carrosserie en carbone ?", "o": ["Poids / rigidité", "Coût", "Style", "Refroidissement"], "a": "Poids / rigidité", "r": "Matériau de choix pour les performances."},
-  {"q": "Rôle du système AdBlue ?", "o": ["Neutralisation NOx", "Boost Diesel", "Filtre air", "Refroidissement"], "a": "Neutralisation NOx", "r": "Réduction catalytique sélective."},
-  {"q": "Qu'est-ce qu'un différentiel à glissement limité ?", "o": ["Équilibre couple roues", "Freinage", "Direction", "Suspension"], "a": "Équilibre couple roues", "r": "Évite le patinage d'une roue."],
-  {"q": "Rôle de l'huile moteur ?", "o": ["Lubrification / Refroidissement", "Combustion", "Allumage", "Filtre"], "a": "Lubrification / Refroidissement", "r": "Élément vital pour la durée de vie moteur."},
-  {"q": "Qu'est-ce qu'un volant moteur bi-masse ?", "o": ["Absorbe vibrations", "Aide démarrage", "Boost puissance", "Refroidissement"], "a": "Absorbe vibrations", "r": "Filtre les acyclismes du moteur."},
-  {"q": "Avantage de l'injection directe haute pression ?", "o": ["Efficacité combustion", "Puissance seule", "Silence", "Prix"], "a": "Efficacité combustion", "r": "Meilleure pulvérisation du carburant."},
-  {"q": "Qu'est-ce que le système 'Audi virtual cockpit' ?", "o": ["Combiné d'instruments numérique", "Écran multimédia", "Écran tête haute", "Tablette"], "a": "Combiné d'instruments numérique", "r": "Affichage personnalisable derrière le volant."},
-  {"q": "Comment fonctionne le système Start/Stop ?", "o": ["Coupure automatique à l'arrêt", "Freinage", "Accélération", "Direction"], "a": "Coupure automatique à l'arrêt", "r": "Réduit la consommation en ville."}
+  { q: "Quelle est la tension nominale de l'architecture PPE (Q6 e-tron) ?", "o": ["400V", "800V", "48V", "12V"], "a": "800V", "r": "L'architecture 800V permet une charge ultra-rapide et réduit les pertes par effet Joule. "},
+  { q: "Sur le moteur V8 4.0 TFSI, quel est le bénéfice du 'Hot V' ?", "o": ["Refroidissement accru", "Réduction du turbo lag", "Poids réduit", "Meilleure lubrification"], "a": "Réduction du turbo lag", "r": "Le placement des turbos au centre du V réduit la distance des gaz d'échappement."},
+  { q: "Quel est le rôle du système Torque Splitter sur RS3 ?", "o": ["Gestion suspension", "Vectorisation active du couple", "Freinage d'urgence", "Économie carburant"], "a": "Vectorisation active du couple", "r": "Il remplace le différentiel arrière classique pour une agilité accrue. "},
+  { q: "Que permet le système de direction intégrale ?", "o": ["Réduction rayon de braquage", "Vitesse max accrue", "Meilleur freinage", "Réduction conso"], "a": "Réduction rayon de braquage", "r": "Les roues arrière braquent dans le sens opposé à basse vitesse."},
+  { q: "Sur le moteur 5 cylindres 2.5 TFSI, quel est l'ordre d'allumage ?", "o": ["1-2-4-5-3", "1-3-5-2-4", "1-5-3-2-4", "1-2-3-4-5"], "a": "1-2-4-5-3", "r": "Cet ordre spécifique génère la signature sonore unique."},
+  { q: "Comment fonctionne le mode 'Coasting' sur une boîte S tronic ?", "o": ["Débrayage total", "Moteur coupé", "Freinage moteur", "Vitesse réduite"], "a": "Débrayage total", "r": "La transmission est découplée pour réduire la traînée mécanique."},
+  { q: "Quelle est la fonction principale d'un catalyseur SCR ?", "o": ["Filtrer particules", "Réduire NOx avec AdBlue", "Augmenter puissance", "Refroidir gaz"], "a": "Réduire NOx avec AdBlue", "r": "La réaction chimique transforme les NOx en azote et eau. "},
+  { q: "Pourquoi utiliser de l'aluminium en châssis (ASF) ?", "o": ["Poids réduit", "Coût réduit", "Flexibilité", "Facilité peinture"], "a": "Poids réduit", "r": "L'aluminium permet un excellent ratio rigidité/poids."},
+  { q: "Qu'est-ce que le 'Blended Braking' ?", "o": ["Mélange essence/élec", "Freinage élec/hydraulique", "Freinage ABS/ESP", "Freinage avant/arrière"], "a": "Freinage élec/hydraulique", "r": "Combinaison de la régénération électrique et des freins mécaniques."},
+  { q: "Que signifie la technologie 'Matrix LED' ?", "o": ["Allumage par segments", "Intensité variable", "Couleur changeante", "Auto-nettoyage"], "a": "Allumage par segments", "r": "Permet d'éteindre des segments précis pour ne pas éblouir. "},
+  { q: "Comment le Quattro Ultra détecte-t-il le besoin en motricité ?", "o": ["Capteurs roues", "Capteurs angle volant", "Capteurs accélération", "Tous les précédents"], "a": "Tous les précédents", "r": "Le système anticipe le besoin en analysant 100 fois par seconde."},
+  { q: "Pourquoi le refroidissement batterie PPE est-il dit 'intégré' ?", "o": ["Refroidissement liquide commun", "Refroidissement air", "Refroidissement passif", "Pas de refroidissement"], "a": "Refroidissement liquide commun", "r": "Optimise les échanges thermiques pour toute la chaîne de traction."},
+  { q: "Quel type de rotor est utilisé sur les moteurs PSM Audi ?", "o": ["Aimants permanents", "Bobinage induit", "Cage d'écureuil", "Rotor à griffes"], "a": "Aimants permanents", "r": "Assure une densité de puissance élevée."},
+  { q: "Qu'est-ce qu'une pompe à chaleur dans un VE ?", "o": ["Chauffe le moteur", "Récupère calories ambiantes", "Refroidit la batterie", "Rien"], "a": "Récupère calories ambiantes", "r": "Améliore drastiquement l'autonomie en hiver."},
+  { q: "Quelle est la plage de fréquence du Lidar A8 ?", "o": ["Infrarouge", "Ultra-violet", "Radio", "Visible"], "a": "Infrarouge", "r": "Permet de cartographier l'environnement 3D précisément."},
+  { q: "Quelle est l'utilité des clapets d'échappement (RS) ?", "o": ["Réduire bruit", "Gestion contre-pression", "Esthétique", "Refroidissement"], "a": "Gestion contre-pression", "r": "Optimise la dynamique des gaz selon le régime."},
+  { q: "Sur le Q8 e-tron, qu'est-ce qu'une caméra de rétrovision ?", "o": ["Remplace rétro physique", "Caméra recul", "Caméra 360", "Dashcam"], "a": "Remplace rétro physique", "r": "Améliore le coefficient de traînée (Cx)."},
+  { q: "Pourquoi utiliser une boîte à double embrayage ?", "o": ["Pas de coupure de couple", "Poids", "Prix", "Compacité"], "a": "Pas de coupure de couple", "r": "Le rapport suivant est déjà pré-engagé."},
+  { q: "Qu'est-ce que le 'Launch Control' ?", "o": ["Aide démarrage rapide", "Aide stationnement", "Freinage auto", "Mode confort"], "a": "Aide démarrage rapide", "r": "Optimise le couple et le patinage au départ arrêté."},
+  { q: "Quel est le but des Air Curtains ?", "o": ["Réduire turbulences roues", "Refroidir freins", "Style", "Refroidir moteur"], "a": "Réduire turbulences roues", "r": "Lissent le flux d'air sur les flancs. "},
+  { q: "Que régule le système E³ (E-cubed) ?", "o": ["Architecture électronique", "Freinage", "Suspension", "Moteur"], "a": "Architecture électronique", "r": "Le cerveau central de gestion des données du véhicule."},
+  { q: "Quelle est la différence entre un moteur asynchrone et synchrone ?", "o": ["Glissement", "Tension", "Poids", "Prix"], "a": "Glissement", "r": "L'asynchrone a un glissement de fréquence entre stator et rotor."},
+  { q: "Rôle du pré-conditionnement batterie ?", "o": ["Charge plus rapide", "Plus d'autonomie", "Moins de poids", "Plus de puissance"], "a": "Charge plus rapide", "r": "Amène la batterie à sa température optimale avant charge."},
+  { q: "Que protège le Pre Sense ?", "o": ["Occupants et piétons", "Moteur", "Batterie", "Carrosserie"], "a": "Occupants et piétons", "r": "Système de sécurité active préventif."},
+  { q: "Qu'est-ce qu'une structure Space Frame ?", "o": ["Châssis aluminium", "Châssis acier", "Carrosserie carbone", "Moteur central"], "a": "Châssis aluminium", "r": "Structure porteuse en aluminium."},
+  { q: "Qu'est-ce qu'un onduleur biphasé ?", "o": ["Inexistant en VE Audi", "Charge rapide", "Freinage", "Chauffage"], "a": "Inexistant en VE Audi", "r": "Audi utilise le triphasé pour la traction."},
+  { q: "Quelle est la fonction d'une vanne EGR ?", "o": ["Recirculation gaz", "Filtre air", "Refroidissement", "Injection"], "a": "Recirculation gaz", "r": "Réduit les NOx en réinjectant des gaz brûlés."},
+  { q: "Qu'est-ce qu'une suspension active ?", "o": ["Réglage dureté auto", "Hauteur fixe", "Ressorts acier", "Amortisseur seul"], "a": "Réglage dureté auto", "r": "Modifie les caractéristiques en temps réel."},
+  { q: "Rôle du différentiel Torsen ?", "o": ["Auto-bloquant mécanique", "Direction", "Freinage", "Gestion batterie"], "a": "Auto-bloquant mécanique", "r": "Répartit le couple selon l'adhérence mécaniquement."},
+  { q: "Qu'est-ce que le système MMI ?", "o": ["Interface homme-machine", "Moteur", "Boîte", "Transmission"], "a": "Interface homme-machine", "r": "Système de contrôle des fonctions infotainment."},
+  { q: "Pourquoi les freins carbone-céramique sont-ils supérieurs ?", "o": ["Résistance chaleur", "Poids", "Prix", "Look"], "a": "Résistance chaleur", "r": "Ils ne subissent pas de fading à haute température. "},
+  { q: "Quelle est la fonction de l'alternateur-démarreur (RSG) ?", "o": ["Mild-hybrid", "Démarrage", "Recharge", "Refroidissement"], "a": "Mild-hybrid", "r": "Récupère l'énergie et assiste le moteur."},
+  { q: "Quelle est la température idéale de fonctionnement d'une batterie haute tension ?", "o": ["20-35°C", "0-10°C", "80-100°C", "50-60°C"], "a": "20-35°C", "r": "Plage de rendement électrochimique optimal."},
+  { q: "Qu'est-ce que l'injection directe ?", "o": ["Essence dans cylindre", "Essence dans admission", "Diesel admission", "Air dans cylindre"], "a": "Essence dans cylindre", "r": "Pulvérisation haute pression directe."},
+  { q: "Rôle du turbo-compresseur ?", "o": ["Comprimer air", "Refroidir", "Filtrer", "Échapper"], "a": "Comprimer air", "r": "Augmente la densité d'air à l'admission."},
+  { q: "Qu'est-ce qu'un véhicule hybride rechargeable ?", "o": ["Batterie + Moteur thermique", "Essence seule", "Diesel seul", "Élec seule"], "a": "Batterie + Moteur thermique", "r": "Possède deux modes d'énergie distincts."},
+  { q: "Comment fonctionne le système Audi Drive Select ?", "o": ["Modifie cartographie moteur/boîte", "Modifie couleur", "Modifie sono", "Rien"], "a": "Modifie cartographie moteur/boîte", "r": "Adapte les paramètres dynamiques."},
+  { q: "Quel est l'avantage du 5 cylindres ?", "o": ["Compacité + puissance", "Poids", "Économie", "Refroidissement"], "a": "Compacité + puissance", "r": "Très bonne densité de puissance."},
+  { q: "Qu'est-ce que le système e-tron Route Planner ?", "o": ["Planificateur trajet élec", "GPS classique", "Boussole", "Radio"], "a": "Planificateur trajet élec", "r": "Optimise les arrêts de recharge sur le parcours."},
+  { q: "Qu'est-ce qu'un catalyseur ?", "o": ["Réduit émissions polluantes", "Boost moteur", "Filtre huile", "Gestion boite"], "a": "Réduit émissions polluantes", "r": "Transformation chimique des gaz."},
+  { q: "Rôle du capteur de cliquetis ?", "o": ["Détection pré-allumage", "Détection fuite", "Niveau huile", "Température"], "a": "Détection pré-allumage", "r": "Protège le moteur contre la destruction."},
+  { q: "Qu'est-ce qu'une injection stratifiée ?", "o": ["Combustion optimisée", "Injection directe", "Injection diesel", "Injection admission"], "a": "Combustion optimisée", "r": "Mélange pauvre en conditions de faible charge."},
+  { q: "Utilité de la carrosserie en carbone ?", "o": ["Poids / rigidité", "Coût", "Style", "Refroidissement"], "a": "Poids / rigidité", "r": "Matériau de choix pour les performances."},
+  { q: "Rôle du système AdBlue ?", "o": ["Neutralisation NOx", "Boost Diesel", "Filtre air", "Refroidissement"], "a": "Neutralisation NOx", "r": "Réduction catalytique sélective."},
+  { q: "Qu'est-ce qu'un différentiel à glissement limité ?", "o": ["Équilibre couple roues", "Freinage", "Direction", "Suspension"], "a": "Équilibre couple roues", "r": "Évite le patinage d'une roue."],
+  { q: "Rôle de l'huile moteur ?", "o": ["Lubrification / Refroidissement", "Combustion", "Allumage", "Filtre"], "a": "Lubrification / Refroidissement", "r": "Élément vital pour la durée de vie moteur."},
+  { q: "Qu'est-ce qu'un volant moteur bi-masse ?", "o": ["Absorbe vibrations", "Aide démarrage", "Boost puissance", "Refroidissement"], "a": "Absorbe vibrations", "r": "Filtre les acyclismes du moteur."},
+  { q: "Avantage de l'injection directe haute pression ?", "o": ["Efficacité combustion", "Puissance seule", "Silence", "Prix"], "a": "Efficacité combustion", "r": "Meilleure pulvérisation du carburant."},
+  { q: "Qu'est-ce que le système 'Audi virtual cockpit' ?", "o": ["Combiné d'instruments numérique", "Écran multimédia", "Écran tête haute", "Tablette"], "a": "Combiné d'instruments numérique", "r": "Affichage personnalisable derrière le volant."},
+  { q: "Comment fonctionne le système Start/Stop ?", "o": ["Coupure automatique à l'arrêt", "Freinage", "Accélération", "Direction"], "a": "Coupure automatique à l'arrêt", "r": "Réduit la consommation en ville."}
 ];
 
 let idx = 0;
 
 function load() {
+    if(idx >= allQuestions.length) { alert("Quiz terminé !"); idx = 0; }
     const q = allQuestions[idx];
     document.getElementById('q-text').innerText = q.q;
     document.getElementById('q-count').innerText = `Question ${idx + 1}/${allQuestions.length}`;
-    const cont = document.getElementById('options'); cont.innerHTML = '';
+    const cont = document.getElementById('options'); 
+    cont.innerHTML = '';
     q.o.forEach(opt => {
         const b = document.createElement('button');
-        b.className = 'opt-btn'; b.innerText = opt;
+        b.className = 'opt-btn'; 
+        b.innerText = opt;
         b.onclick = () => reveal(opt, b);
         cont.appendChild(b);
     });
@@ -314,8 +318,7 @@ function reveal(opt, btn) {
 
 function nextQuestion() {
     idx++;
-    if(idx < allQuestions.length) load();
-    else { alert("Quiz terminé !"); idx = 0; load(); }
+    load();
 }
 
 load();
