@@ -144,11 +144,22 @@ function load() {
 
 function reveal(selected, btn) {
     const q = questions[idx];
+    clearInterval(timer); // Arrête le chrono dès qu'on clique
+
     document.querySelectorAll('.opt-btn').forEach(b => {
-        b.disabled = true;
-        if(b.innerText === q.a) b.classList.add('correct');
-        else if(selected && b.innerText === selected) b.classList.add('wrong');
+        b.disabled = true; // Verrouille tous les choix
+        
+        // 1. La bonne réponse est TOUJOURS mise en vert
+        if(b.innerText === q.a) {
+            b.classList.add('correct');
+        } 
+        // 2. Si le clic était faux, on met l'erreur en rouge
+        else if(selected && b.innerText === selected) {
+            b.classList.add('wrong');
+        }
     });
+
+    // 3. Affiche l'explication technique et le bouton suivant
     document.getElementById('rationale').innerText = q.r;
     document.getElementById('feedback').style.display = 'block';
 }
