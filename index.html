@@ -2,378 +2,77 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audi Twin Cup - Ultimate Training (190 Q)</title>
+    <title>Audi Twin Cup - Master Expert</title>
     <style>
-        :root { --audi-red: #f1052d; --bg: #0b0b0b; --panel: #1a1a1a; --text: #e5e5e5; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 850px; }
-        .card { background: var(--panel); padding: 25px; border-radius: 8px; border-top: 5px solid var(--audi-red); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px; }
-        .timer-box { font-size: 1.5rem; font-weight: bold; color: var(--audi-red); border: 2px solid var(--audi-red); border-radius: 50%; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; }
-        .q-text { font-size: 1.2rem; margin: 20px 0; line-height: 1.5; min-height: 80px; font-weight: 500; color: #fff; }
-        .tag { font-weight: bold; font-size: 0.8rem; margin-bottom: 5px; display: inline-block; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; margin-right: 5px; }
-        .tag-visual { background: #00a3ff; color: white; }
-        .tag-expert { background: #ff8c00; color: white; }
-        .options { display: grid; gap: 12px; }
-        .opt-btn { background: #262626; border: 1px solid #3d3d3d; color: white; padding: 18px; text-align: left; cursor: pointer; transition: 0.2s; font-size: 1rem; border-radius: 4px; }
-        .opt-btn:hover:not(:disabled) { border-color: var(--audi-red); background: #333; }
-        .correct { background: #28a745 !important; border-color: #28a745 !important; }
-        .wrong { background: #dc3545 !important; border-color: #dc3545 !important; }
-        #feedback { margin-top: 25px; padding: 20px; background: #000; border-left: 4px solid var(--audi-red); display: none; }
-        .next-btn { background: var(--audi-red); color: white; border: none; padding: 15px; margin-top: 15px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase; border-radius: 4px; }
-        .progress-bar { height: 6px; background: #333; width: 100%; margin-top: 10px; border-radius: 3px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--audi-red); width: 0%; transition: 0.4s; }
+        body { background: #050505; color: #ccc; font-family: 'Audi Type', Arial, sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .card { background: #111; padding: 40px; border-radius: 4px; border-left: 4px solid #f1052d; width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .q-meta { font-size: 0.8rem; color: #f1052d; text-transform: uppercase; letter-spacing: 2px; }
+        .q-text { font-size: 1.4rem; color: #fff; margin: 20px 0; line-height: 1.5; }
+        .img-container { margin: 20px 0; }
+        .img-container img { max-width: 100%; border: 1px solid #333; }
+        .opt-btn { display: block; width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 15px; margin: 8px 0; cursor: pointer; text-align: left; transition: 0.2s; }
+        .opt-btn:hover:not(:disabled) { border-color: #f1052d; }
+        .correct { background: #0b2e0b !important; border-color: #2e7d32 !important; }
+        .wrong { background: #3e0b0b !important; border-color: #c62828 !important; }
+        #feedback { margin-top: 20px; padding: 20px; background: #0a0a0a; border: 1px solid #222; display: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card">
-        <div class="header">
-            <div>
-                <strong style="letter-spacing: 1px; font-size: 1.2rem;">AUDI TWIN CUP 2026</strong>
-                <div style="font-size: 0.8rem; color: #888; text-transform: uppercase;">Simulateur Expert : 190 Questions</div>
-                <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-            </div>
-            <div class="timer-box" id="timer">30</div>
-        </div>
-
-        <div id="quiz-ui">
-            <div id="q-number" style="color: var(--audi-red); font-weight: bold; font-family: monospace;">QUESTION 1/30</div>
-            <div id="q-container">
-                <div class="q-text" id="q-text">Chargement...</div>
-            </div>
-            <div class="options" id="options"></div>
-
-            <div id="feedback">
-                <div id="result-title" style="font-weight: bold; margin-bottom: 5px;"></div>
-                <div id="rationale" style="font-size: 0.95rem; color: #bbb; line-height: 1.4;"></div>
-                <button class="next-btn" onclick="nextQuestion()">Question Suivante</button>
-            </div>
-        </div>
-        
-        <div id="final-screen" style="display:none; text-align: center; padding: 40px 0;">
-            <h2 style="font-size: 2.5rem; color: var(--audi-red);">SESSION TERMINÉE</h2>
-            <div id="final-score" style="font-size: 1.5rem; margin: 20px 0;"></div>
-            <button class="next-btn" onclick="location.reload()">Nouvelle session (30 Q aléatoires)</button>
-        </div>
+<div class="card">
+    <div id="q-meta" class="q-meta"></div>
+    <div id="q-text" class="q-text"></div>
+    <div id="img-container" class="img-container"></div>
+    <div id="options"></div>
+    <div id="feedback">
+        <p id="rationale"></p>
+        <button onclick="nextQ()" style="padding: 10px 20px; cursor: pointer;">Question suivante</button>
     </div>
 </div>
 
 <script>
-// Ta base de données
-const allQuestions = [
-    // --- MODULE 1 : HERITAGE (30 questions de base) ---
-    { q: "En quelle année la marque Audi a-t-elle été déposée par August Horch ?", o: ["1909", "1899", "1932", "1945"], a: "1909", r: "Après un différend juridique, il a utilisé la traduction latine de son nom 'Horch' (Écoute)." },
-    { q: "Que représentent les quatre anneaux du logo ?", o: ["4 pays", "4 fondateurs", "4 marques fusionnées", "4 types de moteurs"], a: "4 marques fusionnées", r: "Il symbolise l'union d'Audi, DKW, Horch et Wanderer en 1932." },
-    { q: "Quelle marque du groupe était le sommet du luxe absolu avant-guerre ?", o: ["DKW", "Wanderer", "Horch", "NSU"], a: "Horch", r: "Horch produisait des modèles 8 et 12 cylindres rivalisant avec Maybach." },
-    { q: "En quelle année le slogan 'Vorsprung durch Technik' est-il apparu ?", o: ["1960", "1971", "1980", "1994"], a: "1971", r: "Lancé avec l'Audi 80, il définit depuis l'image technologique de la marque." },
-    { q: "Qui a dirigé le développement technique de l'Audi Quattro originale ?", o: ["Walter Röhrl", "Ferdinand Piëch", "August Horch", "Stig Blomqvist"], a: "Ferdinand Piëch", r: "L'ingénieur visionnaire a imposé la transmission intégrale malgré les doutes initiaux." },
-    { q: "Sur quel salon la première Audi Quattro a-t-elle été dévoilée ?", o: ["Francfort", "Genève", "Paris", "Berlin"], a: "Genève", r: "C'était en mars 1980." },
-    { q: "Quel véhicule utilitaire VW a servi de laboratoire pour le système Quattro ?", o: ["Transporter", "Iltis", "Kübelwagen", "Golf"], a: "Iltis", r: "Le franchissement exceptionnel de ce 4x4 militaire a inspiré le projet 264." },
-    { q: "En 1981, quelle femme gagne pour la première fois en Mondial Rallye avec Audi ?", o: ["Pat Moss", "Anne Baverey", "Michèle Mouton", "Jutta Kleinschmidt"], a: "Michèle Mouton", r: "Elle a remporté le Sanremo, prouvant l'efficacité du Quattro." },
-    { q: "Quelle marque a rejoint Audi en 1969 pour former Audi NSU Auto Union AG ?", o: ["BMW", "Porsche", "NSU", "Simca"], a: "NSU", r: "Basée à Neckarsulm, NSU était pionnière du moteur rotatif Wankel." },
-    { q: "Comment appelait-on les monoplaces de Grand Prix Auto Union des années 30 ?", o: ["Requins Bleus", "Flèches d'Argent", "Éclairs Noirs", "Aigles de Fer"], a: "Flèches d'Argent", r: "Surnom partagé avec Mercedes à cause de leur carrosserie en alu nu." },
-    { q: "En 1994, Audi a lancé l'ASF sur l'A8. Que signifie cet acronyme ?", o: ["Audi Super Frame", "Audi Space Frame", "Advanced Safety Frame", "All Street Force"], a: "Audi Space Frame", r: "Structure innovante entièrement en aluminium." },
-    { q: "Quelle est la traduction latine du nom 'Horch' ?", o: ["Lumière", "Écoute", "Force", "Vitesse"], a: "Écoute", r: "August Horch a traduit son nom en latin 'Audi'." },
-    { q: "Dans quelle ville bavaroise se trouve le siège mondial d'Audi ?", o: ["Munich", "Ingolstadt", "Wolfsburg", "Neckarsulm"], a: "Ingolstadt", r: "Siège historique et centre technique." },
-    { q: "Qui a gagné Pikes Peak en 1987 avec l'Audi Sport Quattro S1 ?", o: ["Sébastien Loeb", "Michèle Mouton", "Walter Röhrl", "Hannu Mikkola"], a: "Walter Röhrl", r: "Il a battu le record historique sur la montée mythique." },
-    { q: "Comment s'appelait la filiale performance avant de devenir 'Audi Sport' en 2016 ?", o: ["RS Division", "Quattro GmbH", "Audi Racing", "S-Line"], a: "Quattro GmbH", r: "Créée en 1983 à Neckarsulm." },
-    { q: "L'Audi 100 (1982) avait un Cx record. De combien était-il ?", o: ["0.35", "0.30", "0.25", "0.20"], a: "0.30", r: "Record mondial pour une berline de série à l'époque." },
-    { q: "Quelle vitesse Bernd Rosemeyer a-t-il atteint en 1938 sur autoroute ?", o: ["300 km/h", "350 km/h", "432,7 km/h", "500 km/h"], a: "432,7 km/h", r: "Record de vitesse absolue sur route ouverte." },
-    { q: "Quel groupe a racheté Audi à Daimler-Benz en 1964 ?", o: ["Fiat", "Volkswagen", "Ford", "General Motors"], a: "Volkswagen", r: "Ce rachat a marqué le début de l'ère moderne." },
-    { q: "Le modèle 'Audi V8' (1988) visait quel segment ?", o: ["Compact", "SUV", "Luxe / Prestige", "Utilitaire"], a: "Luxe / Prestige", r: "Ancêtre de l'A8 actuelle." },
-    { q: "Quelle innovation moteur Auto Union utilisait en GP dès 1934 ?", o: ["Traction avant", "Moteur central arrière", "Hybride", "Diesel"], a: "Moteur central arrière", r: "Configuration révolutionnaire pour l'équilibre des masses." },
-    { q: "D'où vient le nom 'Neckarsulm' ?", o: ["Deux rivières", "Un fondateur", "Une montagne", "Un château"], a: "Deux rivières", r: "La Neckar et la Sulm." },
-    { q: "Quelle industrie était la base de NSU avant l'automobile ?", o: ["Horlogerie", "Machines à tricoter", "Armement", "Sidérurgie"], a: "Machines à tricoter", r: "Ensuite vélos et motos." },
-    { q: "Puissance de l'Audi Quattro de série en 1980 ?", o: ["150 ch", "200 ch", "250 ch", "300 ch"], a: "200 ch", r: "Grâce au 5 cylindres turbo." },
-    { q: "Où August Horch a-t-elle travaillé avant de créer sa marque ?", o: ["Chez Porsche", "Chez Mercedes", "Chez Karl Benz", "Chez Ford"], a: "Chez Karl Benz", r: "Il y était responsable de la production." },
-    { q: "Combien d'Audi R8 ont fait le triplé au Mans en 2000 ?", o: ["2", "3", "4", "5"], a: "3", r: "Première victoire et triplé historique." },
-    { q: "Matériau du concept Avus (1991) ?", o: ["Acier", "Carbone", "Aluminium poli", "Plastique"], a: "Aluminium poli", r: "Hommage aux Flèches d'Argent." },
-    { q: "Spécialité moteur de DKW ?", o: ["Quatre temps", "Deux temps", "Wankel", "Diesel"], a: "Deux temps", r: "Simplicité et robustesse." },
-    { q: "Break mythique de 1994 développé avec Porsche ?", o: ["RS4 Avant", "RS2 Avant", "S6 Plus", "RS6"], a: "RS2 Avant", r: "Utilisait de nombreuses pièces Porsche (freins, jantes)." },
-    { q: "L'Audi 80 (B1) élue voiture de l'année en :", o: ["1973", "1983", "1993", "2003"], a: "1973", r: "Succès commercial immédiat." },
-    { q: "Nom de code du projet Quattro secret ?", o: ["Projet 111", "Projet 264", "Projet Red", "Projet 911"], a: "Projet 264", r: "Développement confidentiel." },
-
-    // --- MODULE 2 : INNOVATION (30 questions de base) ---
-    { q: "Particularité du Matrix LED ?", o: ["Xénon", "Masque les véhicules", "Change couleur", "Sans caméra"], a: "Masque les véhicules", r: "Éteint sélectivement des segments de LED." },
-    { q: "Modèle d'introduction du Digital Matrix LED (DMD) ?", o: ["A1", "e-tron Sportback", "TT", "A8"], a: "e-tron Sportback", r: "Utilise 1.3 million de micro-miroirs." },
-    { q: "Fonction du Quattro Ultra ?", o: ["Plus puissance", "Désactiver l'essieu arrière", "Bloquer freins", "Turbo"], a: "Désactiver l'essieu arrière", r: "Économise du carburant quand le 4x4 n'est pas requis." },
-    { q: "Ordre d'allumage du 5 cylindres 2.5 TFSI ?", o: ["1-2-3-4-5", "1-5-2-4-3", "1-2-4-5-3", "1-4-2-5-3"], a: "1-2-4-5-3", r: "Séquence unique pour le son Audi Sport." },
-    { q: "Avantage des feux OLED ?", o: ["Éclaire loin", "Lumière de surface homogène", "Recharge batterie", "Poids"], a: "Lumière de surface homogène", r: "Diodes organiques ultra-fines." },
-    { q: "Que signifie ASF ?", o: ["Super Frame", "Audi Space Frame", "Safety Frame", "Street Force"], a: "Audi Space Frame", r: "Châssis aluminium ultra-rigide." },
-    { q: "Rôle du Différentiel Sport ?", o: ["Vitesse", "Distribuer activement le couple", "Boîte auto", "Frein"], a: "Distribuer activement le couple", r: "Torque Vectoring sur l'essieu arrière." },
-    { q: "Suralimentation du SQ5 TDI ?", o: ["Compresseur courroie", "Compresseur électrique (EAV)", "3 turbos", "Bi-turbo seul"], a: "Compresseur électrique (EAV)", r: "Supprime le temps de réponse du turbo." },
-    { q: "Tension suspension active A8 ?", o: ["12V", "24V", "48V", "400V"], a: "48V", r: "Nécessaire pour la puissance des actionneurs." },
-    { q: "Audi Virtual Mirror ?", o: ["Miroirs rétractables", "Caméras et écrans", "Hologrammes", "Capteurs"], a: "Caméras et écrans", r: "Remplace les miroirs par des écrans OLED." },
-    { q: "Maniabilité basse vitesse (Q7, A8) ?", o: ["Frein main", "Direction intégrale dynamique", "Moteur court", "Boîte S"], a: "Direction intégrale dynamique", r: "4 roues directrices." },
-    { q: "Bouton RS Mode ?", o: ["SOS", "Profils personnalisés", "Vitesse 50", "Coffre"], a: "Profils personnalisés", r: "Accès direct à RS1 et RS2." },
-    { q: "Moteur V10 R8 ?", o: ["Turbo", "Atmosphérique", "Diesel", "Wankel"], a: "Atmosphérique", r: "Hauts régimes sans suralimentation." },
-    { q: "Cylinder on Demand (CoD) ?", o: ["Turbo", "Désactivation cylindres", "Hybride", "Start/Stop"], a: "Désactivation cylindres", r: "Coupe 2 ou 4 cylindres à charge partielle." },
-    { q: "Pre Sense Front ?", o: ["Audio", "Freinage d'urgence auto", "Lumière", "Pneus"], a: "Freinage d'urgence auto", r: "Système de sécurité active." },
-    { q: "MMI retour haptique ?", o: ["Couleur", "Vibration simulant clic", "Chaleur", "Son"], a: "Vibration simulant clic", r: "Confirmation tactile de saisie." },
-    { q: "Embrayage S tronic ?", o: ["Simple", "Double", "Triple", "Convertisseur"], a: "Double", r: "Changement de rapport sans rupture de couple." },
-    { q: "Turbo Twinscroll ?", o: ["2 turbos", "Sépare flux de gaz", "Électrique", "Variable"], a: "Sépare flux de gaz", r: "Meilleure réactivité à bas régime." },
-    { q: "Magnetic Ride ?", o: ["Air", "Fluide à particules métalliques", "Ressorts courts", "Électrique"], a: "Fluide à particules métalliques", r: "Ajuste la fermeté via champ magnétique." },
-    { q: "Audi Drive Select ?", o: ["Musique", "Modes de conduite", "GPS", "Clim"], a: "Modes de conduite", r: "Comfort, Auto, Dynamic, Efficiency." },
-    { q: "Brake Torque Vectoring ?", o: ["Vitesse", "Freinage roue intérieure", "ABS", "ESP"], a: "Freinage roue intérieure", r: "Aide à pivoter en virage." },
-    { q: "Tension e-tron GT ?", o: ["12V", "400V", "800V", "1000V"], a: "800V", r: "Permet recharge 270 kW." },
-    { q: "Scan route A8 ?", o: ["Radar", "Caméra frontale prédictive", "Lidar", "Sons"], a: "Caméra frontale prédictive", r: "Ajuste la suspension avant l'obstacle." },
-    { q: "Virtual Cockpit ?", o: ["HUD", "Combiné numérique", "Écran central", "Tablette"], a: "Combiné numérique", r: "Écran HD 12.3 pouces." },
-    { q: "F1 Audi 2026 MGU-K ?", o: ["50kW", "350kW", "500kW", "100kW"], a: "350kW", r: "Puissance électrique réglementaire." },
-    { q: "Aide conduite éco ?", o: ["Auto-pilote", "Eco-assistant", "Cruise control", "Start/Stop"], a: "Eco-assistant", r: "Conseille de lever le pied via GPS." },
-    { q: "Technologie OLED feux ?", o: ["Point", "Surface", "Laser", "Filament"], a: "Surface", r: "Lumière surfacique homogène." },
-    { q: "S tronic double embrayage ?", o: ["Parallèle", "2 arbres concentriques", "2 boîtes", "1 embrayage"], a: "2 arbres concentriques", r: "Passage de vitesse instantané." },
-    { q: "Audi Connect ?", o: ["Pneus", "Services en ligne", "Moteur", "Radio"], a: "Services en ligne", r: "Météo, Trafic, Remote." },
-    { q: "Freins carbure tungstène ?", o: ["Poids", "Moins poussière", "Couleur", "Chaleur"], a: "Moins poussière", r: "Revêtement PSCB." },
-
-    // --- MODULE 3 : ELECTRIFICATION (30 questions de base) ---
-    { q: "Plateforme e-tron GT ?", o: ["MEB", "J1", "MLB", "MQB"], a: "J1", r: "Plateforme haute performance partagée." },
-    { q: "Puissance charge e-tron GT ?", o: ["150kW", "270kW", "350kW", "50kW"], a: "270kW", r: "Architecture 800V." },
-    { q: "Chauffage efficient VE ?", o: ["Résistance", "Pompe à chaleur", "Moteur", "Batterie"], a: "Pompe à chaleur", r: "Récupère calories composants." },
-    { q: "Année 100% nouveaux VE Audi ?", o: ["2024", "2026", "2030", "2035"], a: "2026", r: "Stratégie Vorsprung 2030." },
-    { q: "Roue libre e-tron ?", o: ["Stop moteur", "Avance sans résistance", "Freinage", "Boost"], a: "Avance sans résistance", r: "Efficience maximale sur l'élan." },
-    { q: "Charge sans carte ?", o: ["NFC", "Plug & Charge", "Bluetooth", "Wifi"], a: "Plug & Charge", r: "Authentification via câble." },
-    { q: "HUD Q4 e-tron ?", o: ["Couleur", "Réalité augmentée", "3D", "Simple"], a: "Réalité augmentée", r: "Projette flèches sur route." },
-    { q: "Batteries plancher ?", o: ["Pluie", "Centre de gravité bas", "Place", "Chauffage"], a: "Centre de gravité bas", r: "Améliore dynamique." },
-    { q: "Récupération freinage e-tron ?", o: ["30%", "90%", "50%", "10%"], a: "90%", r: "Majorité freinages gérés par moteurs." },
-    { q: "Neutralité carbone Audi ?", o: ["Planète", "Mission:Zero", "Green", "Zero"], a: "Mission:Zero", r: "Programme environnemental global." },
-    { q: "Moteur PSM ?", o: ["Moins cher", "Efficacité constante", "Air", "Vapeur"], a: "Efficacité constante", r: "Performance et autonomie." },
-    { q: "Modèle lanceur PPE ?", o: ["A1", "Q6 e-tron", "R8", "A3"], a: "Q6 e-tron", r: "Nouvelle architecture Premium." },
-    { q: "Planificateur itinéraire ?", o: ["Restos", "Arrêts recharge auto", "Parking", "Vitesse"], a: "Arrêts recharge auto", r: "Indispensable pour longs trajets." },
-    { q: "Freinage iBrake ?", o: ["Air", "Transition imperceptible", "Sans liquide", "Arrière"], a: "Transition imperceptible", r: "Mélange électrique / hydraulique." },
-    { q: "Réparabilité batterie ?", o: ["Jetable", "Modulaire", "Soudée", "Glace"], a: "Modulaire", r: "Économique et durable." },
-    { q: "e-tron Charging Service ?", o: ["Nettoyage", "Accès +500k bornes", "Pédales", "Livraison"], a: "Accès +500k bornes", r: "Une seule carte/contrat." },
-    { q: "F1 Audi 2026 Carburant ?", o: ["Essence 98", "100% Durable (e-fuel)", "Hydrogène", "GPL"], a: "100% Durable (e-fuel)", r: "Règlementation zéro carbone." },
-    { q: "Pré-conditionnement batterie ?", o: ["Charge", "Température idéale", "Pneus", "Audio"], a: "Température idéale", r: "Prépare la chimie pour 270kW." },
-    { q: "Moteur Q4 e-tron propulsion ?", o: ["Avant", "Arrière", "Toit", "Coffre"], a: "Arrière", r: "Architecture type MEB." },
-    { q: "e-tron sport sound ?", o: ["Silencieux", "Signature sonore", "V8", "Alarme"], a: "Signature sonore", r: "Émotion et sécurité piétons." },
-    { q: "Audi Charging Hubs ?", o: ["Usine", "Recharge Premium", "Occasion", "Garage"], a: "Recharge Premium", r: "Utilise batteries seconde vie." },
-    { q: "Jantes e-tron ?", o: ["Bois", "Aero-blades", "Inversées", "Pleine"], a: "Aero-blades", r: "Réduit turbulences / gain autonomie." },
-    { q: "Quattro électrique ?", o: ["Plus lourd", "Plus rapide", "Eau", "Huile"], a: "Plus rapide", r: "Gestion électronique instantanée." },
-    { q: "Batteries 2nde vie ?", o: ["Enterrées", "Stockage stationnaire", "Jouets", "Espace"], a: "Stockage stationnaire", r: "Réutilisation avant recyclage." },
-    { q: "Rôle de l'onduleur ?", o: ["Radio", "Conversion DC/AC", "Vitesse", "Sièges"], a: "Conversion DC/AC", r: "Cerveau de la propulsion électrique." },
-    { q: "Charge 10 min e-tron GT ?", o: ["10km", "Jusqu'à 100km", "1000km", "5km"], a: "Jusqu'à 100km", r: "Rapidité exceptionnelle du 800V." },
-    { q: "Eco-assistant ?", o: ["Robot", "Conseil lever pied", "Arbres", "Phares"], a: "Conseil lever pied", r: "Optimise l'énergie prédictive." },
-    { q: "Moteurs RS e-tron GT ?", o: ["1", "2", "4", "3"], a: "2", r: "Un par essieu (e-quattro)." },
-    { q: "Refroidissement PPE ?", o: ["Air", "Plaque intégrée", "Azote", "Aucun"], a: "Plaque intégrée", r: "Gestion thermique haute performance." },
-    { q: "Nom Hybrides Audi ?", o: ["e-tron", "TFSI e", "Hybrid", "Gas"], a: "TFSI e", r: "Désignation PHEV actuelle." },
-
-    // --- MODULE 4 : PASSION & PERFORMANCE (30 questions de base) ---
-    { q: "Lubrification moteur Audi R8 ?", o: ["Carter humide", "Carter sec", "Brouillard", "Céramique"], a: "Carter sec", r: "Garantit la pression d'huile sous force centrifuge." },
-    { q: "Signature rétroviseurs RS ?", o: ["Rouge", "Aspect Aluminium mat", "Intégrés", "Caméras"], a: "Aspect Aluminium mat", r: "Signature visuelle historique depuis la RS2." },
-    { q: "Record RS Q e-tron Dakar ?", o: ["Diesel gagnant", "1er Électrique gagnant", "Plus lourd", "Crevaisons"], a: "1er Électrique gagnant", r: "Victoire historique au général en 2024." },
-    { q: "Système DRC (RS 6) ?", o: ["Pneumatique", "Liaison hydraulique diagonale", "Barres 12V", "Magnetic"], a: "Liaison hydraulique diagonale", r: "Dynamic Ride Control : réduit roulis et tangage." },
-    { q: "Sorties d'échappement RS ?", o: ["4 rondes", "2 larges ovales", "1 centrale", "Cachées"], a: "2 larges ovales", r: "Identité visuelle exclusive Audi Sport." },
-    { q: "Moteur RS 3 / TT RS ?", o: ["V6 2.9", "5 cylindres 2.5", "V8 4.0", "4 cyl 2.0"], a: "5 cylindres 2.5", r: "Architecture mythique héritée du rallye." },
-    { q: "Mode Torque Rear R8 GT ?", o: ["Marche arrière", "Niveau de drift réglable", "Blocage roues", "Bascule moteur"], a: "Niveau de drift réglable", r: "Permet de choisir le degré de glisse autorisé." },
-    { q: "Modèle GT3 d'Audi ?", o: ["R8 LMS", "R8 RS", "R8 GTO", "R8 Cup"], a: "R8 LMS", r: "L'une des voitures client les plus titrées." },
-    { q: "Avantage freins Céramique ?", o: ["Gris", "Résistance au fading", "Refroidis eau", "Poids lourd"], a: "Résistance au fading", r: "Efficacité constante même en usage intensif." },
-    { q: "Audi 90 Quattro GTO (1989) ?", o: ["S1 Rallye", "IMSA GTO USA", "Le Mans", "DTM"], a: "IMSA GTO USA", r: "Look ultra-large et 720 ch pour les USA." },
-    { q: "Shift Light Virtual Cockpit ?", o: ["Moteur froid", "Moment optimal passage rapport", "Panne", "Régulateur"], a: "Moment optimal passage rapport", r: "Indicateur visuel pour le pilotage." },
-    { q: "Vitesse RS 6 Pack Dynamique Plus ?", o: ["250 km/h", "305 km/h", "400 km/h", "280 km/h"], a: "305 km/h", r: "Débridage haute performance Audi Sport." },
-    { q: "Effet Différentiel Sport ?", o: ["Lent", "Réduit sous-virage", "Désactive avant", "Économie"], a: "Réduit sous-virage", r: "Pousse la voiture vers l'intérieur du virage." },
-    { q: "Audi exclusive ?", o: ["Tapis", "Couleurs et selleries sur mesure", "Puissance moteur", "Sécurité"], a: "Couleurs et selleries sur mesure", r: "Personnalisation totale esthétique." },
-    { q: "Innovation Le Mans 2006 ?", o: ["Hydrogène", "Moteur TDI (Diesel)", "Plastique", "Laser"], a: "Moteur TDI (Diesel)", r: "Première victoire d'un Diesel au Mans." },
-    { q: "Volant Performance RS ?", o: ["Confort", "Boutons satellites intégrés", "Tactile", "Simple"], a: "Boutons satellites intégrés", r: "Commandes de démarrage et modes au volant." },
-    { q: "Innovation RS 3 (Châssis) ?", o: ["Plus suspension", "RS Torque Splitter", "Propulsion pure", "Bois"], a: "RS Torque Splitter", r: "Gestion vectorielle du couple sur l'essieu arrière." },
-    { q: "Championnat Audi RS 5 DTM ?", o: ["A1", "Championnat Tourisme Allemand", "SUV", "A2"], a: "Championnat Tourisme Allemand", r: "Domination historique en tourisme." },
-    { q: "Disques Wave ?", o: ["Joli", "Moins de masses / Refroidissement", "Coupants", "Silence"], a: "Moins de masses / Refroidissement", r: "Gain de poids et surface thermique." },
-    { q: "Pilote S1 Pikes Peak 1987 ?", o: ["Walter Röhrl", "Schumacher", "Ogier", "Prost"], a: "Walter Röhrl", r: "Record mythique avec la boîte expérimentale." },
-    { q: "Différence S vs RS ?", o: ["Puissance moins", "RS : Radical / Circuit", "RS SUV seul", "Aucune"], a: "RS : Radical / Circuit", r: "Conception extrême par Audi Sport." },
-    { q: "Centre Audi Sport ?", o: ["Neuburg an der Donau", "Nürburgring", "Silverstone", "Villaroche"], a: "Neuburg an der Donau", r: "Quartier général technique Audi Sport." },
-    { q: "Système eAWS (RS Q8) ?", o: ["Ressorts", "Stabilisation active roulis", "Gyroscope", "Pencher"], a: "Stabilisation active roulis", r: "Moteurs 48V luttant contre l'inclinaison." },
-    { q: "Cylindrée V10 R8 ?", o: ["2.0 L", "5.2 L", "6.0 L", "4.0 L"], a: "5.2 L", r: "Moteur atmosphérique haute cylindrée." },
-    { q: "Losange rouge Audi Sport ?", o: ["Pneu", "Passion / Performance", "Flèche", "Drapeau"], a: "Passion / Performance", r: "Identité visuelle de la branche sport." },
-    { q: "Matériau Econyl RS e-tron GT ?", o: ["Pistons", "Tapis / Revêtements recyclés", "Vitres", "Batterie"], a: "Tapis / Revêtements recyclés", r: "Utilisation de plastique recyclé (PET)." },
-    { q: "Aileron R8 Performance ?", o: ["Table", "Fixe pour appui max", "Parachute", "Invisible"], a: "Fixe pour appui max", r: "Stabilité maximale à haute vitesse." },
-    { q: "Mode RS Performance ?", o: ["Conso", "Paramètres Circuit", "Musique", "Limite 130"], a: "Paramètres Circuit", r: "Réglage le plus extrême de l'Auto Select." },
-    { q: "Boîte RS 6 / RS 7 ?", o: ["Manuelle", "Tiptronic 8 rapports", "Chaîne", "CVT"], a: "Tiptronic 8 rapports", r: "Idéale pour supporter les 800 Nm de couple." },
-    { q: "But Audi Twin Cup ?", o: ["Vitesse", "Excellence Service / Technique", "Voiture gratuite", "Pneus"], a: "Excellence Service / Technique", r: "Compétition mondiale de compétence réseau." },
-
-    // --- MODULE 5 : VISUEL (30 questions) ---
-	{ q: "Podium Le Mans 2000 : Qui est le pilote danois recordman de victoires ?", o: ["Tom Kristensen", "Allan McNish", "Benoît Tréluyer", "Dindo Capello"], a: "Tom Kristensen", r: "Surnommé 'Monsieur Le Mans', il a 9 victoires.", img: "https://www.audi-mediacenter.com/system/production/media/64975/images/f3d1b64a2c20689e4c1946808794c48924b17936/ALM000003_web_1600.jpg" },
-    { q: "Étrier bleu avec inscription 'Audi ceramic'. De quoi s'agit-il ?", o: ["Freins usés", "Option signature Carbone-Céramique", "Uniquement e-tron GT", "Freins de série RS"], a: "Option signature Carbone-Céramique", r: "Le bleu/rouge identifie les disques céramique.", img: "https://www.audi-mediacenter.com/system/production/media/95954/images/223788a6d4b413c63d41f0f516a5d438995a973a/A212726_web_1600.jpg" },
-    { q: "Volant avec deux boutons ronds (un rouge, un noir) sous les branches. Nom ?", o: ["Volume", "Satellites de commande", "Palettes", "Virtual Cockpit"], a: "Satellites de commande", r: "Permet Start/Stop et Drive Select au volant.", img: "https://www.audi-mediacenter.com/system/production/media/89311/images/26f8664f3c7a0a64936d9d43501f2f8114f5e717/A201664_web_1600.jpg" },
-    { q: "Logo 4 anneaux plat (2D) bicolore noir/blanc. Date d'apparition ?", o: ["1932", "2022", "1980", "1994"], a: "2022", r: "Nouvelle identité de marque digitale 'Flat design'.", img: "https://www.audi-mediacenter.com/system/production/media/103986/images/474c15383f721d6091396a40a693c8340d0263f9/A222276_web_1600.jpg" },
-    { q: "Moteur cache carbone 'V10 5.2'. Quel élément manque par rapport au RS 6 ?", o: ["Filtre", "Turbocompresseurs", "Batterie", "Bougies"], a: "Turbocompresseurs", r: "Le V10 est atmosphérique.", img: "https://www.audi-mediacenter.com/system/production/media/93781/images/3f7e6f66300977826359f10928230718d7301c23/A211155_web_1600.jpg" },
-    { q: "Bandeau lumineux arrière continu avec animations verticales. Modèle ?", o: ["A1", "e-tron GT ou A8 (D5)", "TT (8N)", "Audi 80"], a: "e-tron GT ou A8 (D5)", r: "Signature OLED haut de gamme.", img: "https://www.audi-mediacenter.com/system/production/media/88020/images/d67e7c10b7849e7b237ecf64a51e604752c03332/A201416_web_1600.jpg" },
-    { q: "Portrait d'un homme barbu à lunettes, pilote mythique de la S1. Qui est-ce ?", o: ["Loeb", "Walter Röhrl", "Sainz Sr.", "Ekström"], a: "Walter Röhrl", r: "Légende du rallye et ambassadeur Audi.", img: "https://www.audi-mediacenter.com/system/production/media/105740/images/94b4657157678523c915f5d5351475704a29a28c/A224647_web_1600.jpg" },
-    { q: "Jante avec inserts plastiques noirs entre les rayons. Fonction ?", o: ["Protection", "Aérodynamisme / Autonomie VE", "Refroidissement", "Antivol"], a: "Aérodynamisme / Autonomie VE", r: "Réduit la traînée sur e-tron.", img: "https://www.audi-mediacenter.com/system/production/media/87501/images/12d506972e1c953589b2575416298516d7870a4a/A200676_web_1600.jpg" },
-    { q: "Graphique Virtual Cockpit 'G-Meter'. Que mesure-t-il ?", o: ["Conso", "Forces d'accélération (G)", "Usure pneus", "Pression Turbo"], a: "Forces d'accélération (G)", r: "Forces latérales et longitudinales.", img: "https://www.audi-mediacenter.com/system/production/media/85250/images/e2501a4e1017849646452812739268686e08c879/A190479_web_1600.jpg" },
-    { q: "Showcar Audi F1 2026. Quelle livrée ?", o: ["F1 actuelle", "Showcar Audi F1 2026", "Formule E", "Auto Union 1930"], a: "Showcar Audi F1 2026", r: "Présentation officielle de l'engagement F1.", img: "https://www.audi-mediacenter.com/system/production/media/105342/images/4283891461a20721245842835560936307374974/A224213_web_1600.jpg" },
-    { q: "Break large couleur 'Gris Nardo'. Particularité de cette peinture ?", o: ["Paillettes", "Teinte unie iconique RS", "Changeante", "Uniquement mate"], a: "Teinte unie iconique RS", r: "C'est la couleur signature des modèles Audi RS.", img: "https://www.audi-mediacenter.com/system/production/media/93786/images/64e8e1694f489f668270b22a6111f199015c7e0e/A211160_web_1600.jpg" },
-    { q: "Schéma technique : 2 moteurs électriques arrière, 1 avant. Système ?", o: ["Quattro ultra", "e-tron S (Tri-moteur)", "Diff sport", "Haldex"], a: "e-tron S (Tri-moteur)", r: "Configuration avec Torque Vectoring électrique.", img: "https://www.audi-mediacenter.com/system/production/media/94406/images/f365022830303c7344933923485750058b85590a/A211601_web_1600.jpg" },
-    { q: "Sièges baquets avec surpiqûres en hexagones. Nom ?", o: ["Carré", "Nid d'abeille (Honeycomb)", "Diamond", "Vintage"], a: "Nid d'abeille (Honeycomb)", r: "Signature intérieure exclusive RS.", img: "https://www.audi-mediacenter.com/system/production/media/96515/images/f04c7d0d0800b46700c25a81e9f1665a36371f76/A212739_web_1600.jpg" },
-    { q: "Calandre Singleframe avec cadre noir brillant. Pack ?", o: ["Chrome", "Pack Esthétique Noir Plus", "Alu mat", "Basique"], a: "Pack Esthétique Noir Plus", r: "Suppression du chrome au profit du noir.", img: "https://www.audi-mediacenter.com/system/production/media/96500/images/6b046a782415d86214065675f3590059e09d17d5/A212724_web_1600.jpg" },
-    { q: "Icône verte chaussure flèche bas. Signification ?", o: ["Freiner", "Assistant efficience", "Régulateur", "Position pieds"], a: "Assistant efficience", r: "Conseil de levée de pied prédictif.", img: "https://www.audi-mediacenter.com/system/production/media/85057/images/3f350c30a43063852033c7062400f074a141b711/A190473_web_1600.jpg" },
-    { q: "Aileron arrière déployé sur A7. Vitesse auto ?", o: ["50 km/h", "120 km/h", "Toujours", "200 km/h"], a: "120 km/h", r: "Activation automatique pour l'appui.", img: "https://www.audi-mediacenter.com/system/production/media/74526/images/7a0f7e4f3c7e0964173874052328102604246029/A171350_web_1600.jpg" },
-    { q: "Pastille bleue optique avant. Technologie ?", o: ["LED", "Audi Laser Light", "Xénon", "Ambiance"], a: "Audi Laser Light", r: "Éclairage longue portée haute précision.", img: "https://www.audi-mediacenter.com/system/production/media/73426/images/e30349c123689b708307c8992a2a620e722f4270/A170668_web_1600.jpg" },
-    { q: "Boîtier argenté sur boîte RS 3 avec cardans. Nom ?", o: ["Embrayage", "RS Torque Splitter", "Pompe huile", "Alternateur"], a: "RS Torque Splitter", r: "Répartiteur de couple mécanique.", img: "https://www.audi-mediacenter.com/system/production/media/96504/images/b0285a730415a756910609378415d8650e727d2c/A212728_web_1600.jpg" },
-    { q: "Levier de vitesse R8 avec grille en 'H'. Type ?", o: ["Auto", "Manuelle", "4 vitesses", "Électrique"], a: "Manuelle", r: "Grille ouverte, sensation mécanique.", img: "https://www.audi-mediacenter.com/system/production/media/59239/images/220268a7d4b413c63d41f0f516a5d438995a973a/A152174_web_1600.jpg" },
-    { q: "Double écran tactile console A6/A8. Système ?", o: ["Single Touch", "MMI Touch Response", "Virtual Dash", "Control Pad"], a: "MMI Touch Response", r: "Interface avec retour haptique.", img: "https://www.audi-mediacenter.com/system/production/media/74620/images/d30349c123689b708307c8992a2a620e722f4270/A171391_web_1600.jpg" },
-	{ q: "Logo RS calandre : losange évidé (deux traits). Type de modèle ?", o: ["Thermique", "Nouveau design (e-tron / 2D)", "Contrefaçon", "Course"], a: "Nouveau design (e-tron / 2D)", r: "C'est l'évolution du badge RS pour l'ère électrique.", img: "https://www.audi-mediacenter.com/system/production/media/105450/images/64e8e1694f489f668270b22a6111f199015c7e0e/A224368_web_1600.jpg" },
-    { q: "Réservoir moteur avec bouchon bleu (A3 TDI). Quel liquide ?", o: ["AdBlue", "Lave-glace", "Huile", "Hydrogène"], a: "AdBlue", r: "Additif nécessaire pour le post-traitement des NOx.", img: "https://www.audi-mediacenter.com/system/production/media/84510/images/4283891461a20721245842835560936307374974/A190412_web_1600.jpg" },
-    { q: "Batterie en forme de 'T' au châssis. Quel modèle ?", o: ["Q4 e-tron", "e-tron GT", "A1", "SUV e-tron"], a: "e-tron GT", r: "Architecture optimisée pour le centre de gravité bas.", img: "https://www.audi-mediacenter.com/system/production/media/88500/images/223788a6d4b413c63d41f0f516a5d438995a973a/A201662_web_1600.jpg" },
-    { q: "Portrait : Qui est l'actuel PDG d'Audi AG (2026) ?", o: ["Herbert Diess", "Gernot Döllner", "Markus Duesmann", "Rupert Stadler"], a: "Gernot Döllner", r: "Il a pris les commandes en septembre 2023.", img: "https://www.audi-mediacenter.com/system/production/media/104520/images/f3d1b64a2c20689e4c1946808794c48924b17936/A223450_web_1600.jpg" },
-    { q: "Disque frein RS 3 avec deux étriers séparés. Pourquoi ?", o: ["Puissance", "Frein de parking séparé", "Refroidissement", "Un/roue"], a: "Frein de parking séparé", r: "L'étrier secondaire est dédié au frein à main électrique.", img: "https://www.audi-mediacenter.com/system/production/media/96510/images/d67e7c10b7849e7b237ecf64a51e604752c03332/A212734_web_1600.jpg" },
-    { q: "Écran MMI avec rayons rouges autour. Système ?", o: ["GPS", "Audi Pre Sense", "Chauffage", "Radio"], a: "Audi Pre Sense", r: "Le cercle rouge avertit d'un danger imminent.", img: "https://www.audi-mediacenter.com/system/production/media/74650/images/3f350c30a43063852033c7062400f074a141b711/A171388_web_1600.jpg" },
-    { q: "Logo avion stylisé (badge Union). Marque ?", o: ["Audi", "Wanderer", "DKW", "Horch"], a: "Wanderer", r: "Le 'W' ailé symbolise la marque Wanderer.", img: "https://www.audi-mediacenter.com/system/production/media/100200/images/94b4657157678523c915f5d5351475704a29a28c/A220150_web_1600.jpg" },
-    { q: "Deux trappes de charge sur e-tron GT. Différence ?", o: ["Aucune", "Une seule fait DC (rapide)", "Essence", "V2L"], a: "Une seule fait DC (rapide)", r: "L'AC est des deux côtés, mais le DC est unique.", img: "https://www.audi-mediacenter.com/system/production/media/88550/images/12d506972e1c953589b2575416298516d7870a4a/A201670_web_1600.jpg" },
-    { q: "Audi RS2 bleue. Quel partenaire historique ?", o: ["VW", "Porsche", "Lamborghini", "Ferrari"], a: "Porsche", r: "La RS2 est le fruit d'une collaboration avec Porsche.", img: "https://www.audi-mediacenter.com/system/production/media/101000/images/e2501a4e1017849646452812739268686e08c879/A220900_web_1600.jpg" },
-    { q: "Capteur plat noir brillant calandre. Nom ?", o: ["Phare", "Radar (ACC)", "Caméra", "Speaker"], a: "Radar (ACC)", r: "C'est le capteur longue portée pour le régulateur adaptatif.", img: "https://www.audi-mediacenter.com/system/production/media/89000/images/4283891461a20721245842835560936307374974/A201800_web_1600.jpg" },
-    // ... (Ajoute les 10 restantes avec la même structure img: "URL")
-
-    // --- MODULE 6 : EXPERT / DUR (40 questions) ---
-    { q: "Quelle marque était responsable des petites voitures classe moyenne dans l'Union de 1932 ?", o: ["DKW", "Wanderer", "Horch", "Audi"], a: "DKW", r: "Leader mondial des deux-temps abordables.", e: true },
-    { q: "Composant spécifique de l'Audi 100 (C3) pour Cx 0.30 ?", o: ["Vitres latérales affleurantes", "Pas de rétro droit", "Fond plat", "Aileron actif"], a: "Vitres latérales affleurantes", r: "Première mondiale pour réduire les turbulences.", e: true },
-    { q: "Fonction du 'B-Cycle' sur le 2.9 TFSI V6 ?", o: ["Efficience charge partielle (Miller)", "Pression turbo 3.0", "Inversion rotation", "Refroidissement air"], a: "Efficience charge partielle (Miller)", r: "Fermeture précoce des soupapes d'admission.", e: true },
-    { q: "Composant physique de déconnexion du Quattro Ultra ?", o: ["Embrayage avant + crabot arrière", "Convertisseur", "Courroie renforcée", "Glissement limité"], a: "Embrayage avant + crabot arrière", r: "Élimine totalement les pertes par traînée.", e: true },
-    { q: "Pourquoi la suspension A8 soulève la caisse de 80mm avant un choc ?", o: ["Diriger l'impact vers le plancher rigide", "Sauter l'obstacle", "Éjecter passagers", "Airbags"], a: "Diriger l'impact vers le plancher rigide", r: "Le bas de caisse absorbe mieux l'énergie.", e: true },
-    { q: "Particularité fabrication batterie Q8 e-tron ?", o: ["Technologie Stacking (empilage)", "Solid State", "Sans lithium", "Électrolyte eau"], a: "Technologie Stacking (empilage)", r: "Meilleure densité énergétique que l'enroulement.", e: true },
-    { q: "Comportement hybride TFSI e sous -10°C ?", o: ["Moteur thermique démarre direct", "Refus démarrage", "Chauffe via prise seule", "Polarité inversée"], a: "Moteur thermique démarre direct", r: "Protège la chimie de la batterie HT.", e: true },
-    { q: "Fluide utilisé pour le RS Torque Splitter ?", o: ["Huile spécifique transmissions", "Liquide frein", "Huile 0W30", "À sec"], a: "Huile spécifique transmissions", r: "Critique pour le refroidissement des multidisques.", e: true },
-    { q: "Pièce 'fusible' sur R8 LMS GT3 en cas de choc arrière ?", o: ["Structure support arrière", "Arbre primaire", "Embrayage", "Volant moteur"], a: "Structure support arrière", r: "Protège la cascade de pignons de boîte.", e: true },
-    { q: "Couple max roue arrière RS 3 via Torque Splitter ?", o: ["100% du couple essieu arrière", "100% couple total moteur", "50% fixe", "25%"], a: "100% du couple essieu arrière", r: "Peut fermer un côté et ouvrir l'autre totalement.", e: true },
-    { q: "Modèle renaissance Audi en secret contre l'avis de VW ?", o: ["Audi 100 (C1)", "Audi 80", "Audi Quattro", "Audi A2"], a: "Audi 100 (C1)", r: "Ludwig Kraus l'a développée secrètement.", e: true },
-    { q: "Type moteur rotatif étudié par NSU/Audi ?", o: ["Wankel", "Stirling", "Atkinson", "Scuderi"], a: "Wankel", r: "Utilisé sur la Ro80.", e: true },
-    { q: "Marque de l'Union introduisant la traction avant dès 1931 ?", o: ["DKW", "Horch", "Wanderer", "Audi"], a: "DKW", r: "Modèle F1, une révolution.", e: true },
-    { q: "Nom officiel esthétique logo 2022 ?", o: ["Flat Design bicolore", "3D Glossy", "Chrome 2.0", "Minimalist Red"], a: "Flat Design bicolore", r: "Améliore la lisibilité digitale.", e: true },
-    { q: "Champion DTM 1990 avec Audi V8 Quattro ?", o: ["Hans-Joachim Stuck", "Walter Röhrl", "Mattias Ekström", "Tom Kristensen"], a: "Hans-Joachim Stuck", r: "Preuve du potentiel du Quattro en tourisme.", e: true },
-    { q: "Comment le Matrix LED identifie les zones à éteindre ?", o: ["Caméra frontale + analyse pixels", "GPS", "Sondes ultrasons", "Infrarouge"], a: "Caméra frontale + analyse pixels", r: "Analyse en temps réel des sources lumineuses.", e: true },
-    { q: "Avantage turbos dans le 'V' (4.0 TFSI) ?", o: ["Parcours gaz courts / Réponse instantanée", "Plus froid", "Plus facile d'accès", "Moins bruit"], a: "Parcours gaz courts / Réponse instantanée", r: "Réduit drastiquement le turbo-lag.", e: true },
-    { q: "Principe technique Cylinder on Demand ?", o: ["Déplacement axial des cames", "Coupure injection seule", "Vannes d'air", "Ressorts"], a: "Déplacement axial des cames", r: "Actionneurs électromagnétiques ferment les soupapes.", e: true },
-    { q: "Rôle du Lidar A8 vs Radar ?", o: ["Détection contours objets non métalliques", "Vitesse seule", "Pluie", "Son"], a: "Détection contours objets non métalliques", r: "Précision centimétrique des formes.", e: true },
-    { q: "Qu'est-ce qu'un HCP dans l'architecture E³ ?", o: ["Calculateur central haute performance", "Prise charge", "Module batterie", "Capteur choc"], a: "Calculateur central haute performance", r: "Centralise plusieurs domaines de fonctions.", e: true },
-    { q: "Secret stabilité charge e-tron GT ?", o: ["Gestion thermique active individuelle cellules", "Batterie froide", "Câble or", "Ventilateur"], a: "Gestion thermique active individuelle cellules", r: "Maintient la chimie entre 30 et 35°C.", e: true },
-    { q: "Blended Braking e-tron ?", o: ["Transition régénératif / hydraulique", "Mix essence/élec", "Frein main", "ABS/ESP"], a: "Transition régénératif / hydraulique", r: "Seul l'électrique freine jusqu'à 0.3g.", e: true },
-    { q: "Rôle convertisseur DC/DC sur VE ?", o: ["Alimenter accessoires 12V via batterie HT", "Recharge", "Vitesse", "Turbo"], a: "Alimenter accessoires 12V via batterie HT", r: "Remplace l'alternateur thermique.", e: true },
-    { q: "Pourquoi moteur avant ASM sur Q4 e-quattro ?", o: ["Zéro résistance magnétique coupé", "Plus puissant", "Moins cher", "Refroidi eau"], a: "Zéro résistance magnétique coupé", r: "Optimise l'efficience en propulsion seule.", e: true },
-    { q: "Signification SoH batterie ?", o: ["État de santé / Capacité résiduelle", "Vitesse", "Chaleur", "Pression"], a: "État de santé / Capacité résiduelle", r: "Indicateur d'usure chimique globale.", e: true },
-    { q: "Liaison amortisseurs DRC (RS 6) ?", o: ["Diagonale via vannes centrales", "Série", "Parallèle", "Wifi"], a: "Diagonale via vannes centrales", r: "Compense roulis/tangage mécaniquement.", e: true },
-    { q: "Avantage freins PSCB (carbure tungstène) ?", o: ["-90% poussière / Pas de rouille", "Couleur verte", "Moins cher", "Poids plume"], a: "-90% poussière / Pas de rouille", r: "Intermédiaire idéal acier/céramique.", e: true },
-    { q: "Traitement chemises cylindres 5 cyl Alu ?", o: ["Revêtement Plasma", "Chrome", "Acier", "Aucun"], a: "Revêtement Plasma", r: "Réduit poids et frottements.", e: true },
-    { q: "3 réglages R8 Performance Mode ?", o: ["Snow, Wet, Dry", "Eco, Norm, Sport", "City, Road, Race", "Auto, On, Off"], a: "Snow, Wet, Dry", r: "Grip optimal selon conditions météo.", e: true },
-    { q: "Équipement sécurité commun R8 LMS / RS 3 LMS ?", o: ["Trappe de secours au toit", "Siège cuir", "ABS", "Clim"], a: "Trappe de secours au toit", r: "Permet l'extraction verticale du pilote.", e: true },
-	// [Ajout des 10 nouvelles questions "Très Hard"]
-    { q: "Sur une e-tron, pourquoi le refroidissement liquide batterie est-il vital en charge DC rapide ?", o: ["Pour maintenir la chimie < 35°C", "Pour augmenter le courant", "Pour alimenter l'habitacle", "Pour réduire la puissance de calcul"], a: "Pour maintenir la chimie < 35°C", r: "Le refroidissement est critique pour la durée de vie des cellules." },
-    { q: "Pourquoi le 'Hot V' sur 4.0 TFSI ?", o: ["Réduire distance échappement/turbine", "Refroidir par air", "Diminuer poids", "Injection eau"], a: "Réduire distance échappement/turbine", r: "Réduit la latence (turbo lag) au minimum." },
-    { q: "Comment le RS Torque Splitter vectorise-t-il ?", o: ["2 embrayages multidisques indépendants", "Freinage roue seule", "Rapport démultiplication variable", "Moteurs électriques"], a: "2 embrayages multidisques indépendants", r: "Gestion mécanique active par côté." },
-    { q: "Angle braquage roues arrière Q7 ?", o: ["5 degrés", "15 degrés", "1 degré", "45 degrés"], a: "5 degrés", r: "Optimise agilité et stabilité." },
-    { q: "Avantage moteur ASM avant sur Q4 e-tron ?", o: ["Zéro résistance magnétique à l'arrêt", "Moins cher", "Refroidissement air", "Plus puissant"], a: "Zéro résistance magnétique à l'arrêt", r: "Élimine la traînée électrique." },
-    { q: "Usure freins PSCB (Carbure) vs Acier ?", o: ["-90% poussière", "Montée en temp lente", "Plaquettes métal pur", "Aucun refroidissement"], a: "-90% poussière", r: "Surface polie très durable." },
-    { q: "Interaction Matrix LED / Caméra ?", o: ["Identification et extinction précise", "Variation globale", "GPS", "Infrarouge"], a: "Identification et extinction précise", r: "Analyse en temps réel des sources lumineuses." },
-    { q: "Régénération hybride TFSI e ?", o: ["Moteur élec = générateur", "Moteur thermique entraîné", "Disques chauffent", "Échappement injecte air"], a: "Moteur élec = générateur", r: "Convertit cinétique en électricité." },
-    { q: "Pre Sense et choc piéton inévitable ?", o: ["Préparation sécurité + freinage auto", "Klaxon", "Airbags directs", "Dérapage"], a: "Préparation sécurité + freinage auto", r: "Système préventif avant impact." },
-    { q: "Rôle Gateway MAJ OTA (Architecture E³ 1.2) ?", o: ["Centralise distribution paquets données", "Vitesse 5G", "Stockage logiciel", "Désactive moteur"], a: "Centralise distribution paquets données", r: "Orchestre la mise à jour des calculateurs." }
+const questions = [
+    {
+        cat: "Technique - Châssis",
+        q: "Sur l'Audi RS 3 (8Y), le 'RS Torque Splitter' remplace le différentiel arrière Haldex. Quelle est la différence fondamentale dans la gestion du couple par rapport au système précédent ?",
+        o: ["Il utilise un accouplement visqueux central", "Il permet une vectorisation active du couple sur chaque roue arrière via deux embrayages multidisques pilotés", "Il bloque mécaniquement l'essieu arrière à 100%", "Il transfère le couple via une pompe hydraulique haute pression"],
+        a: "Il permet une vectorisation active du couple sur chaque roue arrière via deux embrayages multidisques pilotés",
+        r: "Le Torque Splitter ne se contente plus de répartir le couple entre les essieux, il gère activement la distribution latérale, permettant un torque vectoring complet et le mode 'Drift'.",
+        img: null
+    },
+    {
+        cat: "Histoire - Motorsport",
+        q: "En 1980, Audi présente la 'Ur-Quattro'. Quelle innovation majeure dans la transmission intégrale a permis de réduire les tensions mécaniques en courbe par rapport aux systèmes 4x4 de l'époque ?",
+        o: ["Le différentiel central à glissement limité", "L'arbre creux 'IHO' permettant un différentiel central traversé par l'arbre de transmission avant", "L'utilisation d'une boîte de transfert automatique", "Le découplage manuel des roues avant"],
+        a: "L'arbre creux 'IHO' permettant un différentiel central traversé par l'arbre de transmission avant",
+        r: "L'ingénieur Jörg Bensinger a conçu cet arbre creux, une astuce d'ingénierie qui a permis d'intégrer la transmission intégrale dans un véhicule de série compact sans rallonger excessivement l'empattement.",
+        img: null
+    }
 ];
 
-let selectedQuestions = [];
-let currentIdx = 0;
-let score = 0;
-let timeLeft = 30;
-let timerId = null;
-
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-function initQuiz() {
-    const shuffledPool = shuffle([...allQuestions]);
-    selectedQuestions = shuffledPool.slice(0, 30);
-    selectedQuestions.forEach(q => q.o = shuffle([...q.o]));
-    loadQuestion();
-}
-
-function startTimer() {
-    clearInterval(timerId);
-    timeLeft = 30;
-    document.getElementById('timer').innerText = timeLeft;
-    document.getElementById('timer').style.color = "var(--audi-red)";
+let idx = 0;
+function load() {
+    const q = questions[idx];
+    document.getElementById('q-meta').innerText = q.cat;
+    document.getElementById('q-text').innerText = q.q;
+    const imgDiv = document.getElementById('img-container');
+    imgDiv.innerHTML = q.img ? `<img src="${q.img}">` : '';
     
-    timerId = setInterval(() => {
-        timeLeft--;
-        document.getElementById('timer').innerText = timeLeft;
-        if(timeLeft <= 5) document.getElementById('timer').style.color = "orange";
-        if(timeLeft <= 0) {
-            clearInterval(timerId);
-            checkAnswer(null);
-        }
-    }, 1000);
-}
-
-function loadQuestion() {
-    const q = selectedQuestions[currentIdx];
-    document.getElementById('feedback').style.display = 'none';
-    document.getElementById('progress').style.width = `${(currentIdx / 30) * 100}%`;
-    document.getElementById('q-number').innerText = `QUESTION ${currentIdx + 1}/30`;
-    
-    let tagsHTML = '';
-    if(q.v) tagsHTML += `<span class="tag tag-visual">Analyse Visuelle</span>`;
-    if(q.e) tagsHTML += `<span class="tag tag-expert">Expert</span>`;
-    
-    document.getElementById('q-text').innerHTML = tagsHTML + `<div>${q.q}</div>`;
-    
-    const optCont = document.getElementById('options');
-    optCont.innerHTML = '';
-    
+    const cont = document.getElementById('options'); cont.innerHTML = '';
     q.o.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'opt-btn';
-        btn.innerText = opt;
-        btn.onclick = () => checkAnswer(opt);
-        optCont.appendChild(btn);
+        const b = document.createElement('button');
+        b.className = 'opt-btn'; b.innerText = opt;
+        b.onclick = () => {
+            document.querySelectorAll('.opt-btn').forEach(btn => btn.disabled = true);
+            b.classList.add(opt === q.a ? 'correct' : 'wrong');
+            document.getElementById('feedback').style.display = 'block';
+            document.getElementById('rationale').innerText = q.r;
+        };
+        cont.appendChild(b);
     });
-    
-    startTimer();
 }
-
-function checkAnswer(selected) {
-    clearInterval(timerId);
-    const q = selectedQuestions[currentIdx];
-    const btns = document.querySelectorAll('.opt-btn');
-    
-    btns.forEach(b => {
-        b.disabled = true;
-        if(b.innerText === q.a) b.classList.add('correct');
-        if(selected && b.innerText === selected && selected !== q.a) b.classList.add('wrong');
-    });
-
-    const resTitle = document.getElementById('result-title');
-    if(selected === q.a) {
-        score++;
-        resTitle.innerText = "SUCCÈS : DIAGNOSTIC CORRECT";
-        resTitle.style.color = "#28a745";
-    } else {
-        resTitle.innerText = selected === null ? "TEMPS ÉCOULÉ" : "ERREUR DE RÉFÉRENCE";
-        resTitle.style.color = "#dc3545";
-    }
-
-    document.getElementById('rationale').innerText = q.r;
-    document.getElementById('feedback').style.display = 'block';
-}
-
-function nextQuestion() {
-    currentIdx++;
-    if(currentIdx < 30) loadQuestion();
-    else showFinal();
-}
-
-function showFinal() {
-    document.getElementById('quiz-ui').style.display = 'none';
-    const final = document.getElementById('final-screen');
-    final.style.display = 'block';
-    
-    let rank = score >= 28 ? "MAÎTRE TECHNIQUE AUDI" : score >= 22 ? "EXPERT RÉSEAU" : "COLLABORATEUR SERVICE";
-    document.getElementById('final-score').innerHTML = `Score Final : <strong>${score}/30</strong><br><small>Rang obtenu : ${rank}</small>`;
-}
-
-window.onload = initQuiz;
+function nextQ() { idx++; idx < questions.length ? load() : alert("Module terminé"); load(); }
+load();
 </script>
 </body>
 </html>
