@@ -52,7 +52,10 @@ const questions = [
     { cat: "Technique - Transmission", q: "Le système Quattro original utilisait un différentiel central. Pourquoi l'arbre de transmission avant passait-il à l'intérieur de l'arbre creux du différentiel ?", o: ["Pour réduire le bruit de transmission", "Pour permettre une compacité extrême de la transmission intégrale sur une plateforme traction", "Pour améliorer le refroidissement de l'huile", "Pour synchroniser les vitesses de rotation"], a: "Pour permettre une compacité extrême de la transmission intégrale sur une plateforme traction", r: "Cette astuce permettait d'intégrer un système 4x4 robuste sans avoir à redessiner entièrement le bloc moteur/boîte longitudinal Audi." },
     { cat: "Motorsport - Moteur", q: "Quelle configuration moteur permettait aux Auto Union Type C (1936) de rivaliser avec les Mercedes à compresseur ?", o: ["Un V8 atmosphérique", "Un V16 compresseur placé en position centrale arrière", "Un moteur rotatif", "Un 6 cylindres en ligne"], a: "Un V16 compresseur placé en position centrale arrière", r: "La position centrale arrière était inédite, optimisant la répartition des masses pour la motricité au détriment d'un comportement survireur difficile à maîtriser." }
 ];
-let idx = 0, timeLeft = 30, timer;
+let idx = 0;
+let score = 0;
+let timeLeft = 30;
+let timer;
 
 function startTimer() {
     timeLeft = 30;
@@ -60,9 +63,67 @@ function startTimer() {
     timer = setInterval(() => {
         timeLeft--;
         document.getElementById('timer').style.width = (timeLeft / 30 * 100) + "%";
-        if (timeLeft <= 0) { clearInterval(timer); reveal(null, null); }
+        if (timeLeft <= 0) { 
+            clearInterval(timer); 
+            reveal(null, null); // Time out = mauvaise réponse
+        }
     }, 1000);
 }
+
+function load() {
+    if (idx >= 30) {
+        alert(`Challenge terminé ! Ton score : ${score}/30`);
+        return;
+    }
+    
+    clearInterval(timer);
+    const q = questions[idx];
+    document.getElementById('q-meta').innerText = `QUESTION ${idx + 1}/30 - ${q.cat}`;
+    document.getElementById('q-text').innerText = q.q;
+    document.getElementById('feedback').style.display = 'none';
+    
+    const cont = document.getElementById('options'); 
+    cont.innerHTML = '';
+    
+    q.o.forEach(opt => {
+        const b = document.createElement('button');
+        b.className = 'opt-btn'; 
+        b.innerText = opt;
+        b.onclick = () => { 
+            clearInterval(timer); 
+            reveal(opt, b); 
+        };
+        cont.appendChild(b);
+    });
+    startTimer();
+}
+
+function reveal(selected, btn) {
+    const q = questions[idx];
+    clearInterval(timer);
+
+    if(selected === q.a) score++;
+
+    document.querySelectorAll('.opt-btn').forEach(b => {
+        b.disabled = true;
+        if(b.innerText === q.a) b.classList.add('correct');
+        else if(selected && b.innerText === selected) b.classList.add('wrong');
+    });
+
+    document.getElementById('rationale').innerText = q.r;
+    document.getElementById('feedback').style.display = 'block';
+}
+
+function nextQ() { 
+    idx++; 
+    if(idx < 30 && idx < questions.length) {
+        load();
+    } else {
+        alert(`Challenge terminé ! Score final : ${score}/30`);
+    }
+}
+
+load();
 
 function load() {
     clearInterval(timer);
