@@ -4,29 +4,28 @@
     <meta charset="UTF-8">
     <title>Audi Twin Cup - Master Expert</title>
     <style>
-        body { background: #050505; color: #ccc; font-family: 'Audi Type', Arial, sans-serif; display: flex; justify-content: center; padding: 20px; }
+        body { background: #050505; color: #ccc; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
         .card { background: #111; padding: 40px; border-radius: 4px; border-left: 4px solid #f1052d; width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .q-meta { font-size: 0.8rem; color: #f1052d; text-transform: uppercase; letter-spacing: 2px; }
-        .q-text { font-size: 1.4rem; color: #fff; margin: 20px 0; line-height: 1.5; }
-        .img-container { margin: 20px 0; }
-        .img-container img { max-width: 100%; border: 1px solid #333; }
-        .opt-btn { display: block; width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 15px; margin: 8px 0; cursor: pointer; text-align: left; transition: 0.2s; }
-        .opt-btn:hover:not(:disabled) { border-color: #f1052d; }
-        .correct { background: #0b2e0b !important; border-color: #2e7d32 !important; }
-        .wrong { background: #3e0b0b !important; border-color: #c62828 !important; }
-        #feedback { margin-top: 20px; padding: 20px; background: #0a0a0a; border: 1px solid #222; display: none; }
+        .timer-bar { height: 4px; background: #333; margin-bottom: 20px; }
+        #timer { height: 100%; background: #f1052d; width: 100%; transition: width 1s linear; }
+        .q-meta { font-size: 0.7rem; color: #f1052d; text-transform: uppercase; }
+        .q-text { font-size: 1.3rem; color: #fff; margin: 20px 0; }
+        .opt-btn { display: block; width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 15px; margin: 8px 0; cursor: pointer; text-align: left; }
+        .correct { background: #1b5e20 !important; border-color: #4caf50 !important; }
+        .wrong { background: #b71c1c !important; border-color: #f44336 !important; }
+        #feedback { margin-top: 20px; padding: 15px; background: #0a0a0a; display: none; border: 1px solid #222; }
     </style>
 </head>
 <body>
 
 <div class="card">
+    <div class="timer-bar"><div id="timer"></div></div>
     <div id="q-meta" class="q-meta"></div>
     <div id="q-text" class="q-text"></div>
-    <div id="img-container" class="img-container"></div>
     <div id="options"></div>
     <div id="feedback">
-        <p id="rationale"></p>
-        <button onclick="nextQ()" style="padding: 10px 20px; cursor: pointer;">Question suivante</button>
+        <p id="rationale" style="color: #fff;"></p>
+        <button onclick="nextQ()" style="padding: 10px 20px; cursor:pointer;">Question suivante</button>
     </div>
 </div>
 
@@ -114,28 +113,47 @@ const questions = [
     }
 ];
 
-let idx = 0;
+let idx = 0, timeLeft = 30, timer;
+
+function startTimer() {
+    timeLeft = 30;
+    document.getElementById('timer').style.width = "100%";
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').style.width = (timeLeft / 30 * 100) + "%";
+        if (timeLeft <= 0) { clearInterval(timer); reveal(null, null); }
+    }, 1000);
+}
+
 function load() {
+    clearInterval(timer);
     const q = questions[idx];
     document.getElementById('q-meta').innerText = q.cat;
     document.getElementById('q-text').innerText = q.q;
-    const imgDiv = document.getElementById('img-container');
-    imgDiv.innerHTML = q.img ? `<img src="${q.img}">` : '';
-    
+    document.getElementById('feedback').style.display = 'none';
     const cont = document.getElementById('options'); cont.innerHTML = '';
+    
     q.o.forEach(opt => {
         const b = document.createElement('button');
         b.className = 'opt-btn'; b.innerText = opt;
-        b.onclick = () => {
-            document.querySelectorAll('.opt-btn').forEach(btn => btn.disabled = true);
-            b.classList.add(opt === q.a ? 'correct' : 'wrong');
-            document.getElementById('feedback').style.display = 'block';
-            document.getElementById('rationale').innerText = q.r;
-        };
+        b.onclick = () => { clearInterval(timer); reveal(opt, b); };
         cont.appendChild(b);
     });
+    startTimer();
 }
-function nextQ() { idx++; idx < questions.length ? load() : alert("Module terminé"); load(); }
+
+function reveal(selected, btn) {
+    const q = questions[idx];
+    document.querySelectorAll('.opt-btn').forEach(b => {
+        b.disabled = true;
+        if(b.innerText === q.a) b.classList.add('correct');
+        else if(selected && b.innerText === selected) b.classList.add('wrong');
+    });
+    document.getElementById('rationale').innerText = q.r;
+    document.getElementById('feedback').style.display = 'block';
+}
+
+function nextQ() { idx++; idx < questions.length ? load() : alert("Quiz terminé."); }
 load();
 </script>
 </body>
