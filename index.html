@@ -2,38 +2,30 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audi Twin Cup - Master Trainer</title>
     <style>
-        :root { --audi-red: #f1052d; --bg: #0b0b0b; --panel: #1a1a1a; --text: #e5e5e5; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 800px; }
-        .card { background: var(--panel); padding: 30px; border-radius: 12px; border-top: 6px solid var(--audi-red); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .q-text { font-size: 1.4rem; margin-bottom: 25px; font-weight: 600; color: #fff; }
-        .opt-btn { display: block; width: 100%; background: #2a2a2a; color: white; border: 1px solid #444; padding: 15px; margin-bottom: 10px; cursor: pointer; border-radius: 6px; text-align: left; }
-        .opt-btn:hover:not(:disabled) { background: #3d3d3d; border-color: var(--audi-red); }
-        .correct { background: #1b5e20 !important; border-color: #4caf50 !important; }
-        .wrong { background: #b71c1c !important; border-color: #f44336 !important; }
-        #feedback { margin-top: 20px; padding: 15px; background: #000; border-radius: 6px; border-left: 4px solid var(--audi-red); display: none; }
-        .next-btn { background: var(--audi-red); color: white; border: none; padding: 15px; cursor: pointer; border-radius: 4px; width: 100%; margin-top: 15px; }
+        body { background: #0b0b0b; color: #e5e5e5; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .card { background: #1a1a1a; padding: 30px; border-radius: 12px; border-top: 6px solid #f1052d; width: 100%; max-width: 700px; }
+        .opt-btn { display: block; width: 100%; background: #2a2a2a; color: white; border: 1px solid #444; padding: 15px; margin-bottom: 10px; cursor: pointer; text-align: left; border-radius: 6px; }
+        .opt-btn:hover:not(:disabled) { background: #3d3d3d; }
+        .correct { background: #1b5e20 !important; }
+        .wrong { background: #b71c1c !important; }
+        #feedback { margin-top: 20px; padding: 15px; background: #000; border-left: 4px solid #f1052d; display: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card">
-        <div id="q-count" style="color: #666; font-size: 0.8rem; margin-bottom: 10px;">Chargement...</div>
-        <div id="q-text" class="q-text"></div>
-        <div id="options"></div>
-        <div id="feedback">
-            <div id="rationale" style="line-height: 1.5;"></div>
-            <button class="next-btn" onclick="nextQuestion()">Question Suivante</button>
-        </div>
+<div class="card">
+    <div id="q-count" style="color: #666; margin-bottom: 10px;"></div>
+    <div id="q-text" style="font-size: 1.3rem; margin-bottom: 20px; font-weight: bold;"></div>
+    <div id="options"></div>
+    <div id="feedback">
+        <div id="rationale" style="margin-bottom: 15px;"></div>
+        <button onclick="nextQuestion()" style="background:#f1052d; color:white; border:none; padding:10px; width:100%; cursor:pointer;">Question Suivante</button>
     </div>
 </div>
 
 <script>
-// Tableau complet avec fermeture propre
 const allQuestions = [
     // --- MODULE 1 : HERITAGE (30 questions de base) ---
     { q: "En quelle année la marque Audi a-t-elle été déposée par August Horch ?", o: ["1909", "1899", "1932", "1945"], a: "1909", r: "Après un différend juridique, il a utilisé la traduction latine de son nom 'Horch' (Écoute)." },
@@ -292,33 +284,28 @@ const allQuestions = [
 let idx = 0;
 
 function load() {
-    if(idx >= allQuestions.length) { alert("Quiz terminé !"); idx = 0; }
     const q = allQuestions[idx];
+    document.getElementById('q-count').innerText = "Question " + (idx + 1) + "/" + allQuestions.length;
     document.getElementById('q-text').innerText = q.q;
-    document.getElementById('q-count').innerText = `Question ${idx + 1}/${allQuestions.length}`;
-    const cont = document.getElementById('options'); 
-    cont.innerHTML = '';
+    const cont = document.getElementById('options'); cont.innerHTML = '';
     q.o.forEach(opt => {
         const b = document.createElement('button');
-        b.className = 'opt-btn'; 
-        b.innerText = opt;
-        b.onclick = () => reveal(opt, b);
+        b.className = 'opt-btn'; b.innerText = opt;
+        b.onclick = () => {
+            document.querySelectorAll('.opt-btn').forEach(x => x.disabled = true);
+            b.className += (opt === q.a ? ' correct' : ' wrong');
+            document.getElementById('rationale').innerText = q.r;
+            document.getElementById('feedback').style.display = 'block';
+        };
         cont.appendChild(b);
     });
     document.getElementById('feedback').style.display = 'none';
 }
 
-function reveal(opt, btn) {
-    const q = allQuestions[idx];
-    document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
-    btn.className += (opt === q.a ? ' correct' : ' wrong');
-    document.getElementById('rationale').innerText = q.r;
-    document.getElementById('feedback').style.display = 'block';
-}
-
 function nextQuestion() {
     idx++;
-    load();
+    if(idx < allQuestions.length) load();
+    else alert("Fin du quiz !");
 }
 
 load();
