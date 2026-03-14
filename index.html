@@ -72,7 +72,29 @@ const questions = [
         options: ["Michèle Mouton", "Jutta Kleinschmidt", "Fabrizia Pons", "Isolde Holderied"], 
         reponse: "Michèle Mouton",
         rationale: "Michèle Mouton est la plus célèbre pilote de rallye de l'histoire d'Audi."
-    }
+    },
+{ cat: "F1", q: "Quel est le nom du directeur technique responsable du développement moteur à Neuburg ?", o: ["Adam Baker", "Andreas Seidl", "Mattia Binotto", "Frédéric Vasseur"], a: "Adam Baker", r: "Il dirige le projet Audi Formula Racing GmbH." },
+{ cat: "F1", q: "À combien de kg est limité le poids total du moteur F1 Audi dès 2026 ?", o: ["150 kg", "130 kg", "180 kg", "100 kg"], a: "150 kg", r: "Une contrainte majeure pour l'intégration de l'hybride." },
+{ cat: "F1", q: "Le nouveau moteur Audi F1 utilisera quel type de suralimentation ?", o: ["Simple Turbo", "Bi-Turbo", "Compresseur volumétrique", "Atmosphérique"], a: "Simple Turbo", r: "Réglementation F1 imposant un seul turbo." },
+{ cat: "F1", q: "Quel système est supprimé du moteur F1 2026 par rapport à 2025 ?", o: ["MGU-H", "MGU-K", "Turbo", "Batterie"], a: "MGU-H", r: "La suppression du MGU-H simplifie le moteur thermique." },
+{ cat: "F1", q: "Quelle est la distance entre les sites de Neuburg (moteur) et Hinwil (châssis) ?", o: ["~300 km", "50 km", "800 km", "1000 km"], a: "~300 km", r: "Cette distance nécessite une logistique d'échange constante." },
+{ cat: "F1", q: "Quelle technologie de simulation Audi utilise-t-il pour développer son moteur ?", o: ["Jumeau numérique", "Soufflerie classique", "Essais route", "Calculateur analogique"], a: "Jumeau numérique", r: "Essentiel pour tester les performances avant la mise en piste." },
+{ cat: "F1", q: "Le carburant durable Audi est développé avec quel partenaire ?", o: ["BP/Castrol", "Shell", "Petronas", "Mobil 1"], a: "BP/Castrol", r: "Partenaire historique d'Audi Sport en endurance." },
+{ cat: "F1", q: "Quel est l'avantage du centre de Neuburg pour Audi F1 ?", o: ["Bancs d'essai haute technologie", "Piste F1 sur site", "Proximité avec VW", "Ancien site F1"], a: "Bancs d'essai haute technologie", r: "Des outils de pointe adaptés au règlement F1." },
+{ cat: "F1", q: "Quelle est la puissance maximale approximative du moteur hybride F1 2026 ?", o: ["1000 ch", "600 ch", "800 ch", "1200 ch"], a: "1000 ch", r: "Répartie entre thermique et électrique." },
+{ cat: "F1", q: "L'Audi F1 2026 devra respecter quel plafond de dépenses (Budget Cap) ?", o: ["Oui, imposé par la FIA", "Non, libre", "Seulement sur le moteur", "Seulement sur le châssis"], a: "Oui, imposé par la FIA", r: "Le respect du plafond est crucial pour la survie du projet." },
+{ cat: "F1", q: "Comment Audi valide-t-il ses moteurs avant les premiers roulages ?", o: ["Bancs dynamométriques", "Simulateur seul", "Tests sur circuit public", "Démontage manuel"], a: "Bancs dynamométriques", r: "Permet de simuler une course entière en labo." },
+{ cat: "F1", q: "Qu'est-ce que le 'Energy Store' dans le règlement 2026 ?", o: ["Batterie haute tension", "Réservoir essence", "Système lubrification", "Système de refroidissement"], a: "Batterie haute tension", r: "Sa capacité est augmentée pour 2026." },
+{ cat: "F1", q: "Quelle sera la couleur dominante de l'Audi F1 2026 ?", o: ["Noir, Gris, Rouge", "Bleu et Jaune", "Vert et Blanc", "Argent et Noir"], a: "Noir, Gris, Rouge", r: "Couleurs emblématiques d'Audi Sport." },
+{ cat: "F1", q: "Le règlement 2026 impose quel type d'aérodynamisme ?", o: ["Aérodynamique active", "Fixe", "Effet de sol uniquement", "Aileron arrière seul"], a: "Aérodynamique active", r: "Indispensable pour compenser la traînée." },
+{ cat: "F1", q: "Quel constructeur fournissait les moteurs à Sauber avant Audi ?", o: ["Ferrari", "Mercedes", "Renault", "Honda"], a: "Ferrari", r: "La transition vers Audi est un changement majeur." },
+{ cat: "F1", q: "Combien de cycles de test moteur Audi effectue-t-il par semaine à Neuburg ?", o: ["Plusieurs en continu", "Un seul", "Zéro", "Trois"], a: "Plusieurs en continu", r: "Le travail est intensif pour être prêt en 2026." },
+{ cat: "F1", q: "Quel logiciel Audi utilise pour la télémétrie F1 ?", o: ["Propre système propriétaire", "Logiciel standard FIA", "Excel", "Non utilisé"], a: "Propre système propriétaire", r: "Développé pour maximiser les données temps réel." },
+{ cat: "F1", q: "Pourquoi le moteur Audi F1 est-il complexe ?", o: ["Intégration hybride haute densité", "Moteur rotatif", "Nombre de cylindres", "Utilisation de charbon"], a: "Intégration hybride haute densité", r: "L'hybride demande une gestion thermique extrême." },
+{ cat: "F1", q: "Quelle est la vision d'Audi pour son premier GP en 2026 ?", o: ["Finir la course et collecter des données", "Gagner avec 1 tour d'avance", "Abandonner", "Casser le moteur"], a: "Finir la course et collecter des données", r: "Priorité à la fiabilité pour la première année." },
+{ cat: "F1", q: "Quel est l'impact de la suppression du MGU-H sur le turbo Audi ?", o: ["Turbo plus gros et complexe", "Turbo supprimé", "Turbo plus petit", "Turbo électrique"], a: "Turbo plus gros et complexe", r: "Le turbo doit désormais gérer seul l'énergie." },
+{ cat: "F1", q: "Quel est l'objectif principal du projet Audi F1 pour 2026 ?", o: ["Développer une technologie hybride leader", "Gagner avec un moteur thermique seul", "Promouvoir les voitures électriques de ville", "Remplacer Volkswagen en WRC"], a: "Développer une technologie hybride leader", r: "Le transfert technologique de la piste vers la série est l'objectif central." },
+{ cat: "F1", q: "Quelle est la part d'électrification dans la puissance totale d'un moteur F1 en 2026 ?", o: ["50%", "25%", "75%", "10%"], a: "50%", r: "L'augmentation massive de la puissance électrique est le cœur du règlement 2026." }    
 ];
 
 let idx = 0, score = 0, timeLeft = 30, timer;
