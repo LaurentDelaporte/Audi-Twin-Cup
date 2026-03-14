@@ -22,13 +22,13 @@
     <div class="q-text" id="q-text"></div>
     <div id="options"></div>
     <div id="feedback" style="display:none; padding: 15px; background: #000; margin-top: 20px; border-radius: 5px;">
-        <div id="rationale"></div>
+        <div id="rationale" style="margin-bottom: 10px;"></div>
         <button class="next-btn" onclick="nextQ()">Question Suivante</button>
     </div>
 </div>
 
 <script>
-// Base complète des 200 questions (fusionnée et optimisée)
+// Ta base de données
 const allQuestions = [
     // --- MODULE 1 : HERITAGE (30 questions de base) ---
     { q: "En quelle année la marque Audi a-t-elle été déposée par August Horch ?", o: ["1909", "1899", "1932", "1945"], a: "1909", r: "Après un différend juridique, il a utilisé la traduction latine de son nom 'Horch' (Écoute)." },
@@ -234,17 +234,24 @@ const allQuestions = [
     { q: "Rôle Gateway MAJ OTA (Architecture E³ 1.2) ?", o: ["Centralise distribution paquets données", "Vitesse 5G", "Stockage logiciel", "Désactive moteur"], a: "Centralise distribution paquets données", r: "Orchestre la mise à jour des calculateurs." }
 ];
 
+// Correction : utilisation de la variable correcte (allQuestions)
 let idx = 0, score = 0;
-const pool = questions.sort(() => Math.random() - 0.5);
+const pool = allQuestions.sort(() => Math.random() - 0.5);
 
 function load() {
+    if (idx >= pool.length) {
+        document.getElementById('quiz').innerHTML = `<h2>Quiz terminé !</h2><p>Score final : ${score}/${pool.length}</p>`;
+        return;
+    }
     const q = pool[idx];
-    document.getElementById('q-number').innerText = `QUESTION ${idx + 1}/200`;
+    document.getElementById('q-number').innerText = `QUESTION ${idx + 1}/${pool.length}`;
     document.getElementById('q-text').innerText = q.q;
-    const cont = document.getElementById('options'); cont.innerHTML = '';
+    const cont = document.getElementById('options'); 
+    cont.innerHTML = '';
     q.o.forEach(opt => {
         const b = document.createElement('button');
-        b.className = 'opt-btn'; b.innerText = opt;
+        b.className = 'opt-btn'; 
+        b.innerText = opt;
         b.onclick = () => reveal(opt, b);
         cont.appendChild(b);
     });
@@ -260,7 +267,8 @@ function reveal(opt, btn) {
     document.getElementById('feedback').style.display = 'block';
 }
 
-function nextQ() { idx++; idx < pool.length ? load() : alert(`Terminé ! Score : ${score}/200`); }
+function nextQ() { idx++; load(); }
+
 load();
 </script>
 </body>
