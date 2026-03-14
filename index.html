@@ -249,16 +249,27 @@ const questionsData = [
 let selectedQuestions = [];
 let currentIdx = 0;
 let score = 0;
-
-function shuffle(array) {
-    return array.sort(() => Math.random() - 0.5);
-}
+let timeLeft = 30;
+let timerId = null;
 
 function initQuiz() {
-    // On limite à 30 questions ou moins si le pool est plus petit
     const pool = shuffle([...questionsData]);
     selectedQuestions = pool.slice(0, Math.min(pool.length, 30));
     loadQuestion();
+}
+
+function startTimer() {
+    clearInterval(timerId);
+    timeLeft = 30;
+    document.getElementById('timer').innerText = timeLeft;
+    timerId = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').innerText = timeLeft;
+        if(timeLeft <= 0) {
+            clearInterval(timerId);
+            checkAnswer(null); // Temps écoulé
+        }
+    }, 1000);
 }
 
 function loadQuestion() {
@@ -277,18 +288,22 @@ function loadQuestion() {
         btn.onclick = () => checkAnswer(opt);
         optCont.appendChild(btn);
     });
+    
+    startTimer(); // Démarrage du timer à chaque question
 }
 
 function checkAnswer(selected) {
+    clearInterval(timerId); // Arrêt du timer
     const q = selectedQuestions[currentIdx];
     const btns = document.querySelectorAll('.opt-btn');
     btns.forEach(b => {
         b.disabled = true;
         if(b.innerText === q.a) b.classList.add('correct');
-        else if(b.innerText === selected) b.classList.add('wrong');
+        else if(selected !== null && b.innerText === selected) b.classList.add('wrong');
     });
+    
     if(selected === q.a) score++;
-    document.getElementById('res-title').innerText = (selected === q.a) ? "SUCCÈS" : "ERREUR";
+    document.getElementById('result-title').innerText = (selected === q.a) ? "SUCCÈS" : "ERREUR";
     document.getElementById('rationale').innerText = q.r;
     document.getElementById('feedback').style.display = 'block';
 }
