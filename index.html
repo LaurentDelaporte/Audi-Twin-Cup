@@ -110,7 +110,44 @@ const questions = [
         a: "Ils utilisent des miroirs DMD (Digital Micromirror Device) pour une précision de faisceau exceptionnelle",
         r: "Grâce à des millions de micro-miroirs, la lumière peut être dirigée avec une précision chirurgicale, évitant l'éblouissement tout en éclairant les zones complexes.",
         img: null
+    },
+    const questions = [
+    {
+        cat: "Transmission",
+        q: "Sur le différentiel sport (Sports Differential) à train épicycloïdal, quelle est la fonction du moteur électrique et du train d'engrenages 'Superimposition' ?",
+        o: ["Réduire le poids de l'essieu arrière", "Générer une différence de vitesse de rotation entre les roues arrière", "Assurer le refroidissement de l'huile par pompe active", "Simuler un blocage de différentiel à 100%"],
+        a: "Générer une différence de vitesse de rotation entre les roues arrière",
+        r: "Le train épicycloïdal superpose une vitesse de rotation supplémentaire à l'une des roues pour forcer l'auto à pivoter autour de son axe vertical (lacet)."
+    },
+    {
+        cat: "Thermodynamique",
+        q: "Dans le moteur 4.0 TFSI V8 (Hot-V), quel est l'impact majeur du positionnement des turbos à l'intérieur du 'V' sur le cycle de combustion ?",
+        o: ["Réduction de la température d'admission", "Minimisation des pertes thermiques entre l'échappement et la turbine", "Augmentation du volume de la chambre de combustion", "Suppression du besoin de refroidissement par eau"],
+        a: "Minimisation des pertes thermiques entre l'échappement et la turbine",
+        r: "La distance réduite minimise l'inertie des gaz et préserve l'énergie thermique, ce qui augmente considérablement le rendement de la turbine à basse charge."
+    },
+    {
+        cat: "Châssis / Dynamique",
+        q: "Comment fonctionne le système de 'Quattro ultra' pour passer de la transmission intégrale à la traction avant ?",
+        o: ["Débrayage manuel par le conducteur", "Désaccouplement mécanique de l'arbre de transmission par deux embrayages (boîte de transfert et roue arrière)", "Utilisation d'un coupleur visqueux à base de silicone", "Réduction de la pression des pneus arrière"],
+        a: "Désaccouplement mécanique de l'arbre de transmission par deux embrayages (boîte de transfert et roue arrière)",
+        r: "Pour minimiser les pertes par traînée mécanique (frottements), l'arbre de transmission est totalement déconnecté lorsque la motricité intégrale n'est pas requise."
+    },
+    {
+        cat: "Électronique",
+        q: "Quelle est la particularité de la gestion de charge sur l'architecture 800V de l'e-tron GT en cas de borne de recharge limitée à 400V ?",
+        o: ["La charge est impossible", "Le système active un 'Boost Converter' pour élever la tension vers la batterie", "La batterie se charge à 200V seulement", "L'onduleur passe en mode alternatif"],
+        a: "Le système active un 'Boost Converter' pour élever la tension vers la batterie",
+        r: "Le convertisseur DC/DC élève la tension de la borne (400V) vers celle du pack batterie (800V) pour permettre une charge rapide même sur des infrastructures anciennes."
+    },
+    {
+        cat: "Historique / Motorsport",
+        q: "Pourquoi l'Audi Sport Quattro S1 E2 a-t-elle nécessité un empattement réduit par rapport à la Quattro A2 ?",
+        o: ["Pour favoriser la stabilité à haute vitesse", "Pour réduire le sous-virage chronique induit par le porte-à-faux avant", "Pour réduire le poids total de 200 kg", "Pour faciliter le montage d'une boîte séquentielle"],
+        a: "Pour réduire le sous-virage chronique induit par le porte-à-faux avant",
+        r: "Le moteur longitudinal avant positionné devant l'essieu créait un fort sous-virage. Raccourcir l'empattement a permis de recentrer les masses et d'améliorer l'agilité."
     }
+];
 ];
 
 let idx = 0, timeLeft = 30, timer;
