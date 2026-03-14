@@ -123,18 +123,8 @@ shuffle(questions);
 
 let idx = 0, score = 0, timeLeft = 30, timer;
 
-function startTimer() {
-    timeLeft = 30;
-    document.getElementById('timer').style.width = "100%";
-    timer = setInterval(() => {
-        timeLeft--;
-        document.getElementById('timer').style.width = (timeLeft / 30 * 100) + "%";
-        document.getElementById('timer-text').innerText = timeLeft + "s";
-        if (timeLeft <= 0) { clearInterval(timer); reveal(null); }
-    }, 1000);
-}
-
 function load() {
+    // FORCAGE : ici on limite explicitement à 30 questions max
     if (idx >= 30) {
         document.getElementById('quiz-content').style.display = 'none';
         document.getElementById('final-score').innerText = `Score : ${score} / 30`;
@@ -142,6 +132,7 @@ function load() {
         return;
     }
     const q = questions[idx];
+    // Affichage 30 fixe
     document.getElementById('q-meta').innerText = `QUESTION ${idx + 1}/30 - ${q.cat}`;
     document.getElementById('q-text').innerText = q.q;
     document.getElementById('feedback').style.display = 'none';
@@ -155,12 +146,9 @@ function load() {
     startTimer();
 }
 
-function reveal(sel) {
-    clearInterval(timer);
-    if(sel === questions[idx].a) score++;
-    document.getElementById('feedback').style.display = 'block';
-    document.getElementById('rationale').innerText = questions[idx].r;
-}
+// Reste du code inchangé (startTimer, reveal, nextQ)...
+function startTimer() { timeLeft = 30; timer = setInterval(() => { timeLeft--; document.getElementById('timer').style.width = (timeLeft/30*100) + "%"; document.getElementById('timer-text').innerText = timeLeft + "s"; if(timeLeft<=0) reveal(null); }, 1000); }
+function reveal(sel) { clearInterval(timer); if(sel === questions[idx].a) score++; document.getElementById('feedback').style.display = 'block'; document.getElementById('rationale').innerText = questions[idx].r; }
 function nextQ() { idx++; load(); }
 load();
 </script>
