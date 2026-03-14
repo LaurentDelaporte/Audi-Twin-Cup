@@ -83,10 +83,11 @@ function shuffle(array) {
     }
 }
 
-// Mélange l'ordre des questions au démarrage
+// 1. Mélange global des questions au démarrage
 shuffle(questions);
 
 let idx = 0, score = 0, timeLeft = 30, timer;
+let currentShuffledOptions = []; // Stocke les options mélangées de la question en cours
 
 function startTimer() {
     timeLeft = 30;
@@ -96,7 +97,7 @@ function startTimer() {
         timeLeft--;
         document.getElementById('timer').style.width = (timeLeft / 30 * 100) + "%";
         document.getElementById('timer-text').innerText = timeLeft + "s";
-        if (timeLeft <= 0) { clearInterval(timer); reveal(null, null); }
+        if (timeLeft <= 0) { clearInterval(timer); reveal(null); }
     }, 1000);
 }
 
@@ -113,27 +114,29 @@ function load() {
     clearInterval(timer);
     const q = questions[idx];
     
-    // Mélange les options de la question actuelle
-    let currentOptions = [...q.o];
-    shuffle(currentOptions);
+    // 2. Mélange propre des options pour cette question précise
+    currentShuffledOptions = [...q.o];
+    shuffle(currentShuffledOptions);
 
     document.getElementById('q-meta').innerText = `QUESTION ${idx + 1}/${questions.length} - ${q.cat}`;
     document.getElementById('q-text').innerText = q.q;
     document.getElementById('feedback').style.display = 'none';
     const cont = document.getElementById('options'); cont.innerHTML = '';
     
-    currentOptions.forEach(opt => {
+    currentShuffledOptions.forEach(opt => {
         const b = document.createElement('button');
-        b.className = 'opt-btn'; b.innerText = opt;
-        b.onclick = () => { clearInterval(timer); reveal(opt, b); };
+        b.className = 'opt-btn'; 
+        b.innerText = opt;
+        b.onclick = () => { reveal(opt); };
         cont.appendChild(b);
     });
     startTimer();
 }
 
-function reveal(selected, btn) {
+function reveal(selected) {
     clearInterval(timer);
     if(selected === questions[idx].a) score++;
+    
     document.querySelectorAll('.opt-btn').forEach(b => {
         b.disabled = true;
         if(b.innerText === questions[idx].a) b.classList.add('correct');
