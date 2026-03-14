@@ -28,6 +28,9 @@
     <div id="quiz-content">
         <div id="q-meta" class="q-meta"></div>
         <div id="q-text" class="q-text"></div>
+        <div id="q-text" class="q-text"></div>
+<img id="q-img" src="" style="display:none; width:100%; margin-bottom:20px; border-radius:4px;" alt="Visuel question">
+<div id="options"></div>
         <div id="options"></div>
         <div id="feedback">
             <p id="rationale" style="color: #fff; font-size: 0.9rem; text-align: left;"></p>
@@ -204,7 +207,6 @@ shuffle(questions);
 let idx = 0, score = 0, timeLeft = 30, timer;
 
 function load() {
-    // FORCAGE : ici on limite explicitement à 30 questions max
     if (idx >= 30) {
         document.getElementById('quiz-content').style.display = 'none';
         document.getElementById('final-score').innerText = `Score : ${score} / 30`;
@@ -215,30 +217,18 @@ function load() {
     const q = questions[idx];
     document.getElementById('q-meta').innerText = `QUESTION ${idx + 1}/30 - ${q.cat || "Expert"}`;
     document.getElementById('q-text').innerText = q.q;
-    document.getElementById('feedback').style.display = 'none';
-
-    // --- GESTION DE L'IMAGE ---
-    let imgContainer = document.getElementById('q-img');
-    if (!imgContainer) {
-        imgContainer = document.createElement('img');
-        imgContainer.id = 'q-img';
-        imgContainer.style.width = "100%";
-        imgContainer.style.marginTop = "20px";
-        imgContainer.style.borderRadius = "4px";
-        imgContainer.style.display = "none"; // Caché par défaut
-        // On insère l'image juste après le texte de la question
-        document.getElementById('q-text').after(imgContainer);
-    }
     
-    // Si la question a une image, on l'affiche, sinon on la cache
+    // --- GESTION IMAGE SIMPLIFIÉE ---
+    const imgElement = document.getElementById('q-img');
     if (q.img) {
-        imgContainer.src = q.img;
-        imgContainer.style.display = "block";
+        imgElement.src = q.img;
+        imgElement.style.display = "block";
     } else {
-        imgContainer.style.display = "none";
+        imgElement.style.display = "none";
     }
-    // --------------------------
+    // --------------------------------
 
+    document.getElementById('feedback').style.display = 'none';
     const cont = document.getElementById('options'); 
     cont.innerHTML = '';
     q.o.forEach(opt => {
