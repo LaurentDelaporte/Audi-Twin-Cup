@@ -111,7 +111,6 @@ const questions = [
         r: "Grâce à des millions de micro-miroirs, la lumière peut être dirigée avec une précision chirurgicale, évitant l'éblouissement tout en éclairant les zones complexes.",
         img: null
     },
-    const questions = [
     {
         cat: "Transmission",
         q: "Sur le différentiel sport (Sports Differential) à train épicycloïdal, quelle est la fonction du moteur électrique et du train d'engrenages 'Superimposition' ?",
@@ -146,8 +145,44 @@ const questions = [
         o: ["Pour favoriser la stabilité à haute vitesse", "Pour réduire le sous-virage chronique induit par le porte-à-faux avant", "Pour réduire le poids total de 200 kg", "Pour faciliter le montage d'une boîte séquentielle"],
         a: "Pour réduire le sous-virage chronique induit par le porte-à-faux avant",
         r: "Le moteur longitudinal avant positionné devant l'essieu créait un fort sous-virage. Raccourcir l'empattement a permis de recentrer les masses et d'améliorer l'agilité."
+    },
+    [
+    {
+        cat: "Histoire - Ingénierie",
+        q: "Au-delà de la traduction latine, quel impératif légal a contraint August Horch à abandonner son nom pour fonder Audi en 1909 ?",
+        o: ["Défaillance financière", "Litige sur l'utilisation du nom 'Horch' dans une nouvelle société", "Conflit avec les syndicats", "Obligation du gouvernement prussien"],
+        a: "Litige sur l'utilisation du nom 'Horch' dans une nouvelle société",
+        r: "Horch avait perdu les droits sur l'usage commercial de son propre nom suite à un conflit avec les actionnaires de sa première entreprise."
+    },
+    {
+        cat: "Technique - Aérodynamique",
+        q: "L'Audi 100 (C3) de 1982 a atteint un Cx de 0,30. Quelle innovation de carrosserie a été déterminante pour ce résultat ?",
+        o: ["Suspension pneumatique adaptative", "Vitres affleurantes et suppression des gouttières de toit", "Fond plat intégral", "Aileron arrière actif"],
+        a: "Vitres affleurantes et suppression des gouttières de toit",
+        r: "L'intégration des vitres dans le plan de la carrosserie et l'élimination des aspérités (gouttières) furent révolutionnaires pour l'écoulement laminaire."
+    },
+    {
+        cat: "Technique - Châssis",
+        q: "Quelle est la particularité structurelle de l'Audi Space Frame (ASF) introduit sur l'A8 (D2) en 1994 ?",
+        o: ["Un châssis monocoque en acier à ultra-haute limite élastique", "Une structure en treillis tubulaire recouvert de panneaux aluminium", "Un cadre de profilés extrudés en aluminium assemblés par nœuds de fonderie", "Une carrosserie en matériaux composites carbonés"],
+        a: "Un cadre de profilés extrudés en aluminium assemblés par nœuds de fonderie",
+        r: "L'ASF utilise des profilés extrudés pour la rigidité et des pièces de fonderie pour les points de jonction complexes, optimisant le rapport rigidité/poids."
+    },
+    {
+        cat: "Technique - Transmission",
+        q: "Le système Quattro original utilisait un différentiel central. Pourquoi l'arbre de transmission avant passait-il à l'intérieur de l'arbre creux du différentiel ?",
+        o: ["Pour réduire le bruit de transmission", "Pour permettre une compacité extrême de la transmission intégrale sur une plateforme traction", "Pour améliorer le refroidissement de l'huile", "Pour synchroniser les vitesses de rotation"],
+        a: "Pour permettre une compacité extrême de la transmission intégrale sur une plateforme traction",
+        r: "Cette astuce permettait d'intégrer un système 4x4 robuste sans avoir à redessiner entièrement le bloc moteur/boîte longitudinal Audi."
+    },
+    {
+        cat: "Motorsport - Moteur",
+        q: "Quelle configuration moteur permettait aux Auto Union Type C (1936) de rivaliser avec les Mercedes à compresseur ?",
+        o: ["Un V8 atmosphérique", "Un V16 compresseur placé en position centrale arrière", "Un moteur rotatif", "Un 6 cylindres en ligne"],
+        a: "Un V16 compresseur placé en position centrale arrière",
+        r: "La position centrale arrière était inédite, optimisant la répartition des masses pour la motricité au détriment d'un comportement survireur difficile à maîtriser."
     }
-];
+
 ];
 
 let idx = 0, timeLeft = 30, timer;
