@@ -2,44 +2,62 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Audi Twin Cup - Master Expert</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audi Twin Cup - Ultimate Training (190 Q)</title>
     <style>
-        body { background: #050505; color: #ccc; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .card { background: #111; padding: 40px; border-radius: 4px; border-left: 4px solid #f1052d; width: 100%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .q-img-container { width: 100%; height: 250px; margin-bottom: 20px; background-color: #000; border-radius: 4px; display: none; }
-        .q-img-container img { width: 100%; height: 100%; object-fit: contain; }
-        .timer-bar { height: 6px; background: #333; margin-bottom: 5px; }
-        #timer { height: 100%; background: #f1052d; width: 100%; transition: width 1s linear; }
-        #timer-text { color: #f1052d; font-size: 0.8rem; margin-bottom: 20px; font-weight: bold; }
-        .q-meta { font-size: 0.7rem; color: #f1052d; text-transform: uppercase; margin-bottom: 10px; }
-        .q-text { font-size: 1.3rem; color: #fff; margin-bottom: 20px; }
-        .opt-btn { display: block; width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 15px; margin: 8px 0; cursor: pointer; text-align: left; transition: 0.2s; }
-        .opt-btn:hover:not([disabled]) { background: #222; border-color: #f1052d; }
-        .correct { background: #1b5e20 !important; border-color: #4caf50 !important; color: #fff; }
-        .wrong { background: #b71c1c !important; border-color: #f44336 !important; color: #fff; }
-        #feedback, #final-screen { margin-top: 20px; padding: 20px; background: #0a0a0a; display: none; border: 1px solid #222; text-align: center; }
-        .btn-main { padding: 10px 25px; cursor:pointer; background: #f1052d; color: white; border: none; font-weight: bold; margin-top: 15px; }
+        :root { --audi-red: #f1052d; --bg: #0b0b0b; --panel: #1a1a1a; --text: #e5e5e5; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 850px; }
+        .card { background: var(--panel); padding: 25px; border-radius: 8px; border-top: 5px solid var(--audi-red); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+        .timer-box { font-size: 1.5rem; font-weight: bold; color: var(--audi-red); border: 2px solid var(--audi-red); border-radius: 50%; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; }
+        .q-text { font-size: 1.2rem; margin: 20px 0; line-height: 1.5; min-height: 80px; font-weight: 500; color: #fff; }
+        .tag { font-weight: bold; font-size: 0.8rem; margin-bottom: 5px; display: inline-block; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; margin-right: 5px; }
+        .tag-visual { background: #00a3ff; color: white; }
+        .tag-expert { background: #ff8c00; color: white; }
+        .options { display: grid; gap: 12px; }
+        .opt-btn { background: #262626; border: 1px solid #3d3d3d; color: white; padding: 18px; text-align: left; cursor: pointer; transition: 0.2s; font-size: 1rem; border-radius: 4px; }
+        .opt-btn:hover:not(:disabled) { border-color: var(--audi-red); background: #333; }
+        .correct { background: #28a745 !important; border-color: #28a745 !important; }
+        .wrong { background: #dc3545 !important; border-color: #dc3545 !important; }
+        #feedback { margin-top: 25px; padding: 20px; background: #000; border-left: 4px solid var(--audi-red); display: none; }
+        .next-btn { background: var(--audi-red); color: white; border: none; padding: 15px; margin-top: 15px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase; border-radius: 4px; }
+        .progress-bar { height: 6px; background: #333; width: 100%; margin-top: 10px; border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--audi-red); width: 0%; transition: 0.4s; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="timer-bar"><div id="timer"></div></div>
-    <div id="timer-text">30s</div>
-    <div id="quiz-content">
-        <div id="q-meta" class="q-meta"></div>
-        <div id="q-text" class="q-text"></div>
-        <div id="q-img-wrapper" class="q-img-container"><img id="q-img" src="" alt="Visuel"></div>
-        <div id="options"></div>
-        <div id="feedback">
-            <p id="rationale" style="color: #fff; font-size: 0.9rem;"></p>
-            <button class="btn-main" onclick="nextQ()">Question suivante</button>
+<div class="container">
+    <div class="card">
+        <div class="header">
+            <div>
+                <strong style="letter-spacing: 1px; font-size: 1.2rem;">AUDI TWIN CUP 2026</strong>
+                <div style="font-size: 0.8rem; color: #888; text-transform: uppercase;">Simulateur Expert : 190 Questions</div>
+                <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+            </div>
+            <div class="timer-box" id="timer">30</div>
         </div>
-    </div>
-    <div id="final-screen">
-        <h2 style="color: #fff;">Challenge terminé !</h2>
-        <p id="final-score" style="font-size: 1.5rem; color: #f1052d;"></p>
-        <button class="btn-main" onclick="location.reload()">Recommencer</button>
+
+        <div id="quiz-ui">
+            <div id="q-number" style="color: var(--audi-red); font-weight: bold; font-family: monospace;">QUESTION 1/30</div>
+            <div id="q-container">
+                <div class="q-text" id="q-text">Chargement...</div>
+            </div>
+            <div class="options" id="options"></div>
+
+            <div id="feedback">
+                <div id="result-title" style="font-weight: bold; margin-bottom: 5px;"></div>
+                <div id="rationale" style="font-size: 0.95rem; color: #bbb; line-height: 1.4;"></div>
+                <button class="next-btn" onclick="nextQuestion()">Question Suivante</button>
+            </div>
+        </div>
+        
+        <div id="final-screen" style="display:none; text-align: center; padding: 40px 0;">
+            <h2 style="font-size: 2.5rem; color: var(--audi-red);">SESSION TERMINÉE</h2>
+            <div id="final-score" style="font-size: 1.5rem; margin: 20px 0;"></div>
+            <button class="next-btn" onclick="location.reload()">Nouvelle session (30 Q aléatoires)</button>
+        </div>
     </div>
 </div>
 
@@ -242,76 +260,111 @@ const questionsData = [
   {cat: "Visuel", image: "https://f1i.autojournal.fr/wp-content/uploads/sites/17/2026/01/gyzfszsxgaa7yoa-365x200.jpg", question: "Qui dirige le projet F1 chez Audi ?", options: ["Mattia Binotto", "Andreas Seidl", "Wolfgang Ullrich", "Toto Wolff"], reponse: "Mattia Binotto" }
 ];
 
-let questions = [], idx = 0, score = 0, timeLeft = 30, timer;
+let selectedQuestions = [];
+let currentIdx = 0;
+let score = 0;
+let timeLeft = 30;
+let timerId = null;
 
 function shuffle(array) {
-    return array.sort(() => Math.random() - 0.5);
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
 
-function load() {
-    if (idx >= questions.length) {
-        document.getElementById('quiz-content').style.display = 'none';
-        document.getElementById('final-score').innerText = `Score : ${score} / ${questions.length}`;
-        document.getElementById('final-screen').style.display = 'block';
-        return;
-    }
+function initQuiz() {
+    const shuffledPool = shuffle([...allQuestions]);
+    selectedQuestions = shuffledPool.slice(0, 30);
+    selectedQuestions.forEach(q => q.o = shuffle([...q.o]));
+    loadQuestion();
+}
 
-    const q = questions[idx];
-    document.getElementById('q-meta').innerText = `${q.cat} - QUESTION ${idx + 1}/${questions.length}`;
-    document.getElementById('q-text').innerText = q.question;
+function startTimer() {
+    clearInterval(timerId);
+    timeLeft = 30;
+    document.getElementById('timer').innerText = timeLeft;
+    document.getElementById('timer').style.color = "var(--audi-red)";
     
-    const imgWrapper = document.getElementById('q-img-wrapper');
-    const imgElement = document.getElementById('q-img');
-    if (q.image) {
-        imgElement.src = q.image;
-        imgWrapper.style.display = "block";
-    } else {
-        imgWrapper.style.display = "none";
-    }
+    timerId = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').innerText = timeLeft;
+        if(timeLeft <= 5) document.getElementById('timer').style.color = "orange";
+        if(timeLeft <= 0) {
+            clearInterval(timerId);
+            checkAnswer(null);
+        }
+    }, 1000);
+}
 
-    const options = shuffle([...q.options]);
-    const cont = document.getElementById('options'); 
-    cont.innerHTML = '';
+function loadQuestion() {
+    const q = selectedQuestions[currentIdx];
+    document.getElementById('feedback').style.display = 'none';
+    document.getElementById('progress').style.width = `${(currentIdx / 30) * 100}%`;
+    document.getElementById('q-number').innerText = `QUESTION ${currentIdx + 1}/30`;
     
-    options.forEach(opt => {
-        const b = document.createElement('button');
-        b.className = 'opt-btn'; 
-        b.innerText = opt;
-        b.onclick = () => reveal(b, opt);
-        cont.appendChild(b);
+    let tagsHTML = '';
+    if(q.v) tagsHTML += `<span class="tag tag-visual">Analyse Visuelle</span>`;
+    if(q.e) tagsHTML += `<span class="tag tag-expert">Expert</span>`;
+    
+    document.getElementById('q-text').innerHTML = tagsHTML + `<div>${q.q}</div>`;
+    
+    const optCont = document.getElementById('options');
+    optCont.innerHTML = '';
+    
+    q.o.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(opt);
+        optCont.appendChild(btn);
     });
+    
     startTimer();
 }
 
-function startTimer() { 
-    timeLeft = 30; 
-    clearInterval(timer);
-    timer = setInterval(() => { 
-        timeLeft--; 
-        document.getElementById('timer').style.width = (timeLeft/30*100) + "%"; 
-        document.getElementById('timer-text').innerText = timeLeft + "s"; 
-        if(timeLeft <= 0) reveal(null, null); 
-    }, 1000); 
-}
-
-function reveal(btn, sel) { 
-    clearInterval(timer);
-    const buttons = document.querySelectorAll('.opt-btn');
-    buttons.forEach(b => {
+function checkAnswer(selected) {
+    clearInterval(timerId);
+    const q = selectedQuestions[currentIdx];
+    const btns = document.querySelectorAll('.opt-btn');
+    
+    btns.forEach(b => {
         b.disabled = true;
-        if (b.innerText === questions[idx].reponse) b.classList.add('correct');
-        else if (btn && b === btn) b.classList.add('wrong');
+        if(b.innerText === q.a) b.classList.add('correct');
+        if(selected && b.innerText === selected && selected !== q.a) b.classList.add('wrong');
     });
 
-    if(sel === questions[idx].reponse) score++; 
-    document.getElementById('feedback').style.display = 'block'; 
-    document.getElementById('rationale').innerText = questions[idx].rationale || "Pas d'explication."; 
+    const resTitle = document.getElementById('result-title');
+    if(selected === q.a) {
+        score++;
+        resTitle.innerText = "SUCCÈS : DIAGNOSTIC CORRECT";
+        resTitle.style.color = "#28a745";
+    } else {
+        resTitle.innerText = selected === null ? "TEMPS ÉCOULÉ" : "ERREUR DE RÉFÉRENCE";
+        resTitle.style.color = "#dc3545";
+    }
+
+    document.getElementById('rationale').innerText = q.r;
+    document.getElementById('feedback').style.display = 'block';
 }
 
-function nextQ() { idx++; load(); }
+function nextQuestion() {
+    currentIdx++;
+    if(currentIdx < 30) loadQuestion();
+    else showFinal();
+}
 
-questions = shuffle([...questionsData]);
-load();
+function showFinal() {
+    document.getElementById('quiz-ui').style.display = 'none';
+    const final = document.getElementById('final-screen');
+    final.style.display = 'block';
+    
+    let rank = score >= 28 ? "MAÎTRE TECHNIQUE AUDI" : score >= 22 ? "EXPERT RÉSEAU" : "COLLABORATEUR SERVICE";
+    document.getElementById('final-score').innerHTML = `Score Final : <strong>${score}/30</strong><br><small>Rang obtenu : ${rank}</small>`;
+}
+
+window.onload = initQuiz;
 </script>
 </body>
 </html>
